@@ -17,6 +17,11 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         
+        // If no user is authenticated, redirect to login
+        if (!$user) {
+            return redirect()->route('login');
+        }
+        
         if ($user->isAdmin()) {
             return $this->adminDashboard();
         } elseif ($user->isStationManager()) {

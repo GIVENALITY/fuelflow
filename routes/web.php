@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FuelRequestController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\StationController;
@@ -25,12 +26,19 @@ use App\Http\Controllers\SettingController;
 |
 */
 
+// Authentication Routes
 Route::get('/', function () {
-    return redirect()->route('dashboard');
+    return redirect()->route('login');
 });
 
-// Dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Protected Routes
+Route::middleware(['auth'])->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Fuel Request Management
 Route::resource('fuel-requests', FuelRequestController::class);
@@ -89,8 +97,4 @@ Route::get('/notifications', function () {
     return view('notifications.index');
 })->name('notifications.index');
 
-// Logout
-Route::post('/logout', function () {
-    auth()->logout();
-    return redirect('/');
-})->name('logout');
+});
