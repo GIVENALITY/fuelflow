@@ -50,6 +50,10 @@ class ClientController extends Controller
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:500',
             'contact_person' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'state' => 'required|string|max:255',
+            'zip_code' => 'required|string|max:20',
+            'country' => 'required|string|max:255',
             'credit_limit' => 'required|numeric|min:0',
             'status' => 'required|in:active,inactive,suspended'
         ]);
@@ -86,6 +90,10 @@ class ClientController extends Controller
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:500',
             'contact_person' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'state' => 'required|string|max:255',
+            'zip_code' => 'required|string|max:20',
+            'country' => 'required|string|max:255',
             'credit_limit' => 'required|numeric|min:0',
             'status' => 'required|in:active,inactive,suspended'
         ]);

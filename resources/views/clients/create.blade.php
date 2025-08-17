@@ -97,6 +97,52 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="input-group input-group-static mb-4">
+                                    <label>City *</label>
+                                    <input type="text" class="form-control @error('city') is-invalid @enderror" 
+                                           name="city" value="{{ old('city') }}" required>
+                                    @error('city')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group input-group-static mb-4">
+                                    <label>State/Region *</label>
+                                    <input type="text" class="form-control @error('state') is-invalid @enderror" 
+                                           name="state" value="{{ old('state') }}" required>
+                                    @error('state')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group input-group-static mb-4">
+                                    <label>ZIP/Postal Code *</label>
+                                    <input type="text" class="form-control @error('zip_code') is-invalid @enderror" 
+                                           name="zip_code" value="{{ old('zip_code') }}" required>
+                                    @error('zip_code')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group input-group-static mb-4">
+                                    <label>Country *</label>
+                                    <input type="text" class="form-control @error('country') is-invalid @enderror" 
+                                           name="country" value="{{ old('country', 'Tanzania') }}" required>
+                                    @error('country')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group input-group-static mb-4">
                                     <label>Status *</label>
                                     <select class="form-control @error('status') is-invalid @enderror" name="status" required>
                                         <option value="">Select Status</option>

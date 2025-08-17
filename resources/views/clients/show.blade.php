@@ -81,6 +81,22 @@
                                     <td class="text-secondary">Address:</td>
                                     <td class="font-weight-bold">{{ $client->address }}</td>
                                 </tr>
+                                <tr>
+                                    <td class="text-secondary">City:</td>
+                                    <td class="font-weight-bold">{{ $client->city }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-secondary">State/Region:</td>
+                                    <td class="font-weight-bold">{{ $client->state }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-secondary">ZIP/Postal Code:</td>
+                                    <td class="font-weight-bold">{{ $client->zip_code }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-secondary">Country:</td>
+                                    <td class="font-weight-bold">{{ $client->country }}</td>
+                                </tr>
                             </table>
                         </div>
                     </div>
