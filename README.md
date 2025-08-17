@@ -1,28 +1,26 @@
-# FuelFlow - Fuel Company Billing Management System
+# FuelFlow - Fleet Fuel Management System
 
-A comprehensive Laravel-based billing management system designed specifically for fuel companies. This system provides complete management of customers, fuel deliveries, billing, payments, and reporting.
+A comprehensive Laravel-based fleet fuel management system designed for energy companies operating multiple fuel stations to efficiently manage their corporate fleet clients.
 
 ## 🚀 Features
 
 ### Core Modules
-- **Dashboard** - Overview with key metrics and recent activities
-- **Billing Management** - Create, manage, and track fuel bills
-- **Customer Management** - Complete customer database with credit limits
-- **Fuel Inventory** - Track fuel types, prices, and stock levels
-- **Delivery Management** - Schedule and track fuel deliveries
-- **Payment Processing** - Handle payments and track outstanding amounts
-- **Reporting** - Comprehensive reports and analytics
+- **Dashboard** - Role-based overview with key metrics and recent activities
+- **Client Management** - Complete client database with credit limits and account status
+- **Fuel Request Workflow** - End-to-end request management from submission to completion
+- **Station Operations** - Multi-station management with fuel inventory tracking
+- **Financial Management** - Receipt verification, payment processing, and reconciliation
+- **Reporting** - Comprehensive analytics and operational insights
 
 ### Key Features
-- ✅ Modern Material Dashboard UI
-- ✅ Responsive design for mobile and desktop
-- ✅ Real-time billing calculations
-- ✅ Automated overdue tracking
-- ✅ Credit limit management
-- ✅ Delivery scheduling
-- ✅ Payment processing
-- ✅ Export functionality
-- ✅ Comprehensive reporting
+- ✅ Multi-role user system (Admin, Station Manager, Fuel Pumper, Treasury, Client)
+- ✅ Modern Material Dashboard UI with role-based navigation
+- ✅ Real-time credit limit validation and breach prevention
+- ✅ Automated workflow management with notifications
+- ✅ Mobile-responsive design for field operations
+- ✅ Comprehensive reporting and analytics
+- ✅ Receipt upload and verification system
+- ✅ Payment tracking and reconciliation
 
 ## 🛠️ Technology Stack
 
@@ -74,25 +72,33 @@ A comprehensive Laravel-based billing management system designed specifically fo
    DB_PASSWORD=your_password
    ```
 
-6. **Run migrations**
+6. **Run migrations and seed the database**
    ```bash
    php artisan migrate
-   ```
-
-7. **Seed the database (optional)**
-   ```bash
    php artisan db:seed
    ```
 
-8. **Compile assets**
+7. **Compile assets**
    ```bash
    npm run dev
    ```
 
-9. **Start the development server**
+8. **Start the development server**
    ```bash
    php artisan serve
    ```
+
+## 🔐 Default Login Credentials
+
+After running the seeder, you can login with these test accounts:
+
+| Role | Email | Password |
+|------|-------|----------|
+| **Admin** | admin@fuelflow.com | password |
+| **Station Manager** | manager@fuelflow.com | password |
+| **Fuel Pumper** | pumper@fuelflow.com | password |
+| **Treasury** | treasury@fuelflow.com | password |
+| **Client** | client@fuelflow.com | password |
 
 ## 📁 Project Structure
 
@@ -119,73 +125,91 @@ fuelflow/
 
 ## 🎯 Core Models
 
-### Bill
-- Manages fuel billing records
-- Tracks payment status and due dates
-- Calculates late fees automatically
-- Links to customers and fuel types
+### User
+- Multi-role user management (Admin, Station Manager, Fuel Pumper, Treasury, Client)
+- Role-based permissions and access control
+- Station assignments for field staff
 
-### Customer
-- Stores customer information
-- Manages credit limits and payment terms
-- Tracks outstanding balances
-- Links to bills and payments
+### Station
+- Multi-station management with individual configurations
+- Fuel inventory tracking (diesel/petrol levels)
+- Operating hours and capacity management
+- Staff assignment and management
 
-### Delivery
-- Schedules fuel deliveries
-- Tracks delivery status
-- Automatically creates bills upon completion
-- Links to customers and fuel types
+### Client
+- Corporate fleet client management
+- Credit limit and balance tracking
+- Payment terms and account status management
+- Preferred station assignments
 
-### FuelType
-- Manages different fuel types
-- Tracks current prices
-- Links to inventory levels
-- Used in billing and deliveries
+### Vehicle
+- Fleet vehicle management per client
+- Fuel type and tank capacity tracking
+- Maintenance and registration monitoring
+- Driver assignment and contact information
+
+### FuelRequest
+- Complete fuel request workflow
+- Credit limit validation
+- Multi-level approval process
+- Status tracking and notifications
+
+### Receipt
+- Digital receipt upload and management
+- Verification workflow for treasury
+- Payment reconciliation tracking
 
 ## 🔧 Configuration
 
-### Billing Settings
-- Payment terms (default: 30 days)
-- Late fee rates (default: 5% per month)
-- Credit limit warnings
-- Auto-overdue marking
+### User Roles & Permissions
+- **Admin**: Full system access, user management, station configuration
+- **Station Manager**: Station operations, request approvals, receipt uploads
+- **Fuel Pumper**: Fuel dispensing, assignment management
+- **Treasury**: Financial verification, payment reconciliation
+- **Client**: Self-service fuel requests (optional portal)
 
-### Fuel Management
-- Fuel type configuration
-- Price management
-- Inventory tracking
-- Low stock alerts
+### Credit Management
+- Dynamic credit limits with real-time validation
+- Automatic breach prevention and alerts
+- Payment terms and overdue monitoring
+- Credit history tracking
+
+### Fuel Request Workflow
+1. Client submits request
+2. System validates credit limit and station capacity
+3. Station Manager approves/rejects
+4. Fuel Pumper dispenses fuel
+5. Receipt uploaded and verified by Treasury
+6. Payment processed and reconciled
 
 ## 📊 Reports Available
 
-1. **Sales Reports**
-   - Monthly revenue trends
-   - Fuel type sales analysis
-   - Customer sales performance
+1. **Operational Reports**
+   - Daily fuel dispensing summaries
+   - Station performance metrics
+   - Request status dashboards
+   - Staff productivity reports
 
-2. **Customer Reports**
-   - Outstanding balances
-   - Payment history
-   - Credit limit utilization
+2. **Financial Reports**
+   - Outstanding balance aging
+   - Payment reconciliation summaries
+   - Revenue analysis by station/client
+   - Credit utilization reports
 
-3. **Delivery Reports**
-   - Delivery performance
-   - Route optimization
-   - Driver efficiency
-
-4. **Financial Reports**
-   - Cash flow analysis
-   - Profitability by fuel type
-   - Outstanding receivables
+3. **Client Analytics**
+   - Usage patterns and consumption trends
+   - Fleet performance metrics
+   - Payment behavior analysis
+   - Station preference reports
 
 ## 🔐 Security Features
 
-- CSRF protection
+- Multi-factor authentication support
+- Role-based access control (RBAC)
 - Input validation and sanitization
 - SQL injection prevention
 - XSS protection
-- Secure authentication
+- Audit trails for financial transactions
 
 ## 🚀 Deployment
 
@@ -227,4 +251,4 @@ Stay updated with the latest features and bug fixes by regularly pulling from th
 
 ---
 
-**FuelFlow** - Streamlining fuel company operations with modern billing management.
+**FuelFlow** - Streamlining fleet fuel operations with modern management systems.
