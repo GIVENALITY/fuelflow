@@ -74,16 +74,6 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="input-group input-group-static mb-4">
-                                    <label>Contact Person *</label>
-                                    <input type="text" class="form-control @error('contact_person') is-invalid @enderror" 
-                                           name="contact_person" value="{{ old('contact_person') }}" required>
-                                    @error('contact_person')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-group input-group-static mb-4">
                                     <label>Credit Limit (TZS) *</label>
                                     <input type="number" class="form-control @error('credit_limit') is-invalid @enderror" 
                                            name="credit_limit" value="{{ old('credit_limit') }}" min="0" step="1000" required>
