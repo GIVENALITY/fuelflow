@@ -73,6 +73,8 @@ Route::post('/receipts/{receipt}/reject', [ReceiptController::class, 'reject'])-
 // Payment Management
 Route::resource('payments', PaymentController::class);
 Route::post('/payments/{payment}/process', [PaymentController::class, 'process'])->name('payments.process');
+Route::patch('/payments/{payment}/approve', [PaymentController::class, 'approve'])->name('payments.approve');
+Route::patch('/payments/{payment}/reject', [PaymentController::class, 'reject'])->name('payments.reject');
 
 // Fuel Price Management
 Route::resource('fuel-prices', FuelPriceController::class);
