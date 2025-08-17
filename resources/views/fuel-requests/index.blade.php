@@ -62,7 +62,7 @@
                                     <span class="text-secondary text-xs font-weight-bold">{{ $request->quantity_requested }} L</span>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">${{ number_format($request->total_amount, 2) }}</span>
+                                    <span class="text-secondary text-xs font-weight-bold">TZS {{ number_format($request->total_amount, 2) }}</span>
                                 </td>
                                 <td class="align-middle text-center">
                                     @if($request->status === 'pending')

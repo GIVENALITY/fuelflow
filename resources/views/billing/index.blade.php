@@ -63,7 +63,7 @@
                                     <span class="text-xs font-weight-bold">{{ $bill->quantity }} L</span>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">${{ number_format($bill->amount, 2) }}</span>
+                                                                           <span class="text-secondary text-xs font-weight-bold">TZS {{ number_format($bill->amount, 2) }}</span>
                                 </td>
                                 <td class="align-middle text-center">
                                     @if($bill->status === 'paid')
@@ -116,7 +116,7 @@
                         </span>
                         <div class="timeline-content">
                             <h6 class="text-dark text-sm font-weight-bold mb-0">Paid Amount</h6>
-                            <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">${{ number_format($paidAmount ?? 0, 2) }}</p>
+                                                               <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">TZS {{ number_format($paidAmount ?? 0, 2) }}</p>
                         </div>
                     </div>
                     <div class="timeline-block mb-3">
@@ -125,7 +125,7 @@
                         </span>
                         <div class="timeline-content">
                             <h6 class="text-dark text-sm font-weight-bold mb-0">Pending Amount</h6>
-                            <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">${{ number_format($pendingAmount ?? 0, 2) }}</p>
+                                                               <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">TZS {{ number_format($pendingAmount ?? 0, 2) }}</p>
                         </div>
                     </div>
                     <div class="timeline-block">
@@ -134,7 +134,7 @@
                         </span>
                         <div class="timeline-content">
                             <h6 class="text-dark text-sm font-weight-bold mb-0">Overdue Amount</h6>
-                            <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">${{ number_format($overdueAmount ?? 0, 2) }}</p>
+                                                               <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">TZS {{ number_format($overdueAmount ?? 0, 2) }}</p>
                         </div>
                     </div>
                 </div>

@@ -11,7 +11,7 @@
         <!-- Admin Dashboard Stats -->
         <x-stat-card 
             title="Total Revenue" 
-            value="${{ number_format($totalRevenue ?? 0, 2) }}"
+            value="TZS {{ number_format($totalRevenue ?? 0, 2) }}"
             icon="payments"
             color="success"
             trend="12"
@@ -103,7 +103,7 @@
         <!-- Treasury Dashboard Stats -->
         <x-stat-card 
             title="Outstanding Balances" 
-            value="${{ number_format($outstandingBalances ?? 0, 2) }}"
+            value="TZS {{ number_format($outstandingBalances ?? 0, 2) }}"
             icon="account_balance_wallet"
             color="warning"
         />
@@ -124,7 +124,7 @@
         
         <x-stat-card 
             title="Monthly Revenue" 
-            value="${{ number_format($monthlyRevenue ?? 0, 2) }}"
+            value="TZS {{ number_format($monthlyRevenue ?? 0, 2) }}"
             icon="trending_up"
             color="success"
             trend="8"
@@ -133,7 +133,7 @@
         <!-- Default Dashboard Stats -->
         <x-stat-card 
             title="Total Fuel Sales" 
-            value="${{ number_format($totalSales ?? 0, 2) }}"
+            value="TZS {{ number_format($totalSales ?? 0, 2) }}"
             icon="local_gas_station"
             color="dark"
             trend="3"

@@ -136,7 +136,7 @@ class FleetFuelSeeder extends Seeder
             'state' => 'CA',
             'zip_code' => '90212',
             'country' => 'US',
-            'credit_limit' => 50000.00,
+            'credit_limit' => 50000000.00,
             'current_balance' => 0.00,
             'payment_terms' => 30,
             'status' => Client::STATUS_ACTIVE,
@@ -192,7 +192,7 @@ class FleetFuelSeeder extends Seeder
         FuelPrice::create([
             'station_id' => $station1->id,
             'fuel_type' => 'petrol',
-            'price' => 3.85,
+            'price' => 3850.00,
             'effective_date' => now(),
             'is_active' => true,
             'created_by' => $admin->id,
@@ -201,7 +201,7 @@ class FleetFuelSeeder extends Seeder
         FuelPrice::create([
             'station_id' => $station1->id,
             'fuel_type' => 'diesel',
-            'price' => 4.25,
+            'price' => 4250.00,
             'effective_date' => now(),
             'is_active' => true,
             'created_by' => $admin->id,
@@ -210,7 +210,7 @@ class FleetFuelSeeder extends Seeder
         FuelPrice::create([
             'station_id' => $station2->id,
             'fuel_type' => 'petrol',
-            'price' => 3.75,
+            'price' => 3750.00,
             'effective_date' => now(),
             'is_active' => true,
             'created_by' => $admin->id,
@@ -219,7 +219,7 @@ class FleetFuelSeeder extends Seeder
         FuelPrice::create([
             'station_id' => $station2->id,
             'fuel_type' => 'diesel',
-            'price' => 4.15,
+            'price' => 4150.00,
             'effective_date' => now(),
             'is_active' => true,
             'created_by' => $admin->id,
