@@ -206,9 +206,6 @@
                 <a class="nav-link {{ request()->routeIs('notifications.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}" href="{{ route('notifications.index') }}">
                     <i class="material-symbols-rounded opacity-5">notifications</i>
                     <span class="nav-link-text ms-1">Notifications</span>
-                    @if(auth()->user()->unreadNotifications->count() > 0)
-                        <span class="badge badge-sm bg-gradient-danger ms-2">{{ auth()->user()->unreadNotifications->count() }}</span>
-                    @endif
                 </a>
             </li>
 
