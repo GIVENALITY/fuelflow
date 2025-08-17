@@ -54,6 +54,11 @@ Route::get('/clients/{client}/payments', [ClientController::class, 'payments'])-
 Route::get('/clients/{client}/vehicles', [ClientController::class, 'vehicles'])->name('clients.vehicles');
 Route::get('/clients/overdue', [ClientController::class, 'overdue'])->name('clients.overdue');
 
+// Client Vehicle Management
+Route::post('/clients/{client}/vehicles/add', [ClientController::class, 'addVehicle'])->name('clients.vehicles.add');
+Route::put('/clients/{client}/vehicles/{vehicle}/update', [ClientController::class, 'updateVehicle'])->name('clients.vehicles.update');
+Route::delete('/clients/{client}/vehicles/{vehicle}/delete', [ClientController::class, 'deleteVehicle'])->name('clients.vehicles.delete');
+
 // Station Management
 Route::resource('stations', StationController::class);
 Route::get('/stations/{station}/requests', [StationController::class, 'requests'])->name('stations.requests');
