@@ -21,6 +21,8 @@ class User extends Authenticatable
         'status',
         'two_factor_secret',
         'two_factor_recovery_codes',
+        'onboarding_completed',
+        'onboarding_completed_at',
     ];
 
     protected $hidden = [
@@ -34,6 +36,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'two_factor_confirmed_at' => 'datetime',
+        'onboarding_completed' => 'boolean',
+        'onboarding_completed_at' => 'datetime',
     ];
 
     // User Roles

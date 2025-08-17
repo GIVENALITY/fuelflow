@@ -16,6 +16,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\RouteController;
+use App\Http\Controllers\OnboardingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -115,6 +116,10 @@ Route::resource('routes', RouteController::class);
 Route::post('/routes/{route}/reorder-stops', [RouteController::class, 'reorderStops'])->name('routes.reorder-stops');
 Route::post('/routes/{route}/add-stop', [RouteController::class, 'addStop'])->name('routes.add-stop');
 Route::delete('/routes/{route}/stops/{stop}', [RouteController::class, 'removeStop'])->name('routes.remove-stop');
+
+// Onboarding
+Route::get('/onboarding', [OnboardingController::class, 'index'])->name('onboarding.index');
+Route::post('/onboarding/complete', [OnboardingController::class, 'markComplete'])->name('onboarding.complete');
 
 // Notifications
 Route::get('/notifications', function () {
