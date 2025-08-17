@@ -45,7 +45,6 @@ class ClientController extends Controller
         }
 
         $request->validate([
-            'name' => 'required|string|max:255',
             'company_name' => 'required|string|max:255',
             'email' => 'required|email|unique:clients,email',
             'phone' => 'required|string|max:20',
@@ -82,7 +81,6 @@ class ClientController extends Controller
         }
 
         $request->validate([
-            'name' => 'required|string|max:255',
             'company_name' => 'required|string|max:255',
             'email' => 'required|email|unique:clients,email,' . $client->id,
             'phone' => 'required|string|max:20',

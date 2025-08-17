@@ -29,20 +29,20 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="input-group input-group-static mb-4">
-                                    <label>Client Name *</label>
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                                           name="name" value="{{ old('name', $client->name) }}" required>
-                                    @error('name')
+                                    <label>Company Name *</label>
+                                    <input type="text" class="form-control @error('company_name') is-invalid @enderror" 
+                                           name="company_name" value="{{ old('company_name', $client->company_name) }}" required>
+                                    @error('company_name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="input-group input-group-static mb-4">
-                                    <label>Company Name *</label>
-                                    <input type="text" class="form-control @error('company_name') is-invalid @enderror" 
-                                           name="company_name" value="{{ old('company_name', $client->company_name) }}" required>
-                                    @error('company_name')
+                                    <label>Contact Person *</label>
+                                    <input type="text" class="form-control @error('contact_person') is-invalid @enderror" 
+                                           name="contact_person" value="{{ old('contact_person', $client->contact_person) }}" required>
+                                    @error('contact_person')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>

@@ -33,11 +33,7 @@
                             <h6 class="mb-3">Basic Information</h6>
                             <table class="table table-borderless">
                                 <tr>
-                                    <td class="text-secondary">Client Name:</td>
-                                    <td class="font-weight-bold">{{ $client->name }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-secondary">Company:</td>
+                                    <td class="text-secondary">Company Name:</td>
                                     <td class="font-weight-bold">{{ $client->company_name }}</td>
                                 </tr>
                                 <tr>

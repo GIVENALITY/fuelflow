@@ -28,7 +28,7 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Client</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Company</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Contact</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Credit Limit</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Balance</th>
@@ -42,8 +42,8 @@
                                     <td>
                                         <div class="d-flex px-2 py-1">
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">{{ $client->name }}</h6>
-                                                <p class="text-xs text-secondary mb-0">{{ $client->company_name }}</p>
+                                                <h6 class="mb-0 text-sm">{{ $client->company_name }}</h6>
+                                                <p class="text-xs text-secondary mb-0">{{ $client->contact_person }}</p>
                                             </div>
                                         </div>
                                     </td>
