@@ -14,6 +14,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\RouteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,6 +105,16 @@ Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
 Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
+
+// Location Management
+Route::resource('locations', LocationController::class);
+Route::get('/locations/type/{type}', [LocationController::class, 'getByType'])->name('locations.by-type');
+
+// Route Management
+Route::resource('routes', RouteController::class);
+Route::post('/routes/{route}/reorder-stops', [RouteController::class, 'reorderStops'])->name('routes.reorder-stops');
+Route::post('/routes/{route}/add-stop', [RouteController::class, 'addStop'])->name('routes.add-stop');
+Route::delete('/routes/{route}/stops/{stop}', [RouteController::class, 'removeStop'])->name('routes.remove-stop');
 
 // Notifications
 Route::get('/notifications', function () {
