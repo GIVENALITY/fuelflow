@@ -4,6 +4,65 @@
 @section('breadcrumb', 'Fuel Requests')
 @section('page-title', 'Fuel Request Management')
 
+@push('styles')
+<style>
+.request-summary {
+    position: relative;
+}
+
+.request-summary::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, #e9ecef 0%, #dee2e6 100%);
+    z-index: 1;
+}
+
+.summary-item {
+    position: relative;
+    z-index: 2;
+}
+
+.summary-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.summary-icon:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.summary-icon i {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.summary-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 39px;
+    top: 40px;
+    width: 2px;
+    height: calc(100% - 40px);
+    background: #e9ecef;
+    z-index: 1;
+}
+
+.summary-item:last-child::after {
+    display: none;
+}
+</style>
+@endpush
+
 @section('content')
 <div class="row">
     <div class="col-lg-8">
@@ -109,44 +168,59 @@
     <div class="col-lg-4">
         <div class="card h-100">
             <div class="card-header pb-0">
-                <h6>Request Summary</h6>
+                <h6 class="mb-0">Request Summary</h6>
             </div>
             <div class="card-body p-3">
-                <div class="timeline timeline-one-side">
-                    <div class="timeline-block mb-3">
-                        <span class="timeline-step">
-                            <i class="material-icons text-warning text-gradient">schedule</i>
-                        </span>
-                        <div class="timeline-content">
-                            <h6 class="text-dark text-sm font-weight-bold mb-0">Pending Requests</h6>
-                            <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ $pendingRequests ?? 0 }}</p>
+                <div class="request-summary">
+                    <!-- Pending Requests -->
+                    <div class="summary-item mb-4">
+                        <div class="d-flex align-items-center">
+                            <div class="summary-icon bg-gradient-warning rounded-circle me-3">
+                                <i class="material-symbols-rounded text-white">schedule</i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">Pending Requests</h6>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ $pendingRequests ?? 0 }}</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="timeline-block mb-3">
-                        <span class="timeline-step">
-                            <i class="material-icons text-info text-gradient">check_circle</i>
-                        </span>
-                        <div class="timeline-content">
-                            <h6 class="text-dark text-sm font-weight-bold mb-0">Approved Requests</h6>
-                            <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ $approvedRequests ?? 0 }}</p>
+                    
+                    <!-- Approved Requests -->
+                    <div class="summary-item mb-4">
+                        <div class="d-flex align-items-center">
+                            <div class="summary-icon bg-gradient-info rounded-circle me-3">
+                                <i class="material-symbols-rounded text-white">check_circle</i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">Approved Requests</h6>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ $approvedRequests ?? 0 }}</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="timeline-block mb-3">
-                        <span class="timeline-step">
-                            <i class="material-icons text-success text-gradient">local_gas_station</i>
-                        </span>
-                        <div class="timeline-content">
-                            <h6 class="text-dark text-sm font-weight-bold mb-0">Completed Requests</h6>
-                            <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ $completedRequests ?? 0 }}</p>
+                    
+                    <!-- Completed Requests -->
+                    <div class="summary-item mb-4">
+                        <div class="d-flex align-items-center">
+                            <div class="summary-icon bg-gradient-success rounded-circle me-3">
+                                <i class="material-symbols-rounded text-white">local_gas_station</i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">Completed Requests</h6>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ $completedRequests ?? 0 }}</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="timeline-block">
-                        <span class="timeline-step">
-                            <i class="material-icons text-primary text-gradient">analytics</i>
-                        </span>
-                        <div class="timeline-content">
-                            <h6 class="text-dark text-sm font-weight-bold mb-0">Total Requests</h6>
-                            <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ $totalRequests ?? 0 }}</p>
+                    
+                    <!-- Total Requests -->
+                    <div class="summary-item">
+                        <div class="d-flex align-items-center">
+                            <div class="summary-icon bg-gradient-primary rounded-circle me-3">
+                                <i class="material-symbols-rounded text-white">analytics</i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">Total Requests</h6>
+                                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ $totalRequests ?? 0 }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
