@@ -42,6 +42,20 @@
                         <span class="nav-link-text ms-1">Fuel Prices</span>
                     </a>
                 </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('locations.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}" href="{{ route('locations.index') }}">
+                        <i class="material-symbols-rounded opacity-5">location_on</i>
+                        <span class="nav-link-text ms-1">Locations</span>
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('routes.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}" href="{{ route('routes.index') }}">
+                        <i class="material-symbols-rounded opacity-5">route</i>
+                        <span class="nav-link-text ms-1">Routes</span>
+                    </a>
+                </li>
             @endif
 
             @if(auth()->user()->isAdmin() || auth()->user()->isStationManager())
