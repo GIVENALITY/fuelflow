@@ -32,7 +32,7 @@ return new class extends Migration
             $table->foreignId('assigned_pumper_id')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('dispensed_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamp('dispensed_at')->nullable();
-            $table->foreignId('receipt_id')->nullable()->constrained('receipts')->onDelete('set null');
+            $table->unsignedBigInteger('receipt_id')->nullable();
             $table->text('rejection_reason')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
