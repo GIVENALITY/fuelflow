@@ -52,6 +52,7 @@ Route::resource('clients', ClientController::class);
 Route::get('/clients/{client}/requests', [ClientController::class, 'requests'])->name('clients.requests');
 Route::get('/clients/{client}/payments', [ClientController::class, 'payments'])->name('clients.payments');
 Route::get('/clients/{client}/vehicles', [ClientController::class, 'vehicles'])->name('clients.vehicles');
+Route::get('/clients/overdue', [ClientController::class, 'overdue'])->name('clients.overdue');
 
 // Station Management
 Route::resource('stations', StationController::class);
@@ -65,6 +66,7 @@ Route::get('/vehicles/{vehicle}/requests', [VehicleController::class, 'requests'
 
 // Receipt Management
 Route::resource('receipts', ReceiptController::class);
+Route::get('/receipts/pending', [ReceiptController::class, 'pending'])->name('receipts.pending');
 Route::post('/receipts/{receipt}/verify', [ReceiptController::class, 'verify'])->name('receipts.verify');
 Route::post('/receipts/{receipt}/reject', [ReceiptController::class, 'reject'])->name('receipts.reject');
 
@@ -85,6 +87,9 @@ Route::get('/reports', [ReportController::class, 'index'])->name('reports.index'
 Route::get('/reports/operational', [ReportController::class, 'operational'])->name('reports.operational');
 Route::get('/reports/financial', [ReportController::class, 'financial'])->name('reports.financial');
 Route::get('/reports/client-analytics', [ReportController::class, 'clientAnalytics'])->name('reports.client-analytics');
+Route::get('/reports/system', [ReportController::class, 'system'])->name('reports.system');
+Route::get('/reports/station', [ReportController::class, 'station'])->name('reports.station');
+Route::get('/reports/my-activity', [ReportController::class, 'myActivity'])->name('reports.my-activity');
 
 // Profile & Settings
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
