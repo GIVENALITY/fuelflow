@@ -47,7 +47,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0">{{ $vehicle->client->name }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ $vehicle->client->company_name }}</p>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
