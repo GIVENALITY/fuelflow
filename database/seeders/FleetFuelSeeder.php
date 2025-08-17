@@ -20,7 +20,7 @@ class FleetFuelSeeder extends Seeder
         // Create admin user
         $admin = User::create([
             'name' => 'System Administrator',
-            'email' => 'admin@fuelflow.com',
+            'email' => 'admin@fuelflow.co.tz',
             'password' => Hash::make('password'),
             'role' => User::ROLE_ADMIN,
             'status' => User::STATUS_ACTIVE,
@@ -35,7 +35,7 @@ class FleetFuelSeeder extends Seeder
             'state' => 'CA',
             'zip_code' => '90210',
             'phone' => '(555) 123-4567',
-            'email' => 'downtown@fuelflow.com',
+            'email' => 'downtown@fuelflow.co.tz',
             'status' => Station::STATUS_ACTIVE,
             'capacity_diesel' => 50000,
             'capacity_petrol' => 75000,
@@ -61,7 +61,7 @@ class FleetFuelSeeder extends Seeder
             'state' => 'CA',
             'zip_code' => '90211',
             'phone' => '(555) 987-6543',
-            'email' => 'highway@fuelflow.com',
+            'email' => 'highway@fuelflow.co.tz',
             'status' => Station::STATUS_ACTIVE,
             'capacity_diesel' => 75000,
             'capacity_petrol' => 100000,
@@ -82,7 +82,7 @@ class FleetFuelSeeder extends Seeder
         // Create station manager
         $stationManager = User::create([
             'name' => 'John Station Manager',
-            'email' => 'manager@fuelflow.com',
+            'email' => 'manager@fuelflow.co.tz',
             'password' => Hash::make('password'),
             'role' => User::ROLE_STATION_MANAGER,
             'station_id' => $station1->id,
@@ -96,7 +96,7 @@ class FleetFuelSeeder extends Seeder
         // Create fuel pumper
         $fuelPumper = User::create([
             'name' => 'Mike Fuel Pumper',
-            'email' => 'pumper@fuelflow.com',
+            'email' => 'pumper@fuelflow.co.tz',
             'password' => Hash::make('password'),
             'role' => User::ROLE_FUEL_PUMPER,
             'station_id' => $station1->id,
@@ -107,7 +107,7 @@ class FleetFuelSeeder extends Seeder
         // Create treasury user
         $treasury = User::create([
             'name' => 'Sarah Treasury',
-            'email' => 'treasury@fuelflow.com',
+            'email' => 'treasury@fuelflow.co.tz',
             'password' => Hash::make('password'),
             'role' => User::ROLE_TREASURY,
             'phone' => '(555) 555-6666',
@@ -117,7 +117,7 @@ class FleetFuelSeeder extends Seeder
         // Create client user
         $clientUser = User::create([
             'name' => 'Bob Client',
-            'email' => 'client@fuelflow.com',
+            'email' => 'client@fuelflow.co.tz',
             'password' => Hash::make('password'),
             'role' => User::ROLE_CLIENT,
             'phone' => '(555) 777-8888',
@@ -129,7 +129,7 @@ class FleetFuelSeeder extends Seeder
             'user_id' => $clientUser->id,
             'company_name' => 'ABC Transport Company',
             'contact_person' => 'Bob Client',
-            'email' => 'bob@abctransport.com',
+            'email' => 'bob@abctransport.co.tz',
             'phone' => '(555) 777-8888',
             'address' => '789 Business Avenue',
             'city' => 'Business City',
@@ -226,10 +226,10 @@ class FleetFuelSeeder extends Seeder
         ]);
 
         $this->command->info('Fleet Fuel Management System seeded successfully!');
-        $this->command->info('Admin Login: admin@fuelflow.com / password');
-        $this->command->info('Station Manager Login: manager@fuelflow.com / password');
-        $this->command->info('Fuel Pumper Login: pumper@fuelflow.com / password');
-        $this->command->info('Treasury Login: treasury@fuelflow.com / password');
-        $this->command->info('Client Login: client@fuelflow.com / password');
+        $this->command->info('Admin Login: admin@fuelflow.co.tz / password');
+        $this->command->info('Station Manager Login: manager@fuelflow.co.tz / password');
+        $this->command->info('Fuel Pumper Login: pumper@fuelflow.co.tz / password');
+        $this->command->info('Treasury Login: treasury@fuelflow.co.tz / password');
+        $this->command->info('Client Login: client@fuelflow.co.tz / password');
     }
 }
