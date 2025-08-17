@@ -67,17 +67,31 @@ class OnboardingController extends Controller
                     ]
                 ],
                 [
+                    'title' => 'Your Daily Workflow',
+                    'description' => 'How to complete your tasks efficiently',
+                    'icon' => 'timeline',
+                    'color' => 'warning',
+                    'content' => $this->getWorkflowContent($user)
+                ],
+                [
                     'title' => 'Getting Started',
                     'description' => 'Your first steps in FuelFlow',
                     'icon' => 'rocket_launch',
-                    'color' => 'warning',
+                    'color' => 'info',
                     'content' => $this->getGettingStartedContent($user)
+                ],
+                [
+                    'title' => 'Complete Journey Overview',
+                    'description' => 'How a fuel request flows through the system',
+                    'icon' => 'account_tree',
+                    'color' => 'secondary',
+                    'content' => $this->getJourneyContent($user)
                 ],
                 [
                     'title' => 'Best Practices',
                     'description' => 'Tips for optimal usage',
                     'icon' => 'lightbulb',
-                    'color' => 'secondary',
+                    'color' => 'dark',
                     'content' => [
                         'Keep client information up to date',
                         'Regularly update vehicle fuel levels',
@@ -204,6 +218,56 @@ class OnboardingController extends Controller
         }
     }
 
+    private function getWorkflowContent($user)
+    {
+        if ($user->isAdmin()) {
+            return [
+                '1. System Setup: Configure stations, locations, and fuel prices',
+                '2. User Management: Create accounts and assign roles to team members',
+                '3. Client Onboarding: Add new clients and their vehicle fleets',
+                '4. Route Planning: Create efficient delivery routes between locations',
+                '5. Monitoring: Review system reports and oversee operations',
+                '6. Maintenance: Update system settings and manage user permissions'
+            ];
+        } elseif ($user->isStationManager()) {
+            return [
+                '1. Daily Review: Check dashboard for pending requests and alerts',
+                '2. Request Approval: Review and approve incoming fuel requests',
+                '3. Staff Assignment: Assign fuel pumpers to approved requests',
+                '4. Inventory Management: Monitor fuel levels and update stock',
+                '5. Quality Control: Ensure proper fuel dispensing and safety',
+                '6. Reporting: Generate daily station reports and performance metrics'
+            ];
+        } elseif ($user->isFuelPumper()) {
+            return [
+                '1. Check Assignments: Review your assigned fuel requests for the day',
+                '2. Vehicle Preparation: Verify vehicle details and fuel requirements',
+                '3. Fuel Dispensing: Safely dispense fuel according to specifications',
+                '4. Status Updates: Mark requests as in-progress and completed',
+                '5. Receipt Management: Upload fuel receipts and delivery confirmations',
+                '6. End-of-Day: Complete activity reports and handover notes'
+            ];
+        } elseif ($user->isTreasury()) {
+            return [
+                '1. Payment Review: Check for new payments and pending receipts',
+                '2. Credit Monitoring: Review client credit limits and outstanding balances',
+                '3. Receipt Processing: Verify and process uploaded fuel receipts',
+                '4. Payment Tracking: Update payment status and send confirmations',
+                '5. Overdue Management: Follow up on overdue accounts and payment reminders',
+                '6. Financial Reporting: Generate daily financial summaries and reports'
+            ];
+        } else {
+            return [
+                '1. Vehicle Check: Review your vehicle fleet and fuel levels',
+                '2. Request Creation: Submit new fuel requests with vehicle and location details',
+                '3. Request Tracking: Monitor the status of your fuel requests',
+                '4. Payment Management: Review invoices and make payments',
+                '5. Receipt Collection: Download and store fuel receipts',
+                '6. Account Review: Check your credit balance and payment history'
+            ];
+        }
+    }
+
     private function getQuickActions($user)
     {
         $actions = [];
@@ -243,5 +307,55 @@ class OnboardingController extends Controller
         }
 
         return $actions;
+    }
+
+    private function getJourneyContent($user)
+    {
+        if ($user->isAdmin()) {
+            return [
+                '1. Client submits fuel request through the system',
+                '2. Station manager reviews and approves the request',
+                '3. Fuel pumper is assigned to handle the delivery',
+                '4. Fuel is dispensed and receipt is uploaded',
+                '5. Treasury processes payment and updates account',
+                '6. System generates reports for monitoring and analysis'
+            ];
+        } elseif ($user->isStationManager()) {
+            return [
+                '1. Receive notification of new fuel request',
+                '2. Review request details and client credit status',
+                '3. Approve or reject request based on criteria',
+                '4. Assign available fuel pumper to approved requests',
+                '5. Monitor progress and ensure timely completion',
+                '6. Review completed requests and generate station reports'
+            ];
+        } elseif ($user->isFuelPumper()) {
+            return [
+                '1. Check dashboard for new assignments',
+                '2. Review vehicle and fuel requirements',
+                '3. Travel to client location with fuel',
+                '4. Dispense fuel safely and accurately',
+                '5. Upload receipt and mark request as completed',
+                '6. Update activity log and prepare for next assignment'
+            ];
+        } elseif ($user->isTreasury()) {
+            return [
+                '1. Monitor incoming fuel receipts and payments',
+                '2. Verify receipt details against fuel requests',
+                '3. Process payments and update client accounts',
+                '4. Check credit limits and flag overdue accounts',
+                '5. Send payment confirmations to clients',
+                '6. Generate financial reports and reconciliation'
+            ];
+        } else {
+            return [
+                '1. Log into your account and check vehicle status',
+                '2. Create new fuel request with vehicle and location details',
+                '3. Wait for approval and assignment to fuel pumper',
+                '4. Receive fuel delivery at your specified location',
+                '5. Download receipt and verify delivery details',
+                '6. Review invoice and make payment through the system'
+            ];
+        }
     }
 }

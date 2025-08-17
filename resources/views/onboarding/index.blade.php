@@ -110,6 +110,164 @@
     backdrop-filter: blur(10px);
     margin-top: 1rem;
 }
+
+/* Workflow Timeline Styles */
+.workflow-timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.workflow-timeline::before {
+    content: '';
+    position: absolute;
+    left: 25px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+}
+
+.workflow-step {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 3rem;
+}
+
+.workflow-step:last-child {
+    margin-bottom: 0;
+}
+
+.workflow-step-number {
+    position: absolute;
+    left: -25px;
+    top: 0;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    z-index: 2;
+}
+
+.workflow-step-content {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border-left: 4px solid #667eea;
+    transition: all 0.3s ease;
+}
+
+.workflow-step-content:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.workflow-step-title {
+    color: #667eea;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.workflow-step-description {
+    color: #6c757d;
+    margin-bottom: 0;
+    line-height: 1.6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .workflow-timeline {
+        padding-left: 1rem;
+    }
+    
+    .workflow-step {
+        padding-left: 2rem;
+    }
+    
+    .workflow-step-number {
+        left: -15px;
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+}
+
+/* Journey Flow Styles */
+.journey-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.journey-step {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.journey-step:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-color: #667eea;
+}
+
+.journey-step-icon {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.journey-step-icon i {
+    color: white;
+    font-size: 1.2rem;
+}
+
+.journey-step-content {
+    flex-grow: 1;
+}
+
+.journey-step-text {
+    color: #495057;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+/* Responsive adjustments for journey flow */
+@media (max-width: 768px) {
+    .journey-step {
+        padding: 0.75rem 1rem;
+    }
+    
+    .journey-step-icon {
+        width: 35px;
+        height: 35px;
+        margin-right: 0.75rem;
+    }
+    
+    .journey-step-icon i {
+        font-size: 1rem;
+    }
+}
 </style>
 @endpush
 
@@ -164,19 +322,49 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-8 mx-auto">
-                                        <div class="feature-card card">
-                                            <div class="card-body">
-                                                <ul class="list-unstyled mb-0">
-                                                    @foreach($step['content'] as $item)
-                                                    <li class="d-flex align-items-start mb-3">
-                                                        <i class="material-symbols-rounded text-{{ $step['color'] }} me-3 mt-1">check_circle</i>
-                                                        <span>{{ $item }}</span>
-                                                    </li>
-                                                    @endforeach
-                                                </ul>
+                                    <div class="col-lg-10 mx-auto">
+                                        @if($step['title'] === 'Your Daily Workflow')
+                                            <!-- Workflow Timeline -->
+                                            <div class="workflow-timeline">
+                                                @foreach($step['content'] as $index => $item)
+                                                <div class="workflow-step">
+                                                    <div class="workflow-step-number">{{ $index + 1 }}</div>
+                                                    <div class="workflow-step-content">
+                                                        <h6 class="workflow-step-title">{{ explode(':', $item)[0] }}</h6>
+                                                        <p class="workflow-step-description">{{ explode(':', $item)[1] ?? $item }}</p>
+                                                    </div>
+                                                </div>
+                                                @endforeach
                                             </div>
-                                        </div>
+                                        @elseif($step['title'] === 'Complete Journey Overview')
+                                            <!-- Journey Flow -->
+                                            <div class="journey-flow">
+                                                @foreach($step['content'] as $index => $item)
+                                                <div class="journey-step">
+                                                    <div class="journey-step-icon">
+                                                        <i class="material-symbols-rounded">arrow_forward</i>
+                                                    </div>
+                                                    <div class="journey-step-content">
+                                                        <span class="journey-step-text">{{ $item }}</span>
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        @else
+                                            <!-- Regular Content -->
+                                            <div class="feature-card card">
+                                                <div class="card-body">
+                                                    <ul class="list-unstyled mb-0">
+                                                        @foreach($step['content'] as $item)
+                                                        <li class="d-flex align-items-start mb-3">
+                                                            <i class="material-symbols-rounded text-{{ $step['color'] }} me-3 mt-1">check_circle</i>
+                                                            <span>{{ $item }}</span>
+                                                        </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
 
