@@ -3,33 +3,179 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Bill;
-use App\Models\Customer;
-use App\Models\Delivery;
-use App\Models\Invoice;
+use App\Models\User;
+use App\Models\Station;
+use App\Models\Client;
+use App\Models\FuelRequest;
+use App\Models\Receipt;
+use App\Models\Payment;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // Get dashboard statistics
-        $totalSales = Bill::where('status', 'paid')->sum('amount');
-        $activeCustomers = Customer::where('status', 'active')->count();
-        $todayDeliveries = Delivery::whereDate('delivery_date', today())->count();
-        $pendingInvoices = Invoice::where('status', 'pending')->count();
+        $user = Auth::user();
         
-        // Get recent deliveries for the dashboard
-        $recentDeliveries = Delivery::with('customer')
+        if ($user->isAdmin()) {
+            return $this->adminDashboard();
+        } elseif ($user->isStationManager()) {
+            return $this->stationManagerDashboard();
+        } elseif ($user->isFuelPumper()) {
+            return $this->fuelPumperDashboard();
+        } elseif ($user->isTreasury()) {
+            return $this->treasuryDashboard();
+        } else {
+            return $this->clientDashboard();
+        }
+    }
+
+    private function adminDashboard()
+    {
+        $totalRevenue = Payment::where('status', 'completed')->sum('amount');
+        $activeClients = Client::where('status', Client::STATUS_ACTIVE)->count();
+        $totalStations = Station::where('status', Station::STATUS_ACTIVE)->count();
+        $pendingApprovals = FuelRequest::where('status', FuelRequest::STATUS_PENDING)->count();
+        
+        $recentRequests = FuelRequest::with(['client', 'vehicle', 'station'])
             ->latest()
             ->take(5)
             ->get();
 
         return view('dashboard', compact(
-            'totalSales',
-            'activeCustomers', 
-            'todayDeliveries',
-            'pendingInvoices',
-            'recentDeliveries'
+            'totalRevenue',
+            'activeClients',
+            'totalStations', 
+            'pendingApprovals',
+            'recentRequests'
+        ));
+    }
+
+    private function stationManagerDashboard()
+    {
+        $station = Auth::user()->station;
+        
+        $todayRequests = FuelRequest::where('station_id', $station->id)
+            ->whereDate('request_date', today())
+            ->count();
+        $fuelDispensedToday = FuelRequest::where('station_id', $station->id)
+            ->where('status', FuelRequest::STATUS_DISPENSED)
+            ->whereDate('dispensed_at', today())
+            ->sum('quantity_dispensed');
+        $availableStaff = User::where('station_id', $station->id)
+            ->where('role', User::ROLE_FUEL_PUMPER)
+            ->where('status', User::STATUS_ACTIVE)
+            ->count();
+        $pendingRequests = FuelRequest::where('station_id', $station->id)
+            ->where('status', FuelRequest::STATUS_PENDING)
+            ->count();
+
+        $recentRequests = FuelRequest::with(['client', 'vehicle'])
+            ->where('station_id', $station->id)
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('dashboard', compact(
+            'todayRequests',
+            'fuelDispensedToday',
+            'availableStaff',
+            'pendingRequests',
+            'recentRequests'
+        ));
+    }
+
+    private function fuelPumperDashboard()
+    {
+        $user = Auth::user();
+        
+        $assignedRequests = FuelRequest::where('assigned_pumper_id', $user->id)
+            ->where('status', FuelRequest::STATUS_APPROVED)
+            ->count();
+        $completedToday = FuelRequest::where('dispensed_by', $user->id)
+            ->where('status', FuelRequest::STATUS_DISPENSED)
+            ->whereDate('dispensed_at', today())
+            ->count();
+        $fuelDispensed = FuelRequest::where('dispensed_by', $user->id)
+            ->where('status', FuelRequest::STATUS_DISPENSED)
+            ->whereDate('dispensed_at', today())
+            ->sum('quantity_dispensed');
+        $pendingTasks = FuelRequest::where('assigned_pumper_id', $user->id)
+            ->whereIn('status', [FuelRequest::STATUS_APPROVED, FuelRequest::STATUS_IN_PROGRESS])
+            ->count();
+
+        $assignedRequestsList = FuelRequest::with(['client', 'vehicle'])
+            ->where('assigned_pumper_id', $user->id)
+            ->whereIn('status', [FuelRequest::STATUS_APPROVED, FuelRequest::STATUS_IN_PROGRESS])
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('dashboard', compact(
+            'assignedRequests',
+            'completedToday',
+            'fuelDispensed',
+            'pendingTasks',
+            'assignedRequestsList'
+        ));
+    }
+
+    private function treasuryDashboard()
+    {
+        $outstandingBalances = Client::sum('current_balance');
+        $pendingReceipts = Receipt::where('status', Receipt::STATUS_PENDING)->count();
+        $overdueAccounts = Client::where('current_balance', '>', 0)
+            ->where('status', Client::STATUS_ACTIVE)
+            ->count();
+        $monthlyRevenue = Payment::where('status', 'completed')
+            ->whereMonth('payment_date', now()->month)
+            ->sum('amount');
+
+        $pendingReceiptsList = Receipt::with(['client', 'fuelRequest'])
+            ->where('status', Receipt::STATUS_PENDING)
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('dashboard', compact(
+            'outstandingBalances',
+            'pendingReceipts',
+            'overdueAccounts',
+            'monthlyRevenue',
+            'pendingReceiptsList'
+        ));
+    }
+
+    private function clientDashboard()
+    {
+        $user = Auth::user();
+        $client = $user->client;
+        
+        if (!$client) {
+            return view('dashboard');
+        }
+
+        $totalRequests = FuelRequest::where('client_id', $client->id)->count();
+        $pendingRequests = FuelRequest::where('client_id', $client->id)
+            ->where('status', FuelRequest::STATUS_PENDING)
+            ->count();
+        $completedRequests = FuelRequest::where('client_id', $client->id)
+            ->where('status', FuelRequest::STATUS_COMPLETED)
+            ->count();
+        $availableCredit = $client->available_credit;
+
+        $recentRequests = FuelRequest::with(['vehicle', 'station'])
+            ->where('client_id', $client->id)
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('dashboard', compact(
+            'totalRequests',
+            'pendingRequests',
+            'completedRequests',
+            'availableCredit',
+            'recentRequests'
         ));
     }
 }

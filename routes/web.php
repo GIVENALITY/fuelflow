@@ -2,12 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\BillingController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\FuelRequestController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\StationController;
+use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\FuelController;
-use App\Http\Controllers\DeliveryController;
+use App\Http\Controllers\FuelPriceController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
@@ -30,40 +32,51 @@ Route::get('/', function () {
 // Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// Billing Management
-Route::resource('billing', BillingController::class);
-Route::get('/billing/{billing}/export', [BillingController::class, 'export'])->name('billing.export');
-Route::get('/billing/reports', [BillingController::class, 'reports'])->name('billing.reports');
+// Fuel Request Management
+Route::resource('fuel-requests', FuelRequestController::class);
+Route::post('/fuel-requests/{fuelRequest}/approve', [FuelRequestController::class, 'approve'])->name('fuel-requests.approve');
+Route::post('/fuel-requests/{fuelRequest}/reject', [FuelRequestController::class, 'reject'])->name('fuel-requests.reject');
+Route::post('/fuel-requests/{fuelRequest}/assign', [FuelRequestController::class, 'assign'])->name('fuel-requests.assign');
+Route::post('/fuel-requests/{fuelRequest}/dispense', [FuelRequestController::class, 'dispense'])->name('fuel-requests.dispense');
 
-// Customer Management
-Route::resource('customers', CustomerController::class);
-Route::get('/customers/{customer}/bills', [CustomerController::class, 'bills'])->name('customers.bills');
-Route::get('/customers/{customer}/payments', [CustomerController::class, 'payments'])->name('customers.payments');
+// Client Management
+Route::resource('clients', ClientController::class);
+Route::get('/clients/{client}/requests', [ClientController::class, 'requests'])->name('clients.requests');
+Route::get('/clients/{client}/payments', [ClientController::class, 'payments'])->name('clients.payments');
+Route::get('/clients/{client}/vehicles', [ClientController::class, 'vehicles'])->name('clients.vehicles');
 
-// Invoice Management
-Route::resource('invoices', InvoiceController::class);
-Route::post('/invoices/{invoice}/send', [InvoiceController::class, 'send'])->name('invoices.send');
-Route::get('/invoices/{invoice}/print', [InvoiceController::class, 'print'])->name('invoices.print');
+// Station Management
+Route::resource('stations', StationController::class);
+Route::get('/stations/{station}/requests', [StationController::class, 'requests'])->name('stations.requests');
+Route::get('/stations/{station}/inventory', [StationController::class, 'inventory'])->name('stations.inventory');
+Route::post('/stations/{station}/restock', [StationController::class, 'restock'])->name('stations.restock');
+
+// Vehicle Management
+Route::resource('vehicles', VehicleController::class);
+Route::get('/vehicles/{vehicle}/requests', [VehicleController::class, 'requests'])->name('vehicles.requests');
+
+// Receipt Management
+Route::resource('receipts', ReceiptController::class);
+Route::post('/receipts/{receipt}/verify', [ReceiptController::class, 'verify'])->name('receipts.verify');
+Route::post('/receipts/{receipt}/reject', [ReceiptController::class, 'reject'])->name('receipts.reject');
 
 // Payment Management
 Route::resource('payments', PaymentController::class);
 Route::post('/payments/{payment}/process', [PaymentController::class, 'process'])->name('payments.process');
 
-// Fuel Management
-Route::resource('fuel', FuelController::class);
-Route::get('/fuel/inventory', [FuelController::class, 'inventory'])->name('fuel.inventory');
-Route::post('/fuel/restock', [FuelController::class, 'restock'])->name('fuel.restock');
+// Fuel Price Management
+Route::resource('fuel-prices', FuelPriceController::class);
+Route::get('/fuel-prices/current', [FuelPriceController::class, 'current'])->name('fuel-prices.current');
 
-// Delivery Management
-Route::resource('deliveries', DeliveryController::class);
-Route::post('/deliveries/{delivery}/complete', [DeliveryController::class, 'complete'])->name('deliveries.complete');
-Route::get('/deliveries/schedule', [DeliveryController::class, 'schedule'])->name('deliveries.schedule');
+// User Management
+Route::resource('users', UserController::class);
+Route::get('/users/{user}/permissions', [UserController::class, 'permissions'])->name('users.permissions');
 
 // Reports
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
-Route::get('/reports/sales', [ReportController::class, 'sales'])->name('reports.sales');
-Route::get('/reports/customers', [ReportController::class, 'customers'])->name('reports.customers');
-Route::get('/reports/fuel', [ReportController::class, 'fuel'])->name('reports.fuel');
+Route::get('/reports/operational', [ReportController::class, 'operational'])->name('reports.operational');
+Route::get('/reports/financial', [ReportController::class, 'financial'])->name('reports.financial');
+Route::get('/reports/client-analytics', [ReportController::class, 'clientAnalytics'])->name('reports.client-analytics');
 
 // Profile & Settings
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
