@@ -1,66 +1,230 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# FuelFlow - Fuel Company Billing Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A comprehensive Laravel-based billing management system designed specifically for fuel companies. This system provides complete management of customers, fuel deliveries, billing, payments, and reporting.
 
-## About Laravel
+## 🚀 Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Core Modules
+- **Dashboard** - Overview with key metrics and recent activities
+- **Billing Management** - Create, manage, and track fuel bills
+- **Customer Management** - Complete customer database with credit limits
+- **Fuel Inventory** - Track fuel types, prices, and stock levels
+- **Delivery Management** - Schedule and track fuel deliveries
+- **Payment Processing** - Handle payments and track outstanding amounts
+- **Reporting** - Comprehensive reports and analytics
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Key Features
+- ✅ Modern Material Dashboard UI
+- ✅ Responsive design for mobile and desktop
+- ✅ Real-time billing calculations
+- ✅ Automated overdue tracking
+- ✅ Credit limit management
+- ✅ Delivery scheduling
+- ✅ Payment processing
+- ✅ Export functionality
+- ✅ Comprehensive reporting
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🛠️ Technology Stack
 
-## Learning Laravel
+- **Backend**: Laravel 10.x
+- **Frontend**: Blade Templates with Material Dashboard 3
+- **Database**: MySQL/PostgreSQL
+- **Styling**: Bootstrap 5 + Material Design
+- **Icons**: Material Symbols + Font Awesome
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 📋 Requirements
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- PHP 8.1 or higher
+- Composer
+- MySQL 5.7+ or PostgreSQL 10+
+- Node.js & NPM (for asset compilation)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🚀 Installation
 
-## Laravel Sponsors
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd fuelflow
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. **Install PHP dependencies**
+   ```bash
+   composer install
+   ```
 
-### Premium Partners
+3. **Install Node.js dependencies**
+   ```bash
+   npm install
+   ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+4. **Environment setup**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-## Contributing
+5. **Configure database**
+   Edit `.env` file with your database credentials:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=fuelflow
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+6. **Run migrations**
+   ```bash
+   php artisan migrate
+   ```
 
-## Code of Conduct
+7. **Seed the database (optional)**
+   ```bash
+   php artisan db:seed
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+8. **Compile assets**
+   ```bash
+   npm run dev
+   ```
 
-## Security Vulnerabilities
+9. **Start the development server**
+   ```bash
+   php artisan serve
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 📁 Project Structure
 
-## License
+```
+fuelflow/
+├── app/
+│   ├── Http/Controllers/     # Application controllers
+│   ├── Models/              # Eloquent models
+│   └── Providers/           # Service providers
+├── database/
+│   ├── migrations/          # Database migrations
+│   ├── seeders/            # Database seeders
+│   └── factories/          # Model factories
+├── resources/
+│   ├── views/              # Blade templates
+│   │   ├── layouts/        # Layout templates
+│   │   ├── components/     # Reusable components
+│   │   └── pages/          # Page-specific views
+│   ├── css/               # Stylesheets
+│   └── js/                # JavaScript files
+├── routes/                # Application routes
+└── public/               # Public assets
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🎯 Core Models
+
+### Bill
+- Manages fuel billing records
+- Tracks payment status and due dates
+- Calculates late fees automatically
+- Links to customers and fuel types
+
+### Customer
+- Stores customer information
+- Manages credit limits and payment terms
+- Tracks outstanding balances
+- Links to bills and payments
+
+### Delivery
+- Schedules fuel deliveries
+- Tracks delivery status
+- Automatically creates bills upon completion
+- Links to customers and fuel types
+
+### FuelType
+- Manages different fuel types
+- Tracks current prices
+- Links to inventory levels
+- Used in billing and deliveries
+
+## 🔧 Configuration
+
+### Billing Settings
+- Payment terms (default: 30 days)
+- Late fee rates (default: 5% per month)
+- Credit limit warnings
+- Auto-overdue marking
+
+### Fuel Management
+- Fuel type configuration
+- Price management
+- Inventory tracking
+- Low stock alerts
+
+## 📊 Reports Available
+
+1. **Sales Reports**
+   - Monthly revenue trends
+   - Fuel type sales analysis
+   - Customer sales performance
+
+2. **Customer Reports**
+   - Outstanding balances
+   - Payment history
+   - Credit limit utilization
+
+3. **Delivery Reports**
+   - Delivery performance
+   - Route optimization
+   - Driver efficiency
+
+4. **Financial Reports**
+   - Cash flow analysis
+   - Profitability by fuel type
+   - Outstanding receivables
+
+## 🔐 Security Features
+
+- CSRF protection
+- Input validation and sanitization
+- SQL injection prevention
+- XSS protection
+- Secure authentication
+
+## 🚀 Deployment
+
+### Production Setup
+1. Set `APP_ENV=production` in `.env`
+2. Configure production database
+3. Run `php artisan config:cache`
+4. Run `php artisan route:cache`
+5. Set up proper web server configuration
+
+### Recommended Server Requirements
+- PHP 8.1+
+- MySQL 5.7+ or PostgreSQL 10+
+- Redis (for caching)
+- SSL certificate
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🆘 Support
+
+For support and questions:
+- Create an issue in the repository
+- Contact the development team
+- Check the documentation
+
+## 🔄 Updates
+
+Stay updated with the latest features and bug fixes by regularly pulling from the main branch.
+
+---
+
+**FuelFlow** - Streamlining fuel company operations with modern billing management.
