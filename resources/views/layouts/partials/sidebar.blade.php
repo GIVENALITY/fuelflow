@@ -44,6 +44,13 @@
                 </li>
                 
                 <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('bulk-price-updates.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}" href="{{ route('bulk-price-updates.index') }}">
+                        <i class="material-symbols-rounded opacity-5">upload_file</i>
+                        <span class="nav-link-text ms-1">Bulk Price Updates</span>
+                    </a>
+                </li>
+                
+                <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('locations.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}" href="{{ route('locations.index') }}">
                         <i class="material-symbols-rounded opacity-5">location_on</i>
                         <span class="nav-link-text ms-1">Locations</span>
