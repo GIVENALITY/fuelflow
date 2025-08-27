@@ -17,7 +17,6 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\OnboardingController;
-use App\Http\Controllers\PricingStrategyController;
 use App\Http\Controllers\BulkPriceUpdateController;
 
 /*
@@ -122,11 +121,6 @@ Route::delete('/routes/{route}/stops/{stop}', [RouteController::class, 'removeSt
 // Onboarding
 Route::get('/onboarding', [OnboardingController::class, 'index'])->name('onboarding.index');
 Route::post('/onboarding/complete', [OnboardingController::class, 'markComplete'])->name('onboarding.complete');
-
-// Pricing Strategy Management
-Route::resource('pricing-strategies', PricingStrategyController::class);
-Route::post('/pricing-strategies/{pricingStrategy}/toggle-active', [PricingStrategyController::class, 'toggleActive'])->name('pricing-strategies.toggle-active');
-Route::post('/pricing-strategies/preview', [PricingStrategyController::class, 'preview'])->name('pricing-strategies.preview');
 
 // Bulk Price Updates
 Route::get('/bulk-price-updates', [BulkPriceUpdateController::class, 'index'])->name('bulk-price-updates.index');

@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Models\FuelPrice;
 use App\Models\Station;
 use App\Models\Notification;
-use App\Models\PricingStrategy;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -151,19 +150,30 @@ class UpdateFuelPrices extends Command
     }
 
     /**
-     * Calculate new price based on active pricing strategy
+     * Calculate new price based on various factors
+     * This is where you'd implement your pricing logic
      */
     private function calculateNewPrice(FuelPrice $currentPrice, Carbon $date): ?float
     {
-        // Get the active pricing strategy
-        $strategy = PricingStrategy::getActiveStrategy($date);
+        // Example pricing logic - you can customize this based on your requirements
         
-        if (!$strategy) {
-            // If no strategy is found, create a default one
-            $strategy = PricingStrategy::createDefaultStrategy();
+        // Get the current price
+        $currentAmount = $currentPrice->price;
+        
+        // Example: Increase by 2% every month (you can modify this logic)
+        $increasePercentage = 0.02; // 2%
+        
+        // Calculate new price
+        $newPrice = $currentAmount * (1 + $increasePercentage);
+        
+        // Round to 2 decimal places
+        $newPrice = round($newPrice, 2);
+        
+        // Only update if there's a significant change (more than 1 TZS)
+        if (abs($newPrice - $currentAmount) >= 1) {
+            return $newPrice;
         }
         
-        // Calculate new price using the strategy
-        return $strategy->calculateNewPrice($currentPrice->price, $date);
+        return null; // No change needed
     }
 }
