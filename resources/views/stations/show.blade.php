@@ -40,6 +40,12 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
+                                            <label class="form-control-label">Station Code</label>
+                                            <p class="form-control-static">{{ $station->code }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
                                             <label class="form-control-label">Location</label>
                                             <p class="form-control-static">
                                                 @if($station->location)

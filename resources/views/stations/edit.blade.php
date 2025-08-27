@@ -39,6 +39,19 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="input-group input-group-static mb-4">
+                                    <label>Station Code *</label>
+                                    <input type="text" class="form-control @error('code') is-invalid @enderror" 
+                                           name="code" value="{{ old('code', $station->code) }}" required placeholder="e.g., STN001">
+                                    @error('code')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group input-group-static mb-4">
                                     <label>Location *</label>
                                     <select class="form-control @error('location_id') is-invalid @enderror" name="location_id" required>
                                         <option value="">Select Location</option>

@@ -44,6 +44,7 @@ class StationController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
+            'code' => 'required|string|max:255|unique:stations,code',
             'location_id' => 'required|exists:locations,id',
             'manager_id' => 'nullable|exists:users,id',
             'status' => 'required|in:active,inactive'
@@ -86,6 +87,7 @@ class StationController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
+            'code' => 'required|string|max:255|unique:stations,code,' . $station->id,
             'location_id' => 'required|exists:locations,id',
             'manager_id' => 'nullable|exists:users,id',
             'status' => 'required|in:active,inactive'
