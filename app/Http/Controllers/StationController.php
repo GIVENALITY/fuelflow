@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Station;
 use App\Models\User;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,9 +15,9 @@ class StationController extends Controller
         $user = Auth::user();
         
         if ($user->isAdmin()) {
-            $stations = Station::with('manager')->get();
+            $stations = Station::with(['manager', 'location'])->get();
         } elseif ($user->isStationManager()) {
-            $stations = Station::where('id', $user->station_id)->with('manager')->get();
+            $stations = Station::where('id', $user->station_id)->with(['manager', 'location'])->get();
         } else {
             $stations = collect();
         }
@@ -31,7 +32,8 @@ class StationController extends Controller
         }
 
         $managers = User::where('role', User::ROLE_STATION_MANAGER)->get();
-        return view('stations.create', compact('managers'));
+        $locations = Location::active()->get();
+        return view('stations.create', compact('managers', 'locations'));
     }
 
     public function store(Request $request)
@@ -42,7 +44,7 @@ class StationController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
+            'location_id' => 'required|exists:locations,id',
             'manager_id' => 'nullable|exists:users,id',
             'status' => 'required|in:active,inactive'
         ]);
@@ -60,7 +62,7 @@ class StationController extends Controller
             return redirect()->route('stations.index')->with('error', 'Unauthorized access.');
         }
 
-        $station->load(['manager', 'fuelRequests', 'receipts']);
+        $station->load(['manager', 'location', 'fuelRequests', 'receipts']);
         
         return view('stations.show', compact('station'));
     }
@@ -72,7 +74,8 @@ class StationController extends Controller
         }
 
         $managers = User::where('role', User::ROLE_STATION_MANAGER)->get();
-        return view('stations.edit', compact('station', 'managers'));
+        $locations = Location::active()->get();
+        return view('stations.edit', compact('station', 'managers', 'locations'));
     }
 
     public function update(Request $request, Station $station)
@@ -83,7 +86,7 @@ class StationController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
+            'location_id' => 'required|exists:locations,id',
             'manager_id' => 'nullable|exists:users,id',
             'status' => 'required|in:active,inactive'
         ]);

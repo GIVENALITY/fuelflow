@@ -12,10 +12,7 @@ class Station extends Model
     protected $fillable = [
         'name',
         'code',
-        'address',
-        'city',
-        'state',
-        'zip_code',
+        'location_id',
         'phone',
         'email',
         'manager_id',
@@ -46,6 +43,11 @@ class Station extends Model
     public function manager()
     {
         return $this->belongsTo(User::class, 'manager_id');
+    }
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
     }
 
     public function staff()
@@ -87,7 +89,7 @@ class Station extends Model
     // Accessors
     public function getFullAddressAttribute()
     {
-        return "{$this->address}, {$this->city}, {$this->state} {$this->zip_code}";
+        return $this->location ? $this->location->full_address : 'No location assigned';
     }
 
     public function getDieselUtilizationAttribute()

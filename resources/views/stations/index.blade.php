@@ -46,7 +46,14 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0">{{ $station->location }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">
+                                            @if($station->location)
+                                                {{ $station->location->name }}<br>
+                                                <small class="text-muted">{{ $station->location->full_address }}</small>
+                                            @else
+                                                <span class="text-muted">No location assigned</span>
+                                            @endif
+                                        </p>
                                     </td>
                                     <td>
                                         <p class="text-xs font-weight-bold mb-0">
