@@ -32,13 +32,13 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="input-group input-group-static mb-4">
-                                            <label>Excel File *</label>
-                                            <input type="file" class="form-control @error('excel_file') is-invalid @enderror" 
-                                                   name="excel_file" accept=".xlsx,.xls" required>
-                                            @error('excel_file')
+                                            <label>CSV File *</label>
+                                            <input type="file" class="form-control @error('csv_file') is-invalid @enderror" 
+                                                   name="csv_file" accept=".csv,.txt" required>
+                                            @error('csv_file')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
-                                            <small class="form-text text-muted">Upload Excel file (.xlsx or .xls) with price updates</small>
+                                            <small class="form-text text-muted">Upload CSV file (.csv or .txt) with price updates</small>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -81,10 +81,10 @@
                                 </div>
                                 <div class="card-body">
                                     <ol class="mb-0">
-                                        <li class="mb-2">Download the Excel template</li>
-                                        <li class="mb-2">Fill in the new prices in the highlighted columns</li>
+                                        <li class="mb-2">Download the CSV template</li>
+                                        <li class="mb-2">Fill in the new prices in the price columns</li>
                                         <li class="mb-2">Set the effective date for price changes</li>
-                                        <li class="mb-2">Upload the completed file</li>
+                                        <li class="mb-2">Upload the completed CSV file</li>
                                         <li class="mb-2">Review the preview and apply changes</li>
                                     </ol>
                                     
@@ -104,7 +104,7 @@
                             <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Template Information</h6>
                             <div class="card">
                                 <div class="card-body">
-                                    <p class="mb-2"><strong>Template Format:</strong> The Excel template contains the following columns:</p>
+                                    <p class="mb-2"><strong>Template Format:</strong> The CSV template contains the following columns:</p>
                                     <ul class="mb-3">
                                         <li><strong>S/N:</strong> Serial number for each town</li>
                                         <li><strong>Town:</strong> Town name (e.g., Dar es Salaam, Arusha)</li>
@@ -116,9 +116,9 @@
                                     
                                     <p class="mb-2"><strong>How it works:</strong></p>
                                     <ol class="mb-0">
-                                        <li>Download the template with current prices</li>
+                                        <li>Download the CSV template with current prices</li>
                                         <li>Update the prices for towns you want to change</li>
-                                        <li>Upload the file - system will find stations in each town</li>
+                                        <li>Upload the CSV file - system will find stations in each town</li>
                                         <li>Review and apply the changes</li>
                                     </ol>
                                 </div>

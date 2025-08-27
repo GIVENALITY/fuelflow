@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 
 class BulkPriceUpdateController extends Controller
@@ -346,7 +345,17 @@ class BulkPriceUpdateController extends Controller
             ]
         ];
 
-        return Excel::download(new \App\Exports\BulkPriceUpdateTemplate($templateData), 'fuel_price_update_template.xlsx');
+        // Create CSV content
+        $csvContent = "S/N,Town,Cap Prices,Petrol,Diesel,Kerosene\n";
+        
+        foreach ($templateData as $row) {
+            $csvContent .= "{$row['sn']},{$row['town']},{$row['cap_prices']},{$row['petrol']},{$row['diesel']},{$row['kerosene']}\n";
+        }
+
+        // Return CSV file
+        return response($csvContent)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="fuel_price_update_template.csv"');
     }
 
     public function upload(Request $request)
@@ -356,29 +365,33 @@ class BulkPriceUpdateController extends Controller
         }
 
         $request->validate([
-            'excel_file' => 'required|file|mimes:xlsx,xls|max:2048',
+            'csv_file' => 'required|file|mimes:csv,txt|max:2048',
             'effective_date' => 'required|date|after_or_equal:today',
             'preview_mode' => 'boolean'
         ]);
 
         try {
-            $file = $request->file('excel_file');
+            $file = $request->file('csv_file');
             $effectiveDate = Carbon::parse($request->effective_date);
             $previewMode = $request->boolean('preview_mode', true);
 
-            // Import the Excel file
-            $import = new \App\Imports\BulkPriceUpdateImport();
-            $data = Excel::toArray($import, $file)[0];
-
+            // Read CSV file
+            $csvContent = file_get_contents($file->getPathname());
+            $lines = explode("\n", trim($csvContent));
+            
             // Remove header row
-            $headers = array_shift($data);
+            $headers = str_getcsv(array_shift($lines));
             
             $updates = [];
             $errors = [];
             $successCount = 0;
 
-            foreach ($data as $rowIndex => $row) {
+            foreach ($lines as $rowIndex => $line) {
                 $rowNumber = $rowIndex + 2; // +2 because we removed header and arrays are 0-indexed
+                
+                if (empty(trim($line))) continue;
+                
+                $row = str_getcsv($line);
                 
                 try {
                     $rowUpdates = $this->processRow($row, $headers, $effectiveDate, $rowNumber);
@@ -431,27 +444,27 @@ class BulkPriceUpdateController extends Controller
         $data = array_combine($headers, $row);
         
         // Validate required fields
-        if (empty($data['town'])) {
+        if (empty($data['Town'])) {
             throw new \Exception('Town name is required');
         }
 
         // Find stations in this town
         $stations = Station::where('status', 'active')
             ->whereHas('location', function($query) use ($data) {
-                $query->where('city', 'like', '%' . $data['town'] . '%')
-                      ->orWhere('name', 'like', '%' . $data['town'] . '%');
+                $query->where('city', 'like', '%' . $data['Town'] . '%')
+                      ->orWhere('name', 'like', '%' . $data['Town'] . '%');
             })
             ->get();
 
         if ($stations->isEmpty()) {
             // If no stations found by town, try to find by station name
             $stations = Station::where('status', 'active')
-                ->where('name', 'like', '%' . $data['town'] . '%')
+                ->where('name', 'like', '%' . $data['Town'] . '%')
                 ->get();
         }
 
         if ($stations->isEmpty()) {
-            throw new \Exception("No stations found for town '{$data['town']}'");
+            throw new \Exception("No stations found for town '{$data['Town']}'");
         }
 
         $updates = [];
@@ -461,7 +474,7 @@ class BulkPriceUpdateController extends Controller
                 'station_id' => $station->id,
                 'station_code' => $station->code,
                 'station_name' => $station->name,
-                'town' => $data['town'],
+                'town' => $data['Town'],
                 'petrol_update' => null,
                 'diesel_update' => null,
                 'kerosene_update' => null,
@@ -469,12 +482,12 @@ class BulkPriceUpdateController extends Controller
             ];
 
             // Process petrol price
-            if (!empty($data['petrol']) && is_numeric($data['petrol'])) {
+            if (!empty($data['Petrol']) && is_numeric($data['Petrol'])) {
                 $currentPetrolPrice = FuelPrice::getCurrentPrice($station->id, 'petrol');
-                $newPetrolPrice = (float) $data['petrol'];
+                $newPetrolPrice = (float) $data['Petrol'];
                 
                 if ($newPetrolPrice <= 0) {
-                    throw new \Exception("Petrol price for {$data['town']} must be greater than 0");
+                    throw new \Exception("Petrol price for {$data['Town']} must be greater than 0");
                 }
 
                 if (!$currentPetrolPrice || $currentPetrolPrice->price != $newPetrolPrice) {
@@ -487,12 +500,12 @@ class BulkPriceUpdateController extends Controller
             }
 
             // Process diesel price
-            if (!empty($data['diesel']) && is_numeric($data['diesel'])) {
+            if (!empty($data['Diesel']) && is_numeric($data['Diesel'])) {
                 $currentDieselPrice = FuelPrice::getCurrentPrice($station->id, 'diesel');
-                $newDieselPrice = (float) $data['diesel'];
+                $newDieselPrice = (float) $data['Diesel'];
                 
                 if ($newDieselPrice <= 0) {
-                    throw new \Exception("Diesel price for {$data['town']} must be greater than 0");
+                    throw new \Exception("Diesel price for {$data['Town']} must be greater than 0");
                 }
 
                 if (!$currentDieselPrice || $currentDieselPrice->price != $newDieselPrice) {
@@ -505,12 +518,12 @@ class BulkPriceUpdateController extends Controller
             }
 
             // Process kerosene price (if supported)
-            if (!empty($data['kerosene']) && is_numeric($data['kerosene'])) {
+            if (!empty($data['Kerosene']) && is_numeric($data['Kerosene'])) {
                 $currentKerosenePrice = FuelPrice::getCurrentPrice($station->id, 'kerosene');
-                $newKerosenePrice = (float) $data['kerosene'];
+                $newKerosenePrice = (float) $data['Kerosene'];
                 
                 if ($newKerosenePrice <= 0) {
-                    throw new \Exception("Kerosene price for {$data['town']} must be greater than 0");
+                    throw new \Exception("Kerosene price for {$data['Town']} must be greater than 0");
                 }
 
                 if (!$currentKerosenePrice || $currentKerosenePrice->price != $newKerosenePrice) {
@@ -595,7 +608,7 @@ class BulkPriceUpdateController extends Controller
             'effective_date' => $effectiveDate,
             'is_active' => true,
             'created_by' => Auth::id(),
-            'notes' => 'Bulk price update via Excel upload'
+            'notes' => 'Bulk price update via CSV upload'
         ]);
 
         // Create notification for station manager
