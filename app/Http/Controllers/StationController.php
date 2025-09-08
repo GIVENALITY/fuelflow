@@ -31,9 +31,8 @@ class StationController extends Controller
             return redirect()->route('stations.index')->with('error', 'Unauthorized access.');
         }
 
-        $managers = User::where('role', User::ROLE_STATION_MANAGER)->get();
         $locations = Location::active()->get();
-        return view('stations.create', compact('managers', 'locations'));
+        return view('stations.create', compact('locations'));
     }
 
     public function store(Request $request)
@@ -46,7 +45,6 @@ class StationController extends Controller
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:255|unique:stations,code',
             'location_id' => 'required|exists:locations,id',
-            'manager_id' => 'nullable|exists:users,id',
             'status' => 'required|in:active,inactive'
         ]);
 
@@ -74,9 +72,8 @@ class StationController extends Controller
             return redirect()->route('stations.index')->with('error', 'Unauthorized access.');
         }
 
-        $managers = User::where('role', User::ROLE_STATION_MANAGER)->get();
         $locations = Location::active()->get();
-        return view('stations.edit', compact('station', 'managers', 'locations'));
+        return view('stations.edit', compact('station', 'locations'));
     }
 
     public function update(Request $request, Station $station)
@@ -89,7 +86,6 @@ class StationController extends Controller
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:255|unique:stations,code,' . $station->id,
             'location_id' => 'required|exists:locations,id',
-            'manager_id' => 'nullable|exists:users,id',
             'status' => 'required|in:active,inactive'
         ]);
 

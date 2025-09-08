@@ -18,6 +18,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\BulkPriceUpdateController;
+use App\Http\Controllers\StationManagerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +69,11 @@ Route::resource('stations', StationController::class);
 Route::get('/stations/{station}/requests', [StationController::class, 'requests'])->name('stations.requests');
 Route::get('/stations/{station}/inventory', [StationController::class, 'inventory'])->name('stations.inventory');
 Route::post('/stations/{station}/restock', [StationController::class, 'restock'])->name('stations.restock');
+
+// Station Manager Management
+Route::resource('station-managers', StationManagerController::class);
+Route::post('/station-managers/{stationManager}/assign', [StationManagerController::class, 'assignStation'])->name('station-managers.assign');
+Route::post('/station-managers/{stationManager}/unassign', [StationManagerController::class, 'unassignStation'])->name('station-managers.unassign');
 
 // Vehicle Management
 Route::resource('vehicles', VehicleController::class);

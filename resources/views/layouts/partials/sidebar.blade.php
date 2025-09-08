@@ -37,6 +37,13 @@
                 </li>
                 
                 <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('station-managers.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}" href="{{ route('station-managers.index') }}">
+                        <i class="material-symbols-rounded opacity-5">supervisor_account</i>
+                        <span class="nav-link-text ms-1">Station Managers</span>
+                    </a>
+                </li>
+                
+                <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('fuel-prices.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}" href="{{ route('fuel-prices.index') }}">
                         <i class="material-symbols-rounded opacity-5">attach_money</i>
                         <span class="nav-link-text ms-1">Fuel Prices</span>
