@@ -1,0 +1,288 @@
+/* Mobile-First CSS for FuelFlow */
+
+/* Base mobile styles */
+@media (max-width: 768px) {
+    /* Typography */
+    .text-xs {
+        font-size: 0.75rem;
+    }
+    .text-sm {
+        font-size: 0.875rem;
+    }
+    .text-base {
+        font-size: 1rem;
+    }
+    .text-lg {
+        font-size: 1.125rem;
+    }
+    .text-xl {
+        font-size: 1.25rem;
+    }
+    .text-2xl {
+        font-size: 1.5rem;
+    }
+
+    /* Spacing */
+    .px-2 {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    .px-4 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .py-2 {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+    .py-4 {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    .py-6 {
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+
+    /* Cards */
+    .card {
+        @apply bg-white rounded-lg shadow-sm border border-gray-200 mb-4;
+    }
+
+    .card-header {
+        @apply px-4 py-3 border-b border-gray-200;
+    }
+
+    .card-body {
+        @apply px-4 py-3;
+    }
+
+    /* Buttons */
+    .btn {
+        @apply inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200;
+    }
+
+    .btn-primary {
+        @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
+    }
+
+    .btn-secondary {
+        @apply bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500;
+    }
+
+    .btn-outline-primary {
+        @apply border-blue-600 text-blue-600 hover:bg-blue-50 focus:ring-blue-500;
+    }
+
+    .btn-outline-secondary {
+        @apply border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-500;
+    }
+
+    .btn-sm {
+        @apply px-3 py-1.5 text-xs;
+    }
+
+    .btn-lg {
+        @apply px-6 py-3 text-base;
+    }
+
+    /* Forms */
+    .form-control {
+        @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm;
+    }
+
+    .form-select {
+        @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm;
+    }
+
+    .form-label {
+        @apply block text-sm font-medium text-gray-700 mb-1;
+    }
+
+    /* Tables */
+    .table {
+        @apply min-w-full divide-y divide-gray-200;
+    }
+
+    .table th {
+        @apply px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider;
+    }
+
+    .table td {
+        @apply px-3 py-2 whitespace-nowrap text-sm text-gray-900;
+    }
+
+    /* Badges */
+    .badge {
+        @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+    }
+
+    .badge-primary {
+        @apply bg-blue-100 text-blue-800;
+    }
+
+    .badge-success {
+        @apply bg-green-100 text-green-800;
+    }
+
+    .badge-warning {
+        @apply bg-yellow-100 text-yellow-800;
+    }
+
+    .badge-danger {
+        @apply bg-red-100 text-red-800;
+    }
+
+    .badge-secondary {
+        @apply bg-gray-100 text-gray-800;
+    }
+
+    /* Alerts */
+    .alert {
+        @apply px-4 py-3 rounded-md mb-4;
+    }
+
+    .alert-success {
+        @apply bg-green-50 border border-green-200 text-green-800;
+    }
+
+    .alert-danger {
+        @apply bg-red-50 border border-red-200 text-red-800;
+    }
+
+    .alert-warning {
+        @apply bg-yellow-50 border border-yellow-200 text-yellow-800;
+    }
+
+    .alert-info {
+        @apply bg-blue-50 border border-blue-200 text-blue-800;
+    }
+
+    /* Mobile-specific utilities */
+    .mobile-hidden {
+        display: none !important;
+    }
+
+    .mobile-visible {
+        display: block !important;
+    }
+
+    /* Touch-friendly sizing */
+    .touch-target {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Swipe gestures */
+    .swipeable {
+        touch-action: pan-x;
+    }
+
+    /* Loading states */
+    .loading {
+        @apply opacity-50 pointer-events-none;
+    }
+
+    .spinner {
+        @apply animate-spin rounded-full h-4 w-4 border-b-2 border-current;
+    }
+
+    /* Modal adjustments */
+    .modal {
+        @apply fixed inset-0 z-50 overflow-y-auto;
+    }
+
+    .modal-content {
+        @apply bg-white rounded-t-lg shadow-xl;
+    }
+
+    /* Bottom sheet */
+    .bottom-sheet {
+        @apply fixed bottom-0 left-0 right-0 bg-white rounded-t-lg shadow-xl transform transition-transform duration-300;
+    }
+
+    .bottom-sheet.closed {
+        @apply translate-y-full;
+    }
+
+    /* Floating action button */
+    .fab {
+        @apply fixed bottom-20 right-4 bg-blue-600 text-white rounded-full p-3 shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+    }
+
+    /* Pull to refresh */
+    .pull-to-refresh {
+        @apply relative overflow-hidden;
+    }
+
+    .pull-to-refresh-indicator {
+        @apply absolute top-0 left-0 right-0 bg-blue-600 text-white text-center py-2 transform -translate-y-full transition-transform duration-200;
+    }
+
+    .pull-to-refresh-indicator.active {
+        @apply translate-y-0;
+    }
+}
+
+/* Tablet styles */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .tablet-hidden {
+        display: none !important;
+    }
+
+    .tablet-visible {
+        display: block !important;
+    }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+    .desktop-hidden {
+        display: none !important;
+    }
+
+    .desktop-visible {
+        display: block !important;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .dark-mode {
+        @apply bg-gray-900 text-white;
+    }
+
+    .dark-mode .card {
+        @apply bg-gray-800 border-gray-700;
+    }
+
+    .dark-mode .form-control {
+        @apply bg-gray-800 border-gray-600 text-white;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .high-contrast {
+        @apply border-2 border-black;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .no-motion {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* Print styles */
+@media print {
+    .print-hidden {
+        display: none !important;
+    }
+
+    .print-visible {
+        display: block !important;
+    }
+}

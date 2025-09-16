@@ -94,13 +94,15 @@ class Station extends Model
 
     public function getDieselUtilizationAttribute()
     {
-        if ($this->capacity_diesel <= 0) return 0;
+        if ($this->capacity_diesel <= 0)
+            return 0;
         return ($this->current_diesel_level / $this->capacity_diesel) * 100;
     }
 
     public function getPetrolUtilizationAttribute()
     {
-        if ($this->capacity_petrol <= 0) return 0;
+        if ($this->capacity_petrol <= 0)
+            return 0;
         return ($this->current_petrol_level / $this->capacity_petrol) * 100;
     }
 
@@ -129,6 +131,11 @@ class Station extends Model
     }
 
     // Methods
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     public function isOperational()
     {
         return in_array($this->status, [self::STATUS_ACTIVE, self::STATUS_MAINTENANCE]);
@@ -142,7 +149,7 @@ class Station extends Model
 
     public function getCurrentFuelLevel($fuelType)
     {
-        return match(strtolower($fuelType)) {
+        return match (strtolower($fuelType)) {
             'diesel' => $this->current_diesel_level,
             'petrol' => $this->current_petrol_level,
             default => 0
@@ -152,7 +159,7 @@ class Station extends Model
     public function updateFuelLevel($fuelType, $quantity, $operation = 'dispense')
     {
         $currentLevel = $this->getCurrentFuelLevel($fuelType);
-        
+
         if ($operation === 'dispense') {
             $newLevel = $currentLevel - $quantity;
         } else {

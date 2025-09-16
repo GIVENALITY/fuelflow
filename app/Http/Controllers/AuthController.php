@@ -22,6 +22,21 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+
+            $user = Auth::user();
+
+            // Check if 2FA is enabled (only for admin, manager, treasury roles)
+            if (
+                in_array($user->role, [User::ROLE_ADMIN, User::ROLE_STATION_MANAGER, User::ROLE_TREASURY]) &&
+                $user->two_factor_secret && $user->two_factor_confirmed_at
+            ) {
+                // Store user ID in session for 2FA verification
+                $request->session()->put('two_factor_user_id', $user->id);
+                Auth::logout(); // Logout temporarily
+
+                return redirect()->route('two-factor.login');
+            }
+
             return redirect()->intended('dashboard');
         }
 

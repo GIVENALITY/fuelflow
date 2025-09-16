@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -7,28 +8,30 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/apple-icon.png') }}">
     <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
     <title>@yield('title', 'FuelFlow - Billing Management')</title>
-    
+
     <!-- Fonts and icons -->
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
     <!-- Nucleo Icons -->
     <link href="{{ asset('css/nucleo-icons.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/nucleo-svg.css') }}" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- Material Icons -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('css/material-dashboard.min.css') }}" rel="stylesheet" />
-    
+
     @stack('styles')
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
     @include('layouts.partials.sidebar')
-    
+
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         @include('layouts.partials.header')
-        
+
         <div class="container-fluid py-4">
             @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -36,21 +39,49 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            
+
             @if(session('error'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     {{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            
+
             @yield('content')
         </div>
     </main>
-    
-            <!-- Core JS Files -->
-        <script src="{{ asset('js/material-dashboard.min.js') }}"></script>
-    
+
+    <!-- Core JS Files -->
+    <script src="{{ asset('js/material-dashboard.min.js') }}"></script>
+
+    <!-- Global Form Field Handling -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Handle form field focus and blur for proper label behavior
+            const formInputs = document.querySelectorAll('.form-control');
+            formInputs.forEach(input => {
+                input.addEventListener('focus', function () {
+                    this.parentElement.classList.add('is-focused');
+                });
+
+                input.addEventListener('blur', function () {
+                    this.parentElement.classList.remove('is-focused');
+                    if (this.value) {
+                        this.parentElement.classList.add('is-filled');
+                    } else {
+                        this.parentElement.classList.remove('is-filled');
+                    }
+                });
+
+                // Check if field has value on page load
+                if (input.value) {
+                    input.parentElement.classList.add('is-filled');
+                }
+            });
+        });
+    </script>
+
     @stack('scripts')
 </body>
+
 </html>

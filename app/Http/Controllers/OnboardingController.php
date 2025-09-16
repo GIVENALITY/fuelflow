@@ -10,17 +10,17 @@ class OnboardingController extends Controller
     public function index()
     {
         $user = Auth::user();
-        
+
         // Get user-specific onboarding data
         $onboardingData = $this->getOnboardingData($user);
-        
+
         return view('onboarding.index', compact('onboardingData', 'user'));
     }
 
     public function markComplete(Request $request)
     {
         $user = Auth::user();
-        
+
         // Mark onboarding as complete for the user
         $user->update([
             'onboarding_completed' => true,
@@ -282,7 +282,7 @@ class OnboardingController extends Controller
         } elseif ($user->isStationManager()) {
             $actions = [
                 ['title' => 'View Requests', 'route' => 'fuel-requests.index', 'icon' => 'assignment'],
-                ['title' => 'Check Inventory', 'route' => 'station.inventory', 'icon' => 'inventory'],
+                ['title' => 'Check Inventory', 'route' => 'stations.inventory', 'icon' => 'inventory', 'params' => ['station' => $user->station_id]],
                 ['title' => 'Manage Staff', 'route' => 'users.index', 'icon' => 'people'],
                 ['title' => 'Station Reports', 'route' => 'reports.station', 'icon' => 'analytics']
             ];

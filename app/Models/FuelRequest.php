@@ -22,6 +22,9 @@ class FuelRequest extends Model
         'preferred_date',
         'due_date',
         'status',
+        'payment_status',
+        'amount_paid',
+        'paid_at',
         'urgency_level',
         'special_instructions',
         'approved_by',
@@ -39,11 +42,13 @@ class FuelRequest extends Model
         'quantity_dispensed' => 'decimal:2',
         'unit_price' => 'decimal:2',
         'total_amount' => 'decimal:2',
+        'amount_paid' => 'decimal:2',
         'request_date' => 'datetime',
         'preferred_date' => 'date',
         'due_date' => 'date',
         'approved_at' => 'datetime',
-        'dispensed_at' => 'datetime'
+        'dispensed_at' => 'datetime',
+        'paid_at' => 'datetime'
     ];
 
     // Request Status
@@ -54,6 +59,11 @@ class FuelRequest extends Model
     const STATUS_DISPENSED = 'dispensed';
     const STATUS_COMPLETED = 'completed';
     const STATUS_CANCELLED = 'cancelled';
+
+    // Payment Status
+    const PAYMENT_STATUS_UNPAID = 'unpaid';
+    const PAYMENT_STATUS_PAID = 'paid';
+    const PAYMENT_STATUS_PARTIAL = 'partial';
 
     // Urgency Levels
     const URGENCY_STANDARD = 'standard';
@@ -139,7 +149,7 @@ class FuelRequest extends Model
     public function scopeOverdue($query)
     {
         return $query->where('due_date', '<', today())
-                    ->whereNotIn('status', [self::STATUS_COMPLETED, self::STATUS_CANCELLED]);
+            ->whereNotIn('status', [self::STATUS_COMPLETED, self::STATUS_CANCELLED]);
     }
 
     public function scopeByStation($query, $stationId)
@@ -221,7 +231,8 @@ class FuelRequest extends Model
 
     public function getDaysOverdueAttribute()
     {
-        if (!$this->is_overdue) return 0;
+        if (!$this->is_overdue)
+            return 0;
         return now()->diffInDays($this->due_date);
     }
 
@@ -266,7 +277,7 @@ class FuelRequest extends Model
 
         // Update client balance
         $this->client->updateBalance($this->total_amount, 'add');
-        
+
         // Create notification
         $this->createNotification('request_approved', $this->client->user_id);
     }
@@ -406,5 +417,76 @@ class FuelRequest extends Model
         ];
 
         return $messages[$type] ?? 'Your fuel request has been updated.';
+    }
+
+    // Payment-related methods
+    public function isPaid()
+    {
+        return $this->payment_status === self::PAYMENT_STATUS_PAID;
+    }
+
+    public function isUnpaid()
+    {
+        return $this->payment_status === self::PAYMENT_STATUS_UNPAID;
+    }
+
+    public function isPartiallyPaid()
+    {
+        return $this->payment_status === self::PAYMENT_STATUS_PARTIAL;
+    }
+
+    public function getOutstandingAmount()
+    {
+        return $this->total_amount - $this->amount_paid;
+    }
+
+    public function getPaymentPercentage()
+    {
+        if ($this->total_amount == 0)
+            return 0;
+        return ($this->amount_paid / $this->total_amount) * 100;
+    }
+
+    public function markAsPaid($amount = null, $paidAt = null)
+    {
+        $amount = $amount ?? $this->total_amount;
+        $paidAt = $paidAt ?? now();
+
+        $this->update([
+            'amount_paid' => $amount,
+            'paid_at' => $paidAt,
+            'payment_status' => $amount >= $this->total_amount ? self::PAYMENT_STATUS_PAID : self::PAYMENT_STATUS_PARTIAL
+        ]);
+
+        // Update client balance
+        if ($this->client) {
+            $this->client->updateBalance($amount, 'subtract');
+        }
+    }
+
+    public function getPaymentStatusBadge()
+    {
+        switch ($this->payment_status) {
+            case self::PAYMENT_STATUS_PAID:
+                return 'bg-success';
+            case self::PAYMENT_STATUS_PARTIAL:
+                return 'bg-warning';
+            case self::PAYMENT_STATUS_UNPAID:
+            default:
+                return 'bg-danger';
+        }
+    }
+
+    public function getPaymentStatusText()
+    {
+        switch ($this->payment_status) {
+            case self::PAYMENT_STATUS_PAID:
+                return 'Paid';
+            case self::PAYMENT_STATUS_PARTIAL:
+                return 'Partial';
+            case self::PAYMENT_STATUS_UNPAID:
+            default:
+                return 'Unpaid';
+        }
     }
 }

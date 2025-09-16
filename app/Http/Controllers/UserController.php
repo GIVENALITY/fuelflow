@@ -12,11 +12,20 @@ class UserController extends Controller
 {
     public function index()
     {
-        if (!Auth::user()->isAdmin()) {
+        $user = Auth::user();
+
+        if ($user->isAdmin()) {
+            $users = User::with('station')->get();
+        } elseif ($user->isStationManager()) {
+            // Station managers can view staff assigned to their station
+            $users = User::with('station')
+                ->where('station_id', $user->station_id)
+                ->where('role', User::ROLE_FUEL_PUMPER)
+                ->get();
+        } else {
             return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
         }
 
-        $users = User::with('station')->get();
         return view('users.index', compact('users'));
     }
 
@@ -91,7 +100,7 @@ class UserController extends Controller
         ]);
 
         $data = $request->except('password');
-        
+
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
@@ -121,6 +130,30 @@ class UserController extends Controller
         $user = Auth::user();
         $user->load('station');
         return view('users.profile', compact('user'));
+    }
+
+    public function activate(User $user)
+    {
+        if (!Auth::user()->isAdmin()) {
+            return redirect()->route('users.index')->with('error', 'Unauthorized access.');
+        }
+
+        $user->update(['is_active' => true]);
+
+        return redirect()->route('users.show', $user)
+            ->with('success', 'User activated successfully.');
+    }
+
+    public function deactivate(User $user)
+    {
+        if (!Auth::user()->isAdmin()) {
+            return redirect()->route('users.index')->with('error', 'Unauthorized access.');
+        }
+
+        $user->update(['is_active' => false]);
+
+        return redirect()->route('users.show', $user)
+            ->with('success', 'User deactivated successfully.');
     }
 
     public function updateProfile(Request $request)

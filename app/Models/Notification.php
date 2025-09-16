@@ -9,10 +9,16 @@ class Notification extends Model
 {
     use HasFactory;
 
-    protected $table = 'system_notifications';
+    protected $table = 'notifications';
 
     protected $fillable = [
-        'user_id', 'fuel_request_id', 'type', 'title', 'message', 'data', 'read_at'
+        'user_id',
+        'fuel_request_id',
+        'type',
+        'title',
+        'message',
+        'data',
+        'read_at'
     ];
 
     protected $casts = [

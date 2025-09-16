@@ -1,0 +1,67 @@
+{
+    "name": "FuelFlow - Fuel Management Platform",
+    "short_name": "FuelFlow",
+    "description": "Comprehensive fuel management platform for corporate clients",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#3b82f6",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/img/logo-ct.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/img/logo-ct.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": ["business", "productivity", "utilities"],
+    "lang": "en",
+    "dir": "ltr",
+    "scope": "/",
+    "prefer_related_applications": false,
+    "shortcuts": [
+        {
+            "name": "New Fuel Request",
+            "short_name": "New Request",
+            "description": "Create a new fuel request",
+            "url": "/fuel-requests/create",
+            "icons": [
+                {
+                    "src": "/img/icons/fuel-request.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "View Dashboard",
+            "short_name": "Dashboard",
+            "description": "View your dashboard",
+            "url": "/dashboard",
+            "icons": [
+                {
+                    "src": "/img/icons/dashboard.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Notifications",
+            "short_name": "Alerts",
+            "description": "View notifications",
+            "url": "/notifications",
+            "icons": [
+                {
+                    "src": "/img/icons/notifications.png",
+                    "sizes": "96x96"
+                }
+            ]
+        }
+    ]
+}

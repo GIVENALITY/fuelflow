@@ -152,6 +152,20 @@
                                         </button>
                                     </form>
                                     @endif
+                                    @if(auth()->user()->isStationManager() && $request->status === 'approved')
+                                    <form action="{{ route('fuel-requests.assign', $request->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <select name="pumper_id" class="form-select form-select-sm d-inline-block" style="width: 120px;" required>
+                                            <option value="">Select Pumper</option>
+                                            @foreach(\App\Models\User::where('station_id', auth()->user()->station_id)->where('role', 'fuel_pumper')->get() as $pumper)
+                                                <option value="{{ $pumper->id }}">{{ $pumper->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <button type="submit" class="btn btn-link text-primary mb-0">
+                                            <i class="fa fa-user-plus text-xs me-2"></i>Assign
+                                        </button>
+                                    </form>
+                                    @endif
                                 </td>
                             </tr>
                             @empty
