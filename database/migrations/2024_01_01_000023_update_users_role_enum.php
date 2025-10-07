@@ -12,13 +12,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // First, update any existing users with invalid role values
-        DB::table('users')->where('role', 'fuel_pumper')->update(['role' => 'station_attendant']);
-        DB::table('users')->where('role', 'pumper')->update(['role' => 'station_attendant']);
-        DB::table('users')->where('role', 'attendant')->update(['role' => 'station_attendant']);
+        // First, update any existing users with invalid role values to existing valid roles
+        DB::table('users')->where('role', 'fuel_pumper')->update(['role' => 'station_manager']);
+        DB::table('users')->where('role', 'pumper')->update(['role' => 'station_manager']);
+        DB::table('users')->where('role', 'attendant')->update(['role' => 'station_manager']);
         DB::table('users')->where('role', 'manager')->update(['role' => 'station_manager']);
-        DB::table('users')->where('role', 'superadmin')->update(['role' => 'super_admin']);
-        DB::table('users')->where('role', 'super-admin')->update(['role' => 'super_admin']);
+        DB::table('users')->where('role', 'superadmin')->update(['role' => 'admin']);
+        DB::table('users')->where('role', 'super-admin')->update(['role' => 'admin']);
         
         // Now update the role enum to include super_admin
         DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('super_admin', 'admin', 'station_manager', 'station_attendant', 'treasury', 'client') DEFAULT 'client'");

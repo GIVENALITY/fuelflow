@@ -139,13 +139,13 @@ class EnhancedFleetFuelSeeder extends Seeder
             User::create($managerData);
         }
 
-        // Create Station Attendants (using fuel_pumper role for now)
+        // Create Station Attendants (using station_manager role for now)
         $attendants = [
             [
                 'name' => 'Ahmed Hassan',
                 'email' => 'ahmed.hassan@fuelflow.com',
                 'password' => Hash::make('password'),
-                'role' => 'fuel_pumper', // Using existing role
+                'role' => 'station_manager', // Using existing role
                 'station_id' => 1,
                 'phone' => '+255123456795',
                 'status' => User::STATUS_ACTIVE,
@@ -154,7 +154,7 @@ class EnhancedFleetFuelSeeder extends Seeder
                 'name' => 'Grace Mwangi',
                 'email' => 'grace.mwangi@fuelflow.com',
                 'password' => Hash::make('password'),
-                'role' => 'fuel_pumper', // Using existing role
+                'role' => 'station_manager', // Using existing role
                 'station_id' => 1,
                 'phone' => '+255123456796',
                 'status' => User::STATUS_ACTIVE,
@@ -163,7 +163,7 @@ class EnhancedFleetFuelSeeder extends Seeder
                 'name' => 'Juma Mwalimu',
                 'email' => 'juma.mwalimu@fuelflow.com',
                 'password' => Hash::make('password'),
-                'role' => 'fuel_pumper', // Using existing role
+                'role' => 'station_manager', // Using existing role
                 'station_id' => 2,
                 'phone' => '+255123456797',
                 'status' => User::STATUS_ACTIVE,
@@ -361,12 +361,12 @@ class EnhancedFleetFuelSeeder extends Seeder
 
         // Create fuel prices
         $fuelPrices = [
-            ['station_id' => 1, 'fuel_type' => 'diesel', 'price' => 2500, 'effective_date' => now()],
-            ['station_id' => 1, 'fuel_type' => 'petrol', 'price' => 2800, 'effective_date' => now()],
-            ['station_id' => 2, 'fuel_type' => 'diesel', 'price' => 2550, 'effective_date' => now()],
-            ['station_id' => 2, 'fuel_type' => 'petrol', 'price' => 2850, 'effective_date' => now()],
-            ['station_id' => 3, 'fuel_type' => 'diesel', 'price' => 2480, 'effective_date' => now()],
-            ['station_id' => 3, 'fuel_type' => 'petrol', 'price' => 2780, 'effective_date' => now()],
+            ['station_id' => 1, 'fuel_type' => 'diesel', 'price' => 2500, 'effective_date' => now(), 'created_by' => $admin->id],
+            ['station_id' => 1, 'fuel_type' => 'petrol', 'price' => 2800, 'effective_date' => now(), 'created_by' => $admin->id],
+            ['station_id' => 2, 'fuel_type' => 'diesel', 'price' => 2550, 'effective_date' => now(), 'created_by' => $admin->id],
+            ['station_id' => 2, 'fuel_type' => 'petrol', 'price' => 2850, 'effective_date' => now(), 'created_by' => $admin->id],
+            ['station_id' => 3, 'fuel_type' => 'diesel', 'price' => 2480, 'effective_date' => now(), 'created_by' => $admin->id],
+            ['station_id' => 3, 'fuel_type' => 'petrol', 'price' => 2780, 'effective_date' => now(), 'created_by' => $admin->id],
         ];
 
         foreach ($fuelPrices as $priceData) {
