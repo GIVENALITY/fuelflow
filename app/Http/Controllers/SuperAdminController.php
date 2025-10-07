@@ -16,14 +16,7 @@ class SuperAdminController extends Controller
 {
     public function __construct()
     {
-        // Laravel 11 middleware syntax
-        $this->middleware(function ($request, $next) {
-            $user = Auth::user();
-            if (!$user || !$user->isSuperAdmin()) {
-                return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
-            }
-            return $next($request);
-        })->only(['manageUsers', 'createUser', 'storeUser', 'manageStations', 'createStation', 'storeStation', 'reports']);
+        // No middleware in constructor - we'll handle it at route level
     }
 
     public function dashboard()
@@ -64,6 +57,11 @@ class SuperAdminController extends Controller
 
     public function manageUsers()
     {
+        $user = Auth::user();
+        if (!$user || !$user->isSuperAdmin()) {
+            return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
+        }
+        
         $users = User::with(['station', 'client'])->get();
         return view('users.index', compact('users'));
     }
