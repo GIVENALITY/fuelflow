@@ -40,10 +40,20 @@ use App\Http\Controllers\NotificationController;
 |
 */
 
-// Authentication Routes
+// Product Overview Route
 Route::get('/', function () {
-    return redirect()->route('login');
-});
+    return view('product-overview');
+})->name('home');
+
+Route::get('/product-overview', function () {
+    return view('product-overview');
+})->name('product-overview');
+
+Route::get('/demo-guide', function () {
+    return view('demo-guide');
+})->name('demo-guide');
+
+// Authentication Routes
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
