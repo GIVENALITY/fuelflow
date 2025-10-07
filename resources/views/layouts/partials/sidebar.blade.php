@@ -20,6 +20,64 @@
                 </a>
             </li>
 
+            @if(auth()->user()->isSuperAdmin())
+                <!-- Super Admin Navigation -->
+                <li class="nav-item mt-3">
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-5">
+                        Platform Management
+                    </h6>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('super-admin.businesses.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+                        href="{{ route('super-admin.businesses.index') }}">
+                        <i class="material-symbols-rounded opacity-5">business</i>
+                        <span class="nav-link-text ms-1">Businesses</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('super-admin.users.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+                        href="{{ route('super-admin.users.index') }}">
+                        <i class="material-symbols-rounded opacity-5">people</i>
+                        <span class="nav-link-text ms-1">System Users</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('super-admin.reports.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+                        href="{{ route('super-admin.reports.index') }}">
+                        <i class="material-symbols-rounded opacity-5">analytics</i>
+                        <span class="nav-link-text ms-1">Platform Reports</span>
+                    </a>
+                </li>
+
+                <li class="nav-item mt-3">
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-5">
+                        System
+                    </h6>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('profile.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+                        href="{{ route('profile.index') }}">
+                        <i class="material-symbols-rounded opacity-5">person</i>
+                        <span class="nav-link-text ms-1">Profile</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="material-symbols-rounded opacity-5">logout</i>
+                        <span class="nav-link-text ms-1">Logout</span>
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </li>
+            @else
+
             @if(auth()->user()->isAdmin() || auth()->user()->isStationManager())
                 <!-- Admin & Station Manager Navigation -->
                 <li class="nav-item mt-3">
@@ -298,57 +356,58 @@
                 </li>
             @endif
 
-            <!-- Notifications -->
-            <li class="nav-item">
-                @php($notificationsRoute = auth()->user()->isClient() ? 'client-portal.notifications.index' : 'notifications.index')
-                <a class="nav-link {{ request()->routeIs('notifications.*') || request()->routeIs('client-portal.notifications.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
-                    href="{{ route($notificationsRoute) }}">
-                    <i class="material-symbols-rounded opacity-5">notifications</i>
-                    <span class="nav-link-text ms-1">Notifications</span>
-                </a>
-            </li>
-
-            <!-- System -->
-            <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-5">System</h6>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('onboarding.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
-                    href="{{ route('onboarding.index') }}">
-                    <i class="material-symbols-rounded opacity-5">school</i>
-                    <span class="nav-link-text ms-1">Onboarding Guide</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('profile.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
-                    href="{{ route('profile.index') }}">
-                    <i class="material-symbols-rounded opacity-5">person</i>
-                    <span class="nav-link-text ms-1">Profile</span>
-                </a>
-            </li>
-
-            @if(auth()->user()->isAdmin())
+                <!-- Notifications -->
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('settings.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
-                        href="{{ route('settings.index') }}">
-                        <i class="material-symbols-rounded opacity-5">settings</i>
-                        <span class="nav-link-text ms-1">System Settings</span>
+                    @php($notificationsRoute = auth()->user()->isClient() ? 'client-portal.notifications.index' : 'notifications.index')
+                    <a class="nav-link {{ request()->routeIs('notifications.*') || request()->routeIs('client-portal.notifications.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+                        href="{{ route($notificationsRoute) }}">
+                        <i class="material-symbols-rounded opacity-5">notifications</i>
+                        <span class="nav-link-text ms-1">Notifications</span>
                     </a>
                 </li>
-            @endif
 
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="{{ route('logout') }}"
-                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class="material-symbols-rounded opacity-5">logout</i>
-                    <span class="nav-link-text ms-1">Logout</span>
-                </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
-                </form>
-            </li>
+                <!-- System -->
+                <li class="nav-item mt-3">
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-5">System</h6>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('onboarding.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+                        href="{{ route('onboarding.index') }}">
+                        <i class="material-symbols-rounded opacity-5">school</i>
+                        <span class="nav-link-text ms-1">Onboarding Guide</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('profile.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+                        href="{{ route('profile.index') }}">
+                        <i class="material-symbols-rounded opacity-5">person</i>
+                        <span class="nav-link-text ms-1">Profile</span>
+                    </a>
+                </li>
+
+                @if(auth()->user()->isAdmin())
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('settings.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+                            href="{{ route('settings.index') }}">
+                            <i class="material-symbols-rounded opacity-5">settings</i>
+                            <span class="nav-link-text ms-1">System Settings</span>
+                        </a>
+                    </li>
+                @endif
+
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="material-symbols-rounded opacity-5">logout</i>
+                        <span class="nav-link-text ms-1">Logout</span>
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </li>
+            @endif
         </ul>
     </div>
 </aside>
