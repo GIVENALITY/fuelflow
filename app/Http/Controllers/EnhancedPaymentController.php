@@ -21,13 +21,13 @@ class EnhancedPaymentController extends Controller
             $payments = $user->client->payments()
                 ->with(['receipt', 'submittedBy', 'verifiedBy'])
                 ->orderBy('created_at', 'desc')
-                ->get();
+                ->paginate(20);
         } elseif ($user->isTreasury() || $user->isAdmin() || $user->isSuperAdmin()) {
             $payments = Payment::with(['client', 'receipt', 'submittedBy', 'verifiedBy'])
                 ->orderBy('created_at', 'desc')
-                ->get();
+                ->paginate(20);
         } else {
-            $payments = collect();
+            $payments = collect()->paginate(20);
         }
 
         return view('payments.index', compact('payments'));
