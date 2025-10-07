@@ -4,19 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\LogsActivity;
 
 class Payment extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes, LogsActivity;
 
     protected $fillable = [
         'client_id', 'receipt_id', 'amount', 'payment_method', 'reference_number',
-        'status', 'payment_date', 'notes'
+        'status', 'payment_date', 'notes', 'bank_name', 'proof_of_payment_path',
+        'submitted_by', 'verified_by', 'verified_at', 'verification_notes'
     ];
 
     protected $casts = [
         'amount' => 'decimal:2',
-        'payment_date' => 'date'
+        'payment_date' => 'date',
+        'verified_at' => 'datetime'
     ];
 
     // Relationships
@@ -28,6 +32,16 @@ class Payment extends Model
     public function receipt()
     {
         return $this->belongsTo(Receipt::class);
+    }
+
+    public function submittedBy()
+    {
+        return $this->belongsTo(User::class, 'submitted_by');
+    }
+
+    public function verifiedBy()
+    {
+        return $this->belongsTo(User::class, 'verified_by');
     }
 
     // Scopes
@@ -44,6 +58,16 @@ class Payment extends Model
     public function scopeFailed($query)
     {
         return $query->where('status', 'failed');
+    }
+
+    public function scopeVerified($query)
+    {
+        return $query->where('status', 'verified');
+    }
+
+    public function scopeRejected($query)
+    {
+        return $query->where('status', 'rejected');
     }
 
     public function scopeByClient($query, $clientId)
@@ -67,8 +91,12 @@ class Payment extends Model
         switch ($this->status) {
             case 'completed':
                 return 'Completed';
+            case 'verified':
+                return 'Verified';
             case 'pending':
                 return 'Pending';
+            case 'rejected':
+                return 'Rejected';
             case 'failed':
                 return 'Failed';
             case 'cancelled':
@@ -83,8 +111,12 @@ class Payment extends Model
         switch ($this->status) {
             case 'completed':
                 return 'bg-gradient-success';
+            case 'verified':
+                return 'bg-gradient-info';
             case 'pending':
                 return 'bg-gradient-warning';
+            case 'rejected':
+                return 'bg-gradient-danger';
             case 'failed':
                 return 'bg-gradient-danger';
             case 'cancelled':

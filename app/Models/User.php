@@ -41,9 +41,10 @@ class User extends Authenticatable
     ];
 
     // User Roles
+    const ROLE_SUPER_ADMIN = 'super_admin';
     const ROLE_ADMIN = 'admin';
     const ROLE_STATION_MANAGER = 'station_manager';
-    const ROLE_FUEL_PUMPER = 'fuel_pumper';
+    const ROLE_STATION_ATTENDANT = 'station_attendant';
     const ROLE_TREASURY = 'treasury';
     const ROLE_CLIENT = 'client';
 
@@ -89,6 +90,16 @@ class User extends Authenticatable
         return $this->role === self::ROLE_STATION_MANAGER;
     }
 
+    public function isStationAttendant()
+    {
+        return $this->role === self::ROLE_STATION_ATTENDANT;
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->role === self::ROLE_SUPER_ADMIN;
+    }
+
     public function isFuelPumper()
     {
         return $this->role === self::ROLE_FUEL_PUMPER;
@@ -112,37 +123,37 @@ class User extends Authenticatable
     // Permission methods
     public function canManageUsers()
     {
-        return $this->isAdmin();
+        return $this->isSuperAdmin() || $this->isAdmin();
     }
 
     public function canManageStations()
     {
-        return $this->isAdmin();
+        return $this->isSuperAdmin() || $this->isAdmin();
     }
 
     public function canManagePricing()
     {
-        return $this->isAdmin();
+        return $this->isSuperAdmin() || $this->isAdmin();
     }
 
     public function canApproveRequests()
     {
-        return $this->isStationManager() || $this->isAdmin();
+        return $this->isSuperAdmin() || $this->isAdmin() || $this->isStationManager();
     }
 
     public function canDispenseFuel()
     {
-        return $this->isFuelPumper() || $this->isStationManager();
+        return $this->isSuperAdmin() || $this->isAdmin() || $this->isStationManager() || $this->isStationAttendant();
     }
 
     public function canVerifyReceipts()
     {
-        return $this->isTreasury() || $this->isAdmin();
+        return $this->isSuperAdmin() || $this->isAdmin() || $this->isTreasury();
     }
 
     public function canViewFinancialReports()
     {
-        return $this->isTreasury() || $this->isAdmin();
+        return $this->isSuperAdmin() || $this->isAdmin() || $this->isTreasury();
     }
 
     // Station-specific methods

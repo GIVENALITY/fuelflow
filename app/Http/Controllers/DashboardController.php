@@ -22,17 +22,33 @@ class DashboardController extends Controller
             return redirect()->route('login');
         }
         
-        if ($user->isAdmin()) {
+        if ($user->isSuperAdmin()) {
+            return $this->superAdminDashboard();
+        } elseif ($user->isAdmin()) {
             return $this->adminDashboard();
         } elseif ($user->isStationManager()) {
             return $this->stationManagerDashboard();
-        } elseif ($user->isFuelPumper()) {
-            return $this->fuelPumperDashboard();
+        } elseif ($user->isStationAttendant()) {
+            return $this->stationAttendantDashboard();
         } elseif ($user->isTreasury()) {
             return $this->treasuryDashboard();
         } else {
             return $this->clientDashboard();
         }
+    }
+
+    private function superAdminDashboard()
+    {
+        $stats = [
+            'total_users' => User::count(),
+            'total_stations' => Station::count(),
+            'total_clients' => Client::count(),
+            'pending_applications' => Client::where('registration_status', Client::REGISTRATION_STATUS_PENDING)->count(),
+            'active_orders' => FuelRequest::where('status', FuelRequest::STATUS_PENDING)->count(),
+            'pending_payments' => Payment::where('status', 'pending')->count(),
+        ];
+
+        return view('dashboard', compact('stats'));
     }
 
     private function adminDashboard()
@@ -68,7 +84,7 @@ class DashboardController extends Controller
             ->whereDate('dispensed_at', today())
             ->sum('quantity_dispensed');
         $availableStaff = User::where('station_id', $station->id)
-            ->where('role', User::ROLE_FUEL_PUMPER)
+            ->where('role', User::ROLE_STATION_ATTENDANT)
             ->where('status', User::STATUS_ACTIVE)
             ->count();
         $pendingRequests = FuelRequest::where('station_id', $station->id)
@@ -90,7 +106,7 @@ class DashboardController extends Controller
         ));
     }
 
-    private function fuelPumperDashboard()
+    private function stationAttendantDashboard()
     {
         $user = Auth::user();
         
