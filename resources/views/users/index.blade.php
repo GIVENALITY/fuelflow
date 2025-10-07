@@ -14,7 +14,7 @@
                                     <h6 class="text-white text-capitalize ps-3">
                                         {{ Auth::user()->isStationManager() ? 'Station Staff' : 'System Users' }}</h6>
                                 </div>
-                                @if(Auth::user()->isAdmin())
+                                @if(Auth::user()->isAdmin() || Auth::user()->isSuperAdmin())
                                     <div class="col-6 text-end">
                                         <a href="{{ route('users.create') }}" class="btn btn-sm btn-light me-3">
                                             <i class="material-symbols-rounded">add</i> Add User
@@ -34,7 +34,7 @@
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Role</th>
-                                        @if(Auth::user()->isAdmin())
+                                        @if(Auth::user()->isAdmin() || Auth::user()->isSuperAdmin())
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 Station</th>
@@ -42,7 +42,7 @@
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Status</th>
-                                        @if(Auth::user()->isAdmin())
+                                        @if(Auth::user()->isAdmin() || Auth::user()->isSuperAdmin())
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 Actions</th>
@@ -66,7 +66,7 @@
                                                     {{ ucfirst(str_replace('_', ' ', $user->role)) }}
                                                 </span>
                                             </td>
-                                            @if(Auth::user()->isAdmin())
+                                            @if(Auth::user()->isAdmin() || Auth::user()->isSuperAdmin())
                                                 <td>
                                                     <p class="text-xs font-weight-bold mb-0">
                                                         {{ $user->station ? $user->station->name : 'N/A' }}
@@ -79,13 +79,13 @@
                                                     {{ ucfirst($user->status) }}
                                                 </span>
                                             </td>
-                                            @if(Auth::user()->isAdmin())
+                                            @if(Auth::user()->isAdmin() || Auth::user()->isSuperAdmin())
                                                 <td>
                                                     <a href="{{ route('users.show', $user) }}"
                                                         class="btn btn-link text-secondary mb-0">
                                                         <i class="material-symbols-rounded text-sm me-2">visibility</i>View
                                                     </a>
-                                                    @if(Auth::user()->isAdmin())
+                                                    @if(Auth::user()->isAdmin() || Auth::user()->isSuperAdmin())
                                                         <a href="{{ route('users.edit', $user) }}"
                                                             class="btn btn-link text-secondary mb-0">
                                                             <i class="material-symbols-rounded text-sm me-2">edit</i>Edit
@@ -96,7 +96,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="{{ Auth::user()->isAdmin() ? '5' : '3' }}" class="text-center py-4">
+                                            <td colspan="{{ (Auth::user()->isAdmin() || Auth::user()->isSuperAdmin()) ? '5' : '3' }}" class="text-center py-4">
                                                 <p class="text-sm text-secondary mb-0">
                                                     {{ Auth::user()->isStationManager() ? 'No staff members found.' : 'No users found.' }}
                                                 </p>
