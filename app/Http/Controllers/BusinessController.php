@@ -13,21 +13,27 @@ class BusinessController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
-            if (!Auth::check()) {
-                return redirect()->route('login');
-            }
-            
-            if (!Auth::user()->isSuperAdmin()) {
-                return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
-            }
-            
-            return $next($request);
-        });
+        // No middleware in constructor - we'll handle authorization in each method
+    }
+
+    private function checkSuperAdminAccess()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        if (!Auth::user()->isSuperAdmin()) {
+            return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
+        }
+        
+        return null; // No redirect means authorized
     }
 
     public function index()
     {
+        $redirect = $this->checkSuperAdminAccess();
+        if ($redirect) return $redirect;
+
         $businesses = Business::with(['admin', 'stations', 'clients'])
             ->withCount(['stations', 'clients', 'users'])
             ->orderBy('created_at', 'desc')
@@ -38,6 +44,9 @@ class BusinessController extends Controller
 
     public function create()
     {
+        $redirect = $this->checkSuperAdminAccess();
+        if ($redirect) return $redirect;
+
         return view('super-admin.businesses.create');
     }
 
@@ -87,6 +96,9 @@ class BusinessController extends Controller
 
     public function show(Business $business)
     {
+        $redirect = $this->checkSuperAdminAccess();
+        if ($redirect) return $redirect;
+
         // Simple stats without complex relationships for now
         $stats = [
             'total_stations' => $business->stations()->count(),
