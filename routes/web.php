@@ -65,11 +65,11 @@ Route::post('/fuel-requests/{fuelRequest}/assign', [FuelRequestController::class
 Route::post('/fuel-requests/{fuelRequest}/dispense', [FuelRequestController::class, 'dispense'])->name('fuel-requests.dispense');
 
 // Client Management
+Route::get('/clients/overdue', [ClientController::class, 'overdue'])->name('clients.overdue');
 Route::resource('clients', ClientController::class);
 Route::get('/clients/{client}/requests', [ClientController::class, 'requests'])->name('clients.requests');
 Route::get('/clients/{client}/payments', [ClientController::class, 'payments'])->name('clients.payments');
 Route::get('/clients/{client}/vehicles', [ClientController::class, 'vehicles'])->name('clients.vehicles');
-Route::get('/clients/overdue', [ClientController::class, 'overdue'])->name('clients.overdue');
 
 // Client Vehicle Management
 Route::post('/clients/{client}/vehicles/add', [ClientController::class, 'addVehicle'])->name('clients.vehicles.add');
