@@ -136,12 +136,12 @@ class SuperAdminController extends Controller
         $redirect = $this->checkSuperAdminAccess();
         if ($redirect) return $redirect;
 
-        // Generate comprehensive reports data
-        $reports = $this->generateComprehensiveReports();
-        $dateFrom = request('date_from', now()->subDays(30)->format('Y-m-d'));
-        $dateTo = request('date_to', now()->format('Y-m-d'));
-
-        return view('reports.index', compact('reports', 'dateFrom', 'dateTo'));
+        // Simple debug response first
+        return response()->json([
+            'message' => 'Reports method working',
+            'user' => Auth::user()->email,
+            'is_super_admin' => Auth::user()->isSuperAdmin()
+        ]);
     }
 
     private function generateComprehensiveReports()
