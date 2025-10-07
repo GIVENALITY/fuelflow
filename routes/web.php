@@ -42,7 +42,7 @@ use App\Http\Controllers\NotificationController;
 
 // Product Overview Route
 Route::get('/', function () {
-    return view('product-overview');
+    return view('test-page');
 })->name('home');
 
 Route::get('/product-overview', function () {
@@ -52,6 +52,10 @@ Route::get('/product-overview', function () {
 Route::get('/demo-guide', function () {
     return view('demo-guide');
 })->name('demo-guide');
+
+Route::get('/test-page', function () {
+    return view('test-page');
+})->name('test-page');
 
 // Authentication Routes
 
