@@ -64,7 +64,22 @@ class SuperAdminController extends Controller
     {
         try {
             $users = User::with(['station', 'client'])->get();
-            return view('users.index', compact('users'));
+            return response()->json([
+                'success' => true,
+                'message' => 'Users loaded successfully',
+                'count' => $users->count(),
+                'users' => $users->map(function($user) {
+                    return [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'role' => $user->role,
+                        'status' => $user->status,
+                        'station_name' => $user->station ? $user->station->name : 'N/A',
+                        'client_company' => $user->client ? $user->client->company_name : 'N/A'
+                    ];
+                })
+            ]);
         } catch (\Exception $e) {
             \Log::error('SuperAdmin manageUsers error: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
