@@ -94,13 +94,31 @@ class DashboardController extends Controller
 
     private function adminDashboard()
     {
-        // Simple debug version first
-        return response()->json([
-            'message' => 'Admin dashboard method working',
-            'user' => Auth::user()->email,
-            'business_id' => Auth::user()->business_id,
-            'is_admin' => Auth::user()->isAdmin()
-        ]);
+        $user = Auth::user();
+        $businessId = $user->business_id;
+        
+        // Simple static data for testing
+        $totalRevenue = 0;
+        $activeClients = 0;
+        $totalStations = 0;
+        $pendingApprovals = 0;
+        $recentRequests = collect([]);
+        
+        // Try to get business info safely
+        try {
+            $business = $user->business;
+        } catch (\Exception $e) {
+            $business = null;
+        }
+
+        return view('dashboard.admin', compact(
+            'totalRevenue',
+            'activeClients',
+            'totalStations', 
+            'pendingApprovals',
+            'recentRequests',
+            'business'
+        ));
     }
 
     private function stationManagerDashboard()
