@@ -21,39 +21,58 @@ class ReceiptController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
+        \Log::info('ReceiptController@index started');
+        
+        try {
+            $user = Auth::user();
+            \Log::info('User authenticated: ' . $user->name . ' (role: ' . $user->role . ')');
 
-        if ($user->isAdmin() || $user->isTreasury()) {
-            $receipts = Receipt::with(['client', 'fuelRequest.vehicle', 'station', 'uploadedBy'])
-                ->latest()
-                ->paginate(20);
-        } elseif ($user->isStationManager()) {
-            $receipts = Receipt::with(['client', 'fuelRequest.vehicle', 'station', 'uploadedBy'])
-                ->where('station_id', $user->station_id)
-                ->latest()
-                ->paginate(20);
-        } elseif ($user->isStationAttendant()) {
-            // Fuel pumpers see receipts for requests they were assigned to
-            $receipts = Receipt::with(['client', 'fuelRequest.vehicle', 'station', 'uploadedBy'])
-                ->whereHas('fuelRequest', function ($query) use ($user) {
-                    $query->where('assigned_pumper_id', $user->id);
-                })
-                ->latest()
-                ->paginate(20);
-        } else {
-            // For other roles (like clients), show their receipts
-            if ($user->client) {
-                $receipts = Receipt::with(['fuelRequest.vehicle', 'station', 'uploadedBy'])
-                    ->where('client_id', $user->client->id)
+            if ($user->isAdmin() || $user->isTreasury()) {
+                \Log::info('User is Admin or Treasury, loading all receipts');
+                $receipts = Receipt::with(['client', 'fuelRequest.vehicle', 'station', 'uploadedBy'])
+                    ->latest()
+                    ->paginate(20);
+            } elseif ($user->isStationManager()) {
+                \Log::info('User is Station Manager, loading station receipts');
+                $receipts = Receipt::with(['client', 'fuelRequest.vehicle', 'station', 'uploadedBy'])
+                    ->where('station_id', $user->station_id)
+                    ->latest()
+                    ->paginate(20);
+            } elseif ($user->isStationAttendant()) {
+                \Log::info('User is Station Attendant, loading assigned receipts');
+                // Fuel pumpers see receipts for requests they were assigned to
+                $receipts = Receipt::with(['client', 'fuelRequest.vehicle', 'station', 'uploadedBy'])
+                    ->whereHas('fuelRequest', function ($query) use ($user) {
+                        $query->where('assigned_pumper_id', $user->id);
+                    })
                     ->latest()
                     ->paginate(20);
             } else {
-                // If no client relationship, return empty collection
-                $receipts = collect()->paginate(20);
+                \Log::info('User is other role, checking client relationship');
+                // For other roles (like clients), show their receipts
+                if ($user->client) {
+                    \Log::info('User has client relationship, loading client receipts');
+                    $receipts = Receipt::with(['fuelRequest.vehicle', 'station', 'uploadedBy'])
+                        ->where('client_id', $user->client->id)
+                        ->latest()
+                        ->paginate(20);
+                } else {
+                    \Log::info('User has no client relationship, returning empty collection');
+                    // If no client relationship, return empty collection
+                    $receipts = collect()->paginate(20);
+                }
             }
-        }
 
-        return view('receipts.index', compact('receipts'));
+            \Log::info('Receipts loaded successfully. Count: ' . $receipts->count());
+            \Log::info('About to render view: receipts.index');
+            
+            return view('receipts.index', compact('receipts'));
+            
+        } catch (\Exception $e) {
+            \Log::error('Error in ReceiptController@index: ' . $e->getMessage());
+            \Log::error('Stack trace: ' . $e->getTraceAsString());
+            throw $e;
+        }
     }
 
     public function pending()
