@@ -60,11 +60,6 @@ class Business extends Model
         return $this->hasMany(Client::class);
     }
 
-    public function admin()
-    {
-        return $this->hasOne(User::class)->where('role', User::ROLE_ADMIN);
-    }
-
     public function fuelRequests()
     {
         return $this->hasManyThrough(FuelRequest::class, Station::class, 'business_id', 'station_id');
