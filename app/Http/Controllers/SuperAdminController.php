@@ -133,6 +133,9 @@ class SuperAdminController extends Controller
 
     public function reports()
     {
+        $redirect = $this->checkSuperAdminAccess();
+        if ($redirect) return $redirect;
+
         // Generate various reports
         $fuelSalesReport = $this->generateFuelSalesReport();
         $clientActivityReport = $this->generateClientActivityReport();
