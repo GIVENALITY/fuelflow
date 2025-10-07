@@ -6,20 +6,17 @@
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
-                <div class="card my-4">
-                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h6 class="text-white text-capitalize ps-3">
-                                        <i class="fas fa-building me-2"></i>Fuel Station Businesses
-                                    </h6>
-                                </div>
-                                <div class="col-6 text-end">
-                                    <a href="{{ route('super-admin.businesses.create') }}" class="btn btn-sm btn-light me-3">
-                                        <i class="material-symbols-rounded">add</i> Add Business
-                                    </a>
-                                </div>
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-transparent border-0 py-3">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="mb-0 font-weight-bold">Fuel Station Businesses</h6>
+                                <p class="text-sm text-muted mb-0">Manage and monitor all business accounts</p>
+                            </div>
+                            <div class="col-auto">
+                                <a href="{{ route('super-admin.businesses.create') }}" class="btn btn-sm btn-dark">
+                                    <i class="fas fa-plus me-2"></i>Add Business
+                                </a>
                             </div>
                         </div>
                     </div>
