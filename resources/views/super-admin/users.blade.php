@@ -16,9 +16,7 @@
                                     </h6>
                                 </div>
                                 <div class="col-6 text-end">
-                                    <a href="{{ route('super-admin.users.create') }}" class="btn btn-sm btn-light me-3">
-                                        <i class="material-symbols-rounded">add</i> Add User
-                                    </a>
+                                    <small class="text-white-50">View Only - Manage users through Business Management</small>
                                 </div>
                             </div>
                         </div>
