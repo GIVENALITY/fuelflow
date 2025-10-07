@@ -20,10 +20,10 @@ class EnhancedFleetFuelSeeder extends Seeder
     {
         // Create locations
         $locations = [
-            ['name' => 'Dar es Salaam', 'type' => 'city', 'latitude' => -6.7924, 'longitude' => 39.2083],
-            ['name' => 'Arusha', 'type' => 'city', 'latitude' => -3.3869, 'longitude' => 36.6830],
-            ['name' => 'Mwanza', 'type' => 'city', 'latitude' => -2.5164, 'longitude' => 32.9176],
-            ['name' => 'Dodoma', 'type' => 'city', 'latitude' => -6.1630, 'longitude' => 35.7516],
+            ['name' => 'Dar es Salaam', 'type' => 'other', 'latitude' => -6.7924, 'longitude' => 39.2083, 'city' => 'Dar es Salaam', 'state' => 'Dar es Salaam'],
+            ['name' => 'Arusha', 'type' => 'other', 'latitude' => -3.3869, 'longitude' => 36.6830, 'city' => 'Arusha', 'state' => 'Arusha'],
+            ['name' => 'Mwanza', 'type' => 'other', 'latitude' => -2.5164, 'longitude' => 32.9176, 'city' => 'Mwanza', 'state' => 'Mwanza'],
+            ['name' => 'Dodoma', 'type' => 'other', 'latitude' => -6.1630, 'longitude' => 35.7516, 'city' => 'Dodoma', 'state' => 'Dodoma'],
         ];
 
         foreach ($locations as $locationData) {
