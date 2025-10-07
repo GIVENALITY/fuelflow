@@ -89,11 +89,20 @@ Route::get('/debug-dashboard', function () {
             return response()->json(['error' => 'Not authenticated']);
         }
         
-        $dashboardController = new \App\Http\Controllers\DashboardController();
-        return $dashboardController->index();
+        return response()->json([
+            'user_email' => $user->email,
+            'user_role' => $user->role,
+            'business_id' => $user->business_id,
+            'is_admin' => $user->isAdmin(),
+            'is_super_admin' => $user->isSuperAdmin(),
+            'business_relationship_exists' => method_exists($user, 'business'),
+            'business_loaded' => $user->business ? $user->business->name : 'null'
+        ]);
     } catch (\Exception $e) {
         return response()->json([
             'error' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
             'trace' => $e->getTraceAsString()
         ]);
     }
