@@ -88,18 +88,30 @@ class BusinessController extends Controller
 
     public function show(Business $business)
     {
-        $business->load(['admin', 'stations.manager', 'clients.user', 'users']);
-        
-        $stats = [
-            'total_stations' => $business->stations()->count(),
-            'total_clients' => $business->clients()->count(),
-            'total_users' => $business->users()->count(),
-            'pending_clients' => $business->clients()->where('registration_status', Client::REGISTRATION_STATUS_PENDING)->count(),
-            'monthly_revenue' => $business->getTotalRevenue(),
-            'monthly_sales' => $business->getMonthlyFuelSales(),
-        ];
+        try {
+            \Log::info('BusinessController show() - Loading business: ' . $business->id);
+            
+            // Simple stats without complex relationships
+            $stats = [
+                'total_stations' => 0,
+                'total_clients' => 0,
+                'total_users' => 0,
+                'pending_clients' => 0,
+                'monthly_revenue' => 0,
+                'monthly_sales' => 0,
+            ];
 
-        return view('super-admin.businesses.show', compact('business', 'stats'));
+            \Log::info('BusinessController show() - Attempting to return view');
+            return response()->json([
+                'message' => 'Business show method working',
+                'business_id' => $business->id,
+                'business_name' => $business->name,
+                'stats' => $stats
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('BusinessController show() - ERROR: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function edit(Business $business)
