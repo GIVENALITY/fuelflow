@@ -136,12 +136,24 @@ class SuperAdminController extends Controller
         $redirect = $this->checkSuperAdminAccess();
         if ($redirect) return $redirect;
 
-        // Simple debug response first
-        return response()->json([
-            'message' => 'Reports method working',
-            'user' => Auth::user()->email,
-            'is_super_admin' => Auth::user()->isSuperAdmin()
-        ]);
+        // Simple reports data for testing
+        $reports = [
+            'total_requests' => 0,
+            'total_credit_sales' => 0,
+            'total_actual_revenue' => 0,
+            'status_breakdown' => [
+                'pending' => 0,
+                'approved' => 0,
+                'completed' => 0,
+                'rejected' => 0
+            ],
+            'daily_trends' => []
+        ];
+        
+        $dateFrom = now()->subDays(30)->format('Y-m-d');
+        $dateTo = now()->format('Y-m-d');
+
+        return view('reports.index', compact('reports', 'dateFrom', 'dateTo'));
     }
 
     private function generateComprehensiveReports()
