@@ -250,6 +250,7 @@ Route::prefix('super-admin')->name('super-admin.')->middleware('auth')->group(fu
     Route::post('/businesses/{business}/approve', [\App\Http\Controllers\BusinessController::class, 'approve'])->name('businesses.approve');
     Route::post('/businesses/{business}/suspend', [\App\Http\Controllers\BusinessController::class, 'suspend'])->name('businesses.suspend');
     Route::post('/businesses/{business}/activate', [\App\Http\Controllers\BusinessController::class, 'activate'])->name('businesses.activate');
+    Route::post('/businesses/{business}/upload-contract', [\App\Http\Controllers\BusinessController::class, 'uploadContract'])->name('businesses.upload-contract');
     Route::delete('/businesses/{business}', [\App\Http\Controllers\BusinessController::class, 'destroy'])->name('businesses.destroy');
     
     // Legacy routes (keeping for backward compatibility)

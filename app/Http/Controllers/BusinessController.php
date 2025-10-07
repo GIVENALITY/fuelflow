@@ -160,6 +160,9 @@ class BusinessController extends Controller
 
     public function activate(Business $business)
     {
+        $redirect = $this->checkSuperAdminAccess();
+        if ($redirect) return $redirect;
+
         $business->update([
             'status' => Business::STATUS_APPROVED,
         ]);
@@ -170,6 +173,9 @@ class BusinessController extends Controller
 
     public function uploadContract(Request $request, Business $business)
     {
+        $redirect = $this->checkSuperAdminAccess();
+        if ($redirect) return $redirect;
+
         $request->validate([
             'contract_file' => 'required|file|mimes:pdf|max:10240', // 10MB max
         ]);

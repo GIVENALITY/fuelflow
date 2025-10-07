@@ -104,6 +104,87 @@
                             </div>
                         </div>
                         @endif
+                        
+                        <!-- Contract Management Section -->
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="my-4">
+                                <h6 class="font-weight-bold mb-3">Contract Management</h6>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card border-0 bg-light">
+                                            <div class="card-body p-3">
+                                                <h6 class="font-weight-bold mb-3">Upload Contract</h6>
+                                                @if($business->contract_signed)
+                                                    <div class="alert alert-success mb-3">
+                                                        <i class="fas fa-check-circle me-2"></i>
+                                                        Contract has been uploaded and signed
+                                                        @if($business->contract_uploaded_at)
+                                                            <br><small>Uploaded: {{ $business->contract_uploaded_at->format('M d, Y H:i') }}</small>
+                                                        @endif
+                                                    </div>
+                                                @else
+                                                    <form action="{{ route('super-admin.businesses.upload-contract', $business) }}" method="POST" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <div class="mb-3">
+                                                            <label for="contract_file" class="form-label">Select Contract File (PDF)</label>
+                                                            <input type="file" class="form-control" id="contract_file" name="contract_file" accept=".pdf" required>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-dark btn-sm">
+                                                            <i class="fas fa-upload me-2"></i>Upload Contract
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <div class="card border-0 bg-light">
+                                            <div class="card-body p-3">
+                                                <h6 class="font-weight-bold mb-3">Business Actions</h6>
+                                                
+                                                @if($business->status === 'pending')
+                                                    <form action="{{ route('super-admin.businesses.approve', $business) }}" method="POST" class="mb-2">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-success btn-sm w-100">
+                                                            <i class="fas fa-check me-2"></i>Approve Business
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                                
+                                                @if($business->status === 'approved')
+                                                    <form action="{{ route('super-admin.businesses.suspend', $business) }}" method="POST" class="mb-2">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-warning btn-sm w-100">
+                                                            <i class="fas fa-pause me-2"></i>Suspend Business
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                                
+                                                @if($business->status === 'suspended')
+                                                    <form action="{{ route('super-admin.businesses.activate', $business) }}" method="POST" class="mb-2">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-success btn-sm w-100">
+                                                            <i class="fas fa-play me-2"></i>Activate Business
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                                
+                                                <div class="mt-3">
+                                                    <small class="text-muted">
+                                                        <strong>Status Flow:</strong><br>
+                                                        Pending → Approved → Active<br>
+                                                        Can be suspended at any time
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
