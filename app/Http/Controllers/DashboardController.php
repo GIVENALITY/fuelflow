@@ -39,16 +39,28 @@ class DashboardController extends Controller
 
     private function superAdminDashboard()
     {
-        $stats = [
-            'total_users' => User::count(),
-            'total_stations' => Station::count(),
-            'total_clients' => Client::count(),
-            'pending_applications' => Client::where('registration_status', Client::REGISTRATION_STATUS_PENDING)->count(),
-            'active_orders' => FuelRequest::where('status', FuelRequest::STATUS_PENDING)->count(),
-            'pending_payments' => Payment::where('status', 'pending')->count(),
-        ];
+        try {
+            $stats = [
+                'total_users' => User::count(),
+                'total_stations' => Station::count(),
+                'total_clients' => Client::count(),
+                'pending_applications' => Client::where('registration_status', 'pending')->count(),
+                'active_orders' => FuelRequest::where('status', 'pending')->count(),
+                'pending_payments' => Payment::where('status', 'pending')->count(),
+            ];
 
-        return view('dashboard', compact('stats'));
+            return view('dashboard', compact('stats'));
+        } catch (\Exception $e) {
+            \Log::error('SuperAdmin Dashboard Error: ' . $e->getMessage());
+            return view('dashboard', ['stats' => [
+                'total_users' => 0,
+                'total_stations' => 0,
+                'total_clients' => 0,
+                'pending_applications' => 0,
+                'active_orders' => 0,
+                'pending_payments' => 0,
+            ]]);
+        }
     }
 
     private function adminDashboard()

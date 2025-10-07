@@ -77,13 +77,13 @@
             </div>
             <div class="card-body">
                 <div class="list-group list-group-flush">
-                    <a href="{{ route('super-admin.stations.index') }}" class="list-group-item list-group-item-action">
+                    <a href="{{ route('super-admin.stations') }}" class="list-group-item list-group-item-action">
                         <i class="fas fa-gas-pump me-2"></i>Manage Stations
                     </a>
-                    <a href="{{ route('super-admin.users.index') }}" class="list-group-item list-group-item-action">
+                    <a href="{{ route('super-admin.users') }}" class="list-group-item list-group-item-action">
                         <i class="fas fa-users me-2"></i>Manage Users
                     </a>
-                    <a href="{{ route('super-admin.reports.index') }}" class="list-group-item list-group-item-action">
+                    <a href="{{ route('super-admin.reports') }}" class="list-group-item list-group-item-action">
                         <i class="fas fa-chart-bar me-2"></i>System Reports
                     </a>
                 </div>

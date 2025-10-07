@@ -57,6 +57,18 @@ Route::get('/test-page', function () {
     return view('test-page');
 })->name('test-page');
 
+Route::get('/test-superadmin', function () {
+    $user = \App\Models\User::where('email', 'superadmin@fuelflow.com')->first();
+    if ($user) {
+        return response()->json([
+            'user' => $user->toArray(),
+            'isSuperAdmin' => $user->isSuperAdmin(),
+            'role' => $user->role
+        ]);
+    }
+    return response()->json(['error' => 'User not found']);
+});
+
 // Authentication Routes
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
