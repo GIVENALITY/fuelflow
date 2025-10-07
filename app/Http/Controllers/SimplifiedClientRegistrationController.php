@@ -47,12 +47,13 @@ class SimplifiedClientRegistrationController extends Controller
             // Auto-login the user
             Auth::login($user);
 
-            return redirect()->route('client.profile')
+            return redirect()->route('dashboard')
                 ->with('success', 'Account created successfully! Please complete your profile to continue.');
                 
         } catch (\Exception $e) {
+            \Log::error('Registration failed: ' . $e->getMessage());
             return back()->withInput()
-                ->with('error', 'Registration failed. Please try again.');
+                ->with('error', 'Registration failed: ' . $e->getMessage());
         }
     }
 
