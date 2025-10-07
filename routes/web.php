@@ -93,6 +93,7 @@ Route::get('/vehicles/{vehicle}/requests', [VehicleController::class, 'requests'
 
 // Receipt Management
 Route::get('/receipts/pending', [ReceiptController::class, 'pending'])->name('receipts.pending');
+Route::get('/receipts/{receipt}/download', [ReceiptController::class, 'download'])->name('receipts.download');
 Route::post('/receipts/{receipt}/verify', [ReceiptController::class, 'verify'])->name('receipts.verify');
 Route::post('/receipts/{receipt}/reject', [ReceiptController::class, 'reject'])->name('receipts.reject');
 Route::resource('receipts', ReceiptController::class);

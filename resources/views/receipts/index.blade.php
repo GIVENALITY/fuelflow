@@ -3,13 +3,6 @@
 @section('title', 'Receipts')
 
 @section('content')
-{{-- Debug logging --}}
-@php
-    \Log::info('Receipts index view started rendering');
-    \Log::info('Receipts count: ' . $receipts->count());
-    \Log::info('User role: ' . auth()->user()->role);
-@endphp
-
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
