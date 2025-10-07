@@ -69,6 +69,19 @@ Route::get('/test-superadmin', function () {
     return response()->json(['error' => 'User not found']);
 });
 
+Route::get('/fix-superadmin', function () {
+    $user = \App\Models\User::where('email', 'superadmin@fuelflow.com')->first();
+    if ($user) {
+        $user->update(['role' => 'super_admin']);
+        return response()->json([
+            'message' => 'SuperAdmin role updated successfully',
+            'user' => $user->fresh()->toArray(),
+            'isSuperAdmin' => $user->fresh()->isSuperAdmin()
+        ]);
+    }
+    return response()->json(['error' => 'User not found']);
+});
+
 // Authentication Routes
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
