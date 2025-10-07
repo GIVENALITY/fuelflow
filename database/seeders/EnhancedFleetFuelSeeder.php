@@ -30,12 +30,12 @@ class EnhancedFleetFuelSeeder extends Seeder
             Location::create($locationData);
         }
 
-        // Create SuperAdmin user
+        // Create SuperAdmin user (using admin role for now)
         $superAdmin = User::create([
             'name' => 'Super Admin',
             'email' => 'superadmin@fuelflow.com',
             'password' => Hash::make('password'),
-            'role' => User::ROLE_SUPER_ADMIN,
+            'role' => 'admin', // Using admin role until enum is updated
             'phone' => '+255123456789',
             'status' => User::STATUS_ACTIVE,
         ]);
@@ -45,7 +45,7 @@ class EnhancedFleetFuelSeeder extends Seeder
             'name' => 'System Admin',
             'email' => 'admin@fuelflow.com',
             'password' => Hash::make('password'),
-            'role' => User::ROLE_ADMIN,
+            'role' => 'admin',
             'phone' => '+255123456790',
             'status' => User::STATUS_ACTIVE,
         ]);
@@ -55,7 +55,7 @@ class EnhancedFleetFuelSeeder extends Seeder
             'name' => 'Treasury Manager',
             'email' => 'treasury@fuelflow.com',
             'password' => Hash::make('password'),
-            'role' => User::ROLE_TREASURY,
+            'role' => 'treasury',
             'phone' => '+255123456791',
             'status' => User::STATUS_ACTIVE,
         ]);
@@ -110,7 +110,7 @@ class EnhancedFleetFuelSeeder extends Seeder
                 'name' => 'John Mwalimu',
                 'email' => 'john.mwalimu@fuelflow.com',
                 'password' => Hash::make('password'),
-                'role' => User::ROLE_STATION_MANAGER,
+                'role' => 'station_manager',
                 'station_id' => 1,
                 'phone' => '+255123456792',
                 'status' => User::STATUS_ACTIVE,
@@ -119,7 +119,7 @@ class EnhancedFleetFuelSeeder extends Seeder
                 'name' => 'Mary Kimaro',
                 'email' => 'mary.kimaro@fuelflow.com',
                 'password' => Hash::make('password'),
-                'role' => User::ROLE_STATION_MANAGER,
+                'role' => 'station_manager',
                 'station_id' => 2,
                 'phone' => '+255123456793',
                 'status' => User::STATUS_ACTIVE,
@@ -128,7 +128,7 @@ class EnhancedFleetFuelSeeder extends Seeder
                 'name' => 'Peter Mwamba',
                 'email' => 'peter.mwamba@fuelflow.com',
                 'password' => Hash::make('password'),
-                'role' => User::ROLE_STATION_MANAGER,
+                'role' => 'station_manager',
                 'station_id' => 3,
                 'phone' => '+255123456794',
                 'status' => User::STATUS_ACTIVE,
@@ -139,13 +139,13 @@ class EnhancedFleetFuelSeeder extends Seeder
             User::create($managerData);
         }
 
-        // Create Station Attendants
+        // Create Station Attendants (using fuel_pumper role for now)
         $attendants = [
             [
                 'name' => 'Ahmed Hassan',
                 'email' => 'ahmed.hassan@fuelflow.com',
                 'password' => Hash::make('password'),
-                'role' => User::ROLE_STATION_ATTENDANT,
+                'role' => 'fuel_pumper', // Using existing role
                 'station_id' => 1,
                 'phone' => '+255123456795',
                 'status' => User::STATUS_ACTIVE,
@@ -154,7 +154,7 @@ class EnhancedFleetFuelSeeder extends Seeder
                 'name' => 'Grace Mwangi',
                 'email' => 'grace.mwangi@fuelflow.com',
                 'password' => Hash::make('password'),
-                'role' => User::ROLE_STATION_ATTENDANT,
+                'role' => 'fuel_pumper', // Using existing role
                 'station_id' => 1,
                 'phone' => '+255123456796',
                 'status' => User::STATUS_ACTIVE,
@@ -163,7 +163,7 @@ class EnhancedFleetFuelSeeder extends Seeder
                 'name' => 'Juma Mwalimu',
                 'email' => 'juma.mwalimu@fuelflow.com',
                 'password' => Hash::make('password'),
-                'role' => User::ROLE_STATION_ATTENDANT,
+                'role' => 'fuel_pumper', // Using existing role
                 'station_id' => 2,
                 'phone' => '+255123456797',
                 'status' => User::STATUS_ACTIVE,
@@ -181,7 +181,7 @@ class EnhancedFleetFuelSeeder extends Seeder
                     'name' => 'Transport Company Ltd',
                     'email' => 'info@transportco.co.tz',
                     'password' => Hash::make('password'),
-                    'role' => User::ROLE_CLIENT,
+                    'role' => 'client',
                     'phone' => '+255123456798',
                     'status' => User::STATUS_ACTIVE,
                 ],
@@ -209,7 +209,7 @@ class EnhancedFleetFuelSeeder extends Seeder
                     'name' => 'Logistics Solutions',
                     'email' => 'admin@logistics.co.tz',
                     'password' => Hash::make('password'),
-                    'role' => User::ROLE_CLIENT,
+                    'role' => 'client',
                     'phone' => '+255123456799',
                     'status' => User::STATUS_ACTIVE,
                 ],
@@ -237,7 +237,7 @@ class EnhancedFleetFuelSeeder extends Seeder
                     'name' => 'Fleet Management Co',
                     'email' => 'contact@fleetmgmt.co.tz',
                     'password' => Hash::make('password'),
-                    'role' => User::ROLE_CLIENT,
+                    'role' => 'client',
                     'phone' => '+255123456800',
                     'status' => User::STATUS_ACTIVE,
                 ],
@@ -289,7 +289,7 @@ class EnhancedFleetFuelSeeder extends Seeder
             [
                 'client_id' => 1,
                 'plate_number' => 'T456DEF',
-                'vehicle_type' => Vehicle::TYPE_TRACTOR,
+                'vehicle_type' => 'truck', // Using existing type
                 'make' => 'Volvo',
                 'model' => 'FH16',
                 'year' => 2019,
@@ -483,7 +483,7 @@ class EnhancedFleetFuelSeeder extends Seeder
                 'payment_date' => now()->subDays(2),
                 'proof_of_payment_path' => 'payments/proof_1.pdf',
                 'submitted_by' => 1, // Client user ID
-                'status' => 'verified',
+                'status' => 'completed', // Using existing status
                 'verified_by' => $treasury->id,
                 'verified_at' => now()->subDays(1),
             ],
