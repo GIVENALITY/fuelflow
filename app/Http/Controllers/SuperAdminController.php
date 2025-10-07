@@ -26,85 +26,19 @@ class SuperAdminController extends Controller
 
     public function dashboard()
     {
-        // Get dashboard statistics
-        $stats = [
-            'total_users' => User::count(),
-            'total_stations' => Station::count(),
-            'total_clients' => Client::count(),
-            'pending_applications' => Client::where('registration_status', Client::REGISTRATION_STATUS_PENDING)->count(),
-            'active_orders' => FuelRequest::where('status', FuelRequest::STATUS_PENDING)->count(),
-            'pending_payments' => Payment::where('status', 'pending')->count(),
-        ];
-
-        // Get fuel sales by type
-        $fuelSalesByType = FuelRequest::select('fuel_type', DB::raw('SUM(quantity_dispensed) as total_liters'))
-            ->whereNotNull('quantity_dispensed')
-            ->where('created_at', '>=', now()->subDays(30))
-            ->groupBy('fuel_type')
-            ->get();
-
-        // Get fuel sales by station
-        $fuelSalesByStation = FuelRequest::select('stations.name', DB::raw('SUM(quantity_dispensed) as total_liters'))
-            ->join('stations', 'fuel_requests.station_id', '=', 'stations.id')
-            ->whereNotNull('quantity_dispensed')
-            ->where('fuel_requests.created_at', '>=', now()->subDays(30))
-            ->groupBy('stations.id', 'stations.name')
-            ->get();
-
-        // Get fuel sales by client
-        $fuelSalesByClient = FuelRequest::select('clients.company_name', DB::raw('SUM(quantity_dispensed) as total_liters'))
-            ->join('clients', 'fuel_requests.client_id', '=', 'clients.id')
-            ->whereNotNull('quantity_dispensed')
-            ->where('fuel_requests.created_at', '>=', now()->subDays(30))
-            ->groupBy('clients.id', 'clients.company_name')
-            ->get();
-
-        // Recent activities
-        $recentActivities = collect([
-            // Recent client registrations
-            Client::with('user')->latest()->take(5)->get()->map(function($client) {
-                return [
-                    'type' => 'client_registration',
-                    'message' => 'New client registered: ' . $client->company_name,
-                    'time' => $client->created_at,
-                ];
-            }),
-            // Recent fuel requests
-            FuelRequest::with(['client', 'vehicle'])->latest()->take(5)->get()->map(function($request) {
-                return [
-                    'type' => 'fuel_request',
-                    'message' => 'New fuel request from ' . $request->client->company_name,
-                    'time' => $request->created_at,
-                ];
-            }),
-            // Recent payments
-            Payment::with('client')->latest()->take(5)->get()->map(function($payment) {
-                return [
-                    'type' => 'payment',
-                    'message' => 'Payment submitted by ' . $payment->client->company_name,
-                    'time' => $payment->created_at,
-                ];
-            }),
-        ])->flatten()->sortByDesc('time')->take(10);
-
-        return view('super-admin.dashboard', compact(
-            'stats', 
-            'fuelSalesByType', 
-            'fuelSalesByStation', 
-            'fuelSalesByClient',
-            'recentActivities'
-        ));
+        // Redirect to main dashboard which already handles super admin users correctly
+        return redirect()->route('dashboard');
     }
 
     public function manageStations()
     {
         $stations = Station::with(['manager', 'location'])->get();
-        return view('super-admin.stations.index', compact('stations'));
+        return view('stations.index', compact('stations'));
     }
 
     public function createStation()
     {
-        return view('super-admin.stations.create');
+        return view('stations.create');
     }
 
     public function storeStation(Request $request)
@@ -129,13 +63,13 @@ class SuperAdminController extends Controller
     public function manageUsers()
     {
         $users = User::with(['station', 'client'])->get();
-        return view('super-admin.users.index', compact('users'));
+        return view('users.index', compact('users'));
     }
 
     public function createUser()
     {
         $stations = Station::where('status', Station::STATUS_ACTIVE)->get();
-        return view('super-admin.users.create', compact('stations'));
+        return view('users.create', compact('stations'));
     }
 
     public function storeUser(Request $request)
@@ -184,7 +118,7 @@ class SuperAdminController extends Controller
         $clientActivityReport = $this->generateClientActivityReport();
         $stationPerformanceReport = $this->generateStationPerformanceReport();
 
-        return view('super-admin.reports.index', compact(
+        return view('reports.index', compact(
             'fuelSalesReport',
             'clientActivityReport', 
             'stationPerformanceReport'
