@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PetroAfrica Fuel Management System - Complete Enterprise Solution</title>
+    <title>FuelFlow - Complete Fuel Management Solution for PetroAfrica</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -221,21 +221,6 @@
             margin-right: 15px;
             font-size: 1.2rem;
         }
-        .tech-stack {
-            background: #f8f9fa;
-            border-radius: 20px;
-            padding: 40px;
-            margin: 40px 0;
-        }
-        .tech-item {
-            text-align: center;
-            padding: 20px;
-        }
-        .tech-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: #667eea;
-        }
         .pricing-card {
             background: white;
             border-radius: 20px;
@@ -262,7 +247,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
         <div class="container">
             <a class="navbar-brand fw-bold" href="/">
-                <i class="fas fa-gas-pump me-2"></i>PetroAfrica
+                <i class="fas fa-gas-pump me-2"></i>FuelFlow
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -302,9 +287,9 @@
         <div class="container hero-content">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <h1 class="display-3 fw-bold mb-4">PetroAfrica Fuel Management System</h1>
-                    <h2 class="h3 mb-4">Complete Enterprise Solution for Modern Fuel Stations</h2>
-                    <p class="lead mb-5">Transform your fuel station operations with our comprehensive, cloud-based management platform. Streamline operations, enhance customer experience, maximize profitability, and scale your business with confidence.</p>
+                    <h1 class="display-3 fw-bold mb-4">FuelFlow</h1>
+                    <h2 class="h3 mb-4">Complete Fuel Management Solution for PetroAfrica</h2>
+                    <p class="lead mb-5">Transform PetroAfrica's fuel station operations with our comprehensive, cloud-based management platform. Streamline operations, enhance customer experience, maximize profitability, and scale your business with confidence.</p>
                     <div class="d-flex gap-3 flex-wrap">
                         <a href="/register" class="btn btn-light btn-lg px-5 py-3">Start Free Trial</a>
                         <a href="#demo" class="btn btn-outline-light btn-lg px-5 py-3">View Live Demo</a>
@@ -709,78 +694,12 @@
         </div>
     </section>
 
-    <!-- Technology Stack -->
-    <section class="py-5 bg-light">
-        <div class="container">
-            <h2 class="section-title">Enterprise Technology Stack</h2>
-            <p class="section-subtitle">Built on modern, scalable, and secure technologies</p>
-            
-            <div class="tech-stack">
-                <div class="row">
-                    <div class="col-lg-2 col-md-4 col-sm-6">
-                        <div class="tech-item">
-                            <div class="tech-icon">
-                                <i class="fab fa-laravel"></i>
-                            </div>
-                            <h6>Laravel Framework</h6>
-                            <small class="text-muted">Robust PHP framework</small>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6">
-                        <div class="tech-item">
-                            <div class="tech-icon">
-                                <i class="fas fa-database"></i>
-                            </div>
-                            <h6>MySQL Database</h6>
-                            <small class="text-muted">Reliable data storage</small>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6">
-                        <div class="tech-item">
-                            <div class="tech-icon">
-                                <i class="fab fa-aws"></i>
-                            </div>
-                            <h6>AWS Cloud</h6>
-                            <small class="text-muted">Scalable infrastructure</small>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6">
-                        <div class="tech-item">
-                            <div class="tech-icon">
-                                <i class="fas fa-mobile-alt"></i>
-                            </div>
-                            <h6>Mobile Responsive</h6>
-                            <small class="text-muted">Cross-platform support</small>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6">
-                        <div class="tech-item">
-                            <div class="tech-icon">
-                                <i class="fas fa-shield-alt"></i>
-                            </div>
-                            <h6>Security</h6>
-                            <small class="text-muted">Enterprise-grade security</small>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6">
-                        <div class="tech-item">
-                            <div class="tech-icon">
-                                <i class="fas fa-chart-bar"></i>
-                            </div>
-                            <h6>Analytics</h6>
-                            <small class="text-muted">Real-time insights</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Benefits Section -->
     <section id="benefits" class="benefit-section">
         <div class="container">
-            <h2 class="section-title text-white">Why Choose PetroAfrica?</h2>
-            <p class="section-subtitle text-white">Transform your fuel station operations with measurable results</p>
+            <h2 class="section-title text-white">Why Choose FuelFlow for PetroAfrica?</h2>
+            <p class="section-subtitle text-white">Transform PetroAfrica's fuel station operations with measurable results</p>
             
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
@@ -928,8 +847,8 @@
     <!-- CTA Section -->
     <section class="cta-section">
         <div class="container text-center cta-content">
-            <h2 class="display-4 fw-bold mb-4">Ready to Transform Your Fuel Station Operations?</h2>
-            <p class="lead mb-5">Join PetroAfrica and experience the future of fuel management with measurable ROI and operational excellence</p>
+            <h2 class="display-4 fw-bold mb-4">Ready to Transform PetroAfrica's Fuel Station Operations?</h2>
+            <p class="lead mb-5">Partner with FuelFlow and experience the future of fuel management with measurable ROI and operational excellence</p>
             <div class="d-flex justify-content-center gap-4 flex-wrap">
                 <a href="/register" class="demo-button">Start Free Trial</a>
                 <a href="/demo-guide" class="demo-button">View Demo Guide</a>
@@ -937,7 +856,7 @@
             </div>
             <div class="mt-5">
                 <p class="mb-0"><i class="fas fa-phone me-2"></i>Contact Sales: +255 XXX XXX XXX</p>
-                <p class="mb-0"><i class="fas fa-envelope me-2"></i>Email: sales@petroafrica.com</p>
+                <p class="mb-0"><i class="fas fa-envelope me-2"></i>Email: sales@fuelflow.com</p>
             </div>
         </div>
     </section>
@@ -947,8 +866,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <h5 class="fw-bold mb-3">PetroAfrica Fuel Management System</h5>
-                    <p>Complete enterprise solution for modern fuel station operations. Streamline processes, enhance customer experience, and maximize profitability.</p>
+                    <h5 class="fw-bold mb-3">FuelFlow for PetroAfrica</h5>
+                    <p>Complete enterprise solution for PetroAfrica's fuel station operations. Streamline processes, enhance customer experience, and maximize profitability.</p>
                 </div>
                 <div class="col-md-4">
                     <h6 class="fw-bold mb-3">Quick Links</h6>
@@ -962,14 +881,14 @@
                 <div class="col-md-4">
                     <h6 class="fw-bold mb-3">Contact Information</h6>
                     <p class="mb-1"><i class="fas fa-phone me-2"></i>+255 XXX XXX XXX</p>
-                    <p class="mb-1"><i class="fas fa-envelope me-2"></i>info@petroafrica.com</p>
+                    <p class="mb-1"><i class="fas fa-envelope me-2"></i>info@fuelflow.com</p>
                     <p class="mb-0"><i class="fas fa-map-marker-alt me-2"></i>Dar es Salaam, Tanzania</p>
                 </div>
             </div>
             <hr class="my-4">
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <p class="mb-0">&copy; 2024 PetroAfrica. All rights reserved.</p>
+                    <p class="mb-0">&copy; 2024 FuelFlow. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-md-end">
                     <p class="mb-0">Built with ❤️ for the fuel industry</p>
