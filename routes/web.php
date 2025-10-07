@@ -256,15 +256,6 @@ Route::prefix('super-admin')->name('super-admin.')->middleware('auth')->group(fu
     // Legacy routes (keeping for backward compatibility)
     Route::get('/users', [SuperAdminController::class, 'manageUsers'])->name('users.index');
     Route::get('/reports', [SuperAdminController::class, 'reports'])->name('reports.index');
-    
-    // Debug route for SuperAdminController
-    Route::get('/debug-users', function() {
-        \Log::info('Debug users route accessed');
-        return response()->json([
-            'message' => 'Debug route working',
-            'controller_exists' => class_exists(\App\Http\Controllers\SuperAdminController::class)
-        ]);
-    })->name('debug.users');
 });
 
 // Station Manager Routes

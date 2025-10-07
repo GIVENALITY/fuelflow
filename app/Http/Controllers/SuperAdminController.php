@@ -16,7 +16,20 @@ class SuperAdminController extends Controller
 {
     public function __construct()
     {
-        // No middleware in constructor - we'll handle it at route level
+        // No middleware in constructor - we'll handle authorization in each method
+    }
+
+    private function checkSuperAdminAccess()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        if (!Auth::user()->isSuperAdmin()) {
+            return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
+        }
+        
+        return null; // No redirect means authorized
     }
 
     public function dashboard()
@@ -27,17 +40,26 @@ class SuperAdminController extends Controller
 
     public function manageStations()
     {
+        $redirect = $this->checkSuperAdminAccess();
+        if ($redirect) return $redirect;
+
         $stations = Station::with(['manager', 'location'])->get();
         return view('stations.index', compact('stations'));
     }
 
     public function createStation()
     {
+        $redirect = $this->checkSuperAdminAccess();
+        if ($redirect) return $redirect;
+
         return view('stations.create');
     }
 
     public function storeStation(Request $request)
     {
+        $redirect = $this->checkSuperAdminAccess();
+        if ($redirect) return $redirect;
+
         $request->validate([
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:10|unique:stations,code',
@@ -57,35 +79,11 @@ class SuperAdminController extends Controller
 
     public function manageUsers()
     {
-        try {
-            \Log::info('SuperAdminController manageUsers() - Method called');
-            
-            $user = Auth::user();
-            \Log::info('SuperAdminController manageUsers() - User: ' . ($user ? $user->email : 'null'));
-            
-            if (!$user || !$user->isSuperAdmin()) {
-                \Log::info('SuperAdminController manageUsers() - User not authorized');
-                return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
-            }
-            
-            \Log::info('SuperAdminController manageUsers() - Loading users');
-            $users = User::with(['station', 'client'])->get();
-            \Log::info('SuperAdminController manageUsers() - Users loaded: ' . $users->count());
-            
-            \Log::info('SuperAdminController manageUsers() - Returning view');
-            return view('super-admin.users', compact('users'));
-        } catch (\Exception $e) {
-            \Log::error('SuperAdminController manageUsers() - ERROR: ' . $e->getMessage());
-            \Log::error('SuperAdminController manageUsers() - ERROR File: ' . $e->getFile());
-            \Log::error('SuperAdminController manageUsers() - ERROR Line: ' . $e->getLine());
-            
-            return response()->json([
-                'error' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-                'stack' => $e->getTraceAsString()
-            ], 500);
-        }
+        $redirect = $this->checkSuperAdminAccess();
+        if ($redirect) return $redirect;
+
+        $users = User::with(['station', 'client'])->get();
+        return view('super-admin.users', compact('users'));
     }
 
     public function createUser()
