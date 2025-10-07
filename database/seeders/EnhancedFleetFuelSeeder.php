@@ -31,34 +31,40 @@ class EnhancedFleetFuelSeeder extends Seeder
         }
 
         // Create SuperAdmin user (using admin role for now)
-        $superAdmin = User::create([
-            'name' => 'Super Admin',
-            'email' => 'superadmin@fuelflow.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin', // Using admin role until enum is updated
-            'phone' => '+255123456789',
-            'status' => User::STATUS_ACTIVE,
-        ]);
+        $superAdmin = User::firstOrCreate(
+            ['email' => 'superadmin@fuelflow.com'],
+            [
+                'name' => 'Super Admin',
+                'password' => Hash::make('password'),
+                'role' => 'admin', // Using admin role until enum is updated
+                'phone' => '+255123456789',
+                'status' => User::STATUS_ACTIVE,
+            ]
+        );
 
         // Create Admin users
-        $admin = User::create([
-            'name' => 'System Admin',
-            'email' => 'admin@fuelflow.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin',
-            'phone' => '+255123456790',
-            'status' => User::STATUS_ACTIVE,
-        ]);
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@fuelflow.com'],
+            [
+                'name' => 'System Admin',
+                'password' => Hash::make('password'),
+                'role' => 'admin',
+                'phone' => '+255123456790',
+                'status' => User::STATUS_ACTIVE,
+            ]
+        );
 
         // Create Treasury user
-        $treasury = User::create([
-            'name' => 'Treasury Manager',
-            'email' => 'treasury@fuelflow.com',
-            'password' => Hash::make('password'),
-            'role' => 'treasury',
-            'phone' => '+255123456791',
-            'status' => User::STATUS_ACTIVE,
-        ]);
+        $treasury = User::firstOrCreate(
+            ['email' => 'treasury@fuelflow.com'],
+            [
+                'name' => 'Treasury Manager',
+                'password' => Hash::make('password'),
+                'role' => 'treasury',
+                'phone' => '+255123456791',
+                'status' => User::STATUS_ACTIVE,
+            ]
+        );
 
         // Create stations
         $stations = [
@@ -101,7 +107,10 @@ class EnhancedFleetFuelSeeder extends Seeder
         ];
 
         foreach ($stations as $stationData) {
-            Station::create($stationData);
+            Station::firstOrCreate(
+                ['name' => $stationData['name']],
+                $stationData
+            );
         }
 
         // Create Station Managers
@@ -136,7 +145,10 @@ class EnhancedFleetFuelSeeder extends Seeder
         ];
 
         foreach ($stationManagers as $managerData) {
-            User::create($managerData);
+            User::firstOrCreate(
+                ['email' => $managerData['email']],
+                $managerData
+            );
         }
 
         // Create Station Attendants (using station_manager role for now)
@@ -171,7 +183,10 @@ class EnhancedFleetFuelSeeder extends Seeder
         ];
 
         foreach ($attendants as $attendantData) {
-            User::create($attendantData);
+            User::firstOrCreate(
+                ['email' => $attendantData['email']],
+                $attendantData
+            );
         }
 
         // Create Client users and clients
@@ -264,9 +279,15 @@ class EnhancedFleetFuelSeeder extends Seeder
 
         $clientUsers = [];
         foreach ($clients as $clientData) {
-            $user = User::create($clientData['user']);
+            $user = User::firstOrCreate(
+                ['email' => $clientData['user']['email']],
+                $clientData['user']
+            );
             $clientData['client']['user_id'] = $user->id;
-            $client = Client::create($clientData['client']);
+            $client = Client::firstOrCreate(
+                ['email' => $clientData['client']['email']],
+                $clientData['client']
+            );
             $clientUsers[] = ['user' => $user, 'client' => $client];
         }
 
@@ -356,7 +377,10 @@ class EnhancedFleetFuelSeeder extends Seeder
         ];
 
         foreach ($vehicles as $vehicleData) {
-            Vehicle::create($vehicleData);
+            Vehicle::firstOrCreate(
+                ['plate_number' => $vehicleData['plate_number']],
+                $vehicleData
+            );
         }
 
         // Create fuel prices
@@ -370,7 +394,14 @@ class EnhancedFleetFuelSeeder extends Seeder
         ];
 
         foreach ($fuelPrices as $priceData) {
-            FuelPrice::create($priceData);
+            FuelPrice::firstOrCreate(
+                [
+                    'station_id' => $priceData['station_id'],
+                    'fuel_type' => $priceData['fuel_type'],
+                    'effective_date' => $priceData['effective_date']
+                ],
+                $priceData
+            );
         }
 
         // Create sample fuel requests
@@ -433,7 +464,14 @@ class EnhancedFleetFuelSeeder extends Seeder
         ];
 
         foreach ($fuelRequests as $requestData) {
-            FuelRequest::create($requestData);
+            FuelRequest::firstOrCreate(
+                [
+                    'client_id' => $requestData['client_id'],
+                    'vehicle_id' => $requestData['vehicle_id'],
+                    'request_date' => $requestData['request_date']
+                ],
+                $requestData
+            );
         }
 
         // Create sample receipts
@@ -469,7 +507,10 @@ class EnhancedFleetFuelSeeder extends Seeder
         ];
 
         foreach ($receipts as $receiptData) {
-            Receipt::create($receiptData);
+            Receipt::firstOrCreate(
+                ['receipt_number' => $receiptData['receipt_number']],
+                $receiptData
+            );
         }
 
         // Create sample payments
@@ -501,7 +542,14 @@ class EnhancedFleetFuelSeeder extends Seeder
         ];
 
         foreach ($payments as $paymentData) {
-            Payment::create($paymentData);
+            Payment::firstOrCreate(
+                [
+                    'client_id' => $paymentData['client_id'],
+                    'receipt_id' => $paymentData['receipt_id'],
+                    'amount' => $paymentData['amount']
+                ],
+                $paymentData
+            );
         }
 
         $this->command->info('Enhanced Fleet Fuel seeder completed successfully!');
