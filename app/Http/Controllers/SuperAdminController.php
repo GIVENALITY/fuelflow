@@ -64,25 +64,35 @@ class SuperAdminController extends Controller
     {
         try {
             $users = User::with(['station', 'client'])->get();
-            return response()->json([
-                'success' => true,
-                'message' => 'Users loaded successfully',
-                'count' => $users->count(),
-                'users' => $users->map(function($user) {
-                    return [
-                        'id' => $user->id,
-                        'name' => $user->name,
-                        'email' => $user->email,
-                        'role' => $user->role,
-                        'status' => $user->status,
-                        'station_name' => $user->station ? $user->station->name : 'N/A',
-                        'client_company' => $user->client ? $user->client->company_name : 'N/A'
-                    ];
-                })
-            ]);
+            
+            // Try to render the view and catch any errors
+            try {
+                return view('users.index', compact('users'));
+            } catch (\Exception $viewError) {
+                return response()->json([
+                    'error_type' => 'view_error',
+                    'error_message' => $viewError->getMessage(),
+                    'error_file' => $viewError->getFile(),
+                    'error_line' => $viewError->getLine(),
+                    'error_trace' => $viewError->getTraceAsString(),
+                    'data_available' => [
+                        'users_count' => $users->count(),
+                        'sample_user' => $users->first() ? [
+                            'id' => $users->first()->id,
+                            'name' => $users->first()->name,
+                            'role' => $users->first()->role
+                        ] : null
+                    ]
+                ], 500);
+            }
         } catch (\Exception $e) {
-            \Log::error('SuperAdmin manageUsers error: ' . $e->getMessage());
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json([
+                'error_type' => 'controller_error',
+                'error_message' => $e->getMessage(),
+                'error_file' => $e->getFile(),
+                'error_line' => $e->getLine(),
+                'error_trace' => $e->getTraceAsString()
+            ], 500);
         }
     }
 
