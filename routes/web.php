@@ -104,6 +104,22 @@ Route::get('/test-users', function () {
     }
 });
 
+Route::get('/test-auth', function () {
+    try {
+        $user = Auth::user();
+        return response()->json([
+            'authenticated' => $user ? true : false,
+            'user_id' => $user ? $user->id : null,
+            'user_email' => $user ? $user->email : null,
+            'user_role' => $user ? $user->role : null,
+            'is_super_admin' => $user ? $user->isSuperAdmin() : false,
+            'can_manage_users' => $user ? $user->canManageUsers() : false
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+});
+
 // Authentication Routes
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
