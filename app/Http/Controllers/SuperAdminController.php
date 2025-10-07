@@ -62,8 +62,13 @@ class SuperAdminController extends Controller
 
     public function manageUsers()
     {
-        $users = User::with(['station', 'client'])->get();
-        return view('users.index', compact('users'));
+        try {
+            $users = User::with(['station', 'client'])->get();
+            return view('users.index', compact('users'));
+        } catch (\Exception $e) {
+            \Log::error('SuperAdmin manageUsers error: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function createUser()
