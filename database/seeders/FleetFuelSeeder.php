@@ -107,7 +107,7 @@ class FleetFuelSeeder extends Seeder
             [
                 'name' => 'Mike Fuel Pumper',
                 'password' => Hash::make('password'),
-                'role' => User::ROLE_FUEL_PUMPER,
+                'role' => User::ROLE_STATION_ATTENDANT,
                 'station_id' => $station1->id,
                 'phone' => '(555) 333-4444',
                 'status' => User::STATUS_ACTIVE,

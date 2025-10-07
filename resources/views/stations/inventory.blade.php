@@ -193,7 +193,7 @@
                                         <div class="text-sm">
                                             @php
                                                 $pumpers = \App\Models\User::where('station_id', $station->id)
-                                                    ->where('role', 'fuel_pumper')
+                                                    ->where('role', 'station_attendant')
                                                     ->get();
                                             @endphp
                                             @if($pumpers->count() > 0)

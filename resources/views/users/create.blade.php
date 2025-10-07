@@ -77,7 +77,7 @@
                                                     <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>
                                                         Admin</option>
                                                     <option value="station_manager" {{ old('role') === 'station_manager' ? 'selected' : '' }}>Station Manager</option>
-                                                    <option value="fuel_pumper" {{ old('role') === 'fuel_pumper' ? 'selected' : '' }}>Fuel Pumper</option>
+                                                    <option value="station_attendant" {{ old('role') === 'station_attendant' ? 'selected' : '' }}>Station Attendant</option>
                                                     <option value="treasury" {{ old('role') === 'treasury' ? 'selected' : '' }}>Treasury</option>
                                                     <option value="client" {{ old('role') === 'client' ? 'selected' : '' }}>
                                                         Client</option>
@@ -252,7 +252,7 @@
 
             function toggleStationAssignment() {
                 const selectedRole = roleSelect.value;
-                if (selectedRole === 'station_manager' || selectedRole === 'fuel_pumper') {
+                if (selectedRole === 'station_manager' || selectedRole === 'station_attendant') {
                     stationAssignment.style.display = 'block';
                     stationSelect.required = true;
                 } else {

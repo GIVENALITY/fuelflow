@@ -332,7 +332,7 @@ class FuelRequestController extends Controller
         $pumper = User::findOrFail($validated['pumper_id']);
 
         // Verify the pumper belongs to the same station
-        if ($pumper->station_id !== $user->station_id || $pumper->role !== 'fuel_pumper') {
+        if ($pumper->station_id !== $user->station_id || $pumper->role !== 'station_attendant') {
             return redirect()->back()->with('error', 'Invalid fuel pumper selected.');
         }
 

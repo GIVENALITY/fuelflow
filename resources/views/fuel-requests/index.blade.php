@@ -157,7 +157,7 @@
                                         @csrf
                                         <select name="pumper_id" class="form-select form-select-sm d-inline-block" style="width: 120px;" required>
                                             <option value="">Select Pumper</option>
-                                            @foreach(\App\Models\User::where('station_id', auth()->user()->station_id)->where('role', 'fuel_pumper')->get() as $pumper)
+                                            @foreach(\App\Models\User::where('station_id', auth()->user()->station_id)->where('role', 'station_attendant')->get() as $pumper)
                                                 <option value="{{ $pumper->id }}">{{ $pumper->name }}</option>
                                             @endforeach
                                         </select>

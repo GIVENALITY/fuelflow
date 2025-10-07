@@ -85,7 +85,7 @@
                                                     <option value="admin" {{ old('role', $user->role) === 'admin' ? 'selected' : '' }}>Admin</option>
                                                     <option value="station_manager" {{ old('role', $user->role) === 'station_manager' ? 'selected' : '' }}>Station
                                                         Manager</option>
-                                                    <option value="fuel_pumper" {{ old('role', $user->role) === 'fuel_pumper' ? 'selected' : '' }}>Fuel Pumper</option>
+                                                    <option value="station_attendant" {{ old('role', $user->role) === 'station_attendant' ? 'selected' : '' }}>Station Attendant</option>
                                                     <option value="treasury" {{ old('role', $user->role) === 'treasury' ? 'selected' : '' }}>Treasury</option>
                                                     <option value="client" {{ old('role', $user->role) === 'client' ? 'selected' : '' }}>Client</option>
                                                 </select>
@@ -256,13 +256,13 @@
 
             function toggleStationAssignment() {
                 const selectedRole = roleSelect.value;
-                if (selectedRole === 'station_manager' || selectedRole === 'fuel_pumper') {
+                if (selectedRole === 'station_manager' || selectedRole === 'station_attendant') {
                     stationAssignment.style.display = 'block';
                     stationSelect.required = true;
                 } else {
                     stationAssignment.style.display = 'none';
                     stationSelect.required = false;
-                    if (selectedRole !== 'station_manager' && selectedRole !== 'fuel_pumper') {
+                    if (selectedRole !== 'station_manager' && selectedRole !== 'station_attendant') {
                         stationSelect.value = '';
                     }
                 }

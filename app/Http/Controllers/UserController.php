@@ -20,7 +20,7 @@ class UserController extends Controller
             // Station managers can view staff assigned to their station
             $users = User::with('station')
                 ->where('station_id', $user->station_id)
-                ->where('role', User::ROLE_FUEL_PUMPER)
+                ->where('role', User::ROLE_STATION_ATTENDANT)
                 ->get();
         } else {
             return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
@@ -49,7 +49,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:admin,station_manager,fuel_pumper,treasury',
+            'role' => 'required|in:admin,station_manager,station_attendant,treasury',
             'station_id' => 'nullable|exists:stations,id',
             'phone' => 'nullable|string|max:20',
             'status' => 'required|in:active,inactive'
@@ -93,7 +93,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
-            'role' => 'required|in:admin,station_manager,fuel_pumper,treasury',
+            'role' => 'required|in:admin,station_manager,station_attendant,treasury',
             'station_id' => 'nullable|exists:stations,id',
             'phone' => 'nullable|string|max:20',
             'status' => 'required|in:active,inactive'

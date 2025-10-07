@@ -105,7 +105,7 @@ class User extends Authenticatable
 
     public function isFuelPumper()
     {
-        return $this->role === self::ROLE_FUEL_PUMPER;
+        return $this->role === self::ROLE_STATION_ATTENDANT;
     }
 
     public function isTreasury()
@@ -197,7 +197,7 @@ class User extends Authenticatable
         $roles = [
             self::ROLE_ADMIN => 'System Administrator',
             self::ROLE_STATION_MANAGER => 'Station Manager',
-            self::ROLE_FUEL_PUMPER => 'Fuel Pumper',
+            self::ROLE_STATION_ATTENDANT => 'Station Attendant',
             self::ROLE_TREASURY => 'Treasury Team',
             self::ROLE_CLIENT => 'Corporate Client'
         ];
