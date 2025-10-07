@@ -16,24 +16,13 @@ class SuperAdminController extends Controller
 {
     public function __construct()
     {
-        // Temporarily disable middleware for debugging
-        // $this->middleware(function ($request, $next) {
-        //     try {
-        //         $user = Auth::user();
-        //         if (!$user || !$user->isSuperAdmin()) {
-        //             return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
-        //         }
-        //         return $next($request);
-        //     } catch (\Exception $e) {
-        //         \Log::error('SuperAdmin middleware error: ' . $e->getMessage());
-        //         return response()->json([
-        //             'error_type' => 'middleware_error',
-        //             'error_message' => $e->getMessage(),
-        //             'error_file' => $e->getFile(),
-        //             'error_line' => $e->getLine()
-        //         ], 500);
-        //     }
-        // });
+        $this->middleware(function ($request, $next) {
+            $user = Auth::user();
+            if (!$user || !$user->isSuperAdmin()) {
+                return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
+            }
+            return $next($request);
+        });
     }
 
     public function dashboard()
@@ -74,38 +63,8 @@ class SuperAdminController extends Controller
 
     public function manageUsers()
     {
-        try {
-            $users = User::with(['station', 'client'])->get();
-            
-            // Try to render the view and catch any errors
-            try {
-                return view('users.index', compact('users'));
-            } catch (\Exception $viewError) {
-                return response()->json([
-                    'error_type' => 'view_error',
-                    'error_message' => $viewError->getMessage(),
-                    'error_file' => $viewError->getFile(),
-                    'error_line' => $viewError->getLine(),
-                    'error_trace' => $viewError->getTraceAsString(),
-                    'data_available' => [
-                        'users_count' => $users->count(),
-                        'sample_user' => $users->first() ? [
-                            'id' => $users->first()->id,
-                            'name' => $users->first()->name,
-                            'role' => $users->first()->role
-                        ] : null
-                    ]
-                ], 500);
-            }
-        } catch (\Exception $e) {
-            return response()->json([
-                'error_type' => 'controller_error',
-                'error_message' => $e->getMessage(),
-                'error_file' => $e->getFile(),
-                'error_line' => $e->getLine(),
-                'error_trace' => $e->getTraceAsString()
-            ], 500);
-        }
+        $users = User::with(['station', 'client'])->get();
+        return view('users.index', compact('users'));
     }
 
     public function createUser()
