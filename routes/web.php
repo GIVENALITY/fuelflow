@@ -237,7 +237,7 @@ Route::prefix('payments')->name('payments.')->group(function () {
 
 
 // SuperAdmin Routes
-Route::prefix('super-admin')->name('super-admin.')->group(function () {
+Route::prefix('super-admin')->name('super-admin.')->middleware('auth')->group(function () {
     Route::get('/dashboard', [SuperAdminController::class, 'dashboard'])->name('dashboard');
     
     // Business Management Routes
