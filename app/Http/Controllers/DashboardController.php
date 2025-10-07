@@ -16,23 +16,39 @@ class DashboardController extends Controller
     public function index()
     {
         $user = Auth::user();
-
+        
         // If no user is authenticated, redirect to login
         if (!$user) {
             return redirect()->route('login');
         }
-
-        if ($user->isAdmin()) {
+        
+        if ($user->isSuperAdmin()) {
+            return $this->superAdminDashboard();
+        } elseif ($user->isAdmin()) {
             return $this->adminDashboard();
         } elseif ($user->isStationManager()) {
             return $this->stationManagerDashboard();
-        } elseif ($user->isFuelPumper()) {
-            return $this->fuelPumperDashboard();
+        } elseif ($user->isStationAttendant()) {
+            return $this->stationAttendantDashboard();
         } elseif ($user->isTreasury()) {
             return $this->treasuryDashboard();
         } else {
             return $this->clientDashboard();
         }
+    }
+
+    private function superAdminDashboard()
+    {
+        $stats = [
+            'total_users' => User::count(),
+            'total_stations' => Station::count(),
+            'total_clients' => Client::count(),
+            'pending_applications' => Client::where('registration_status', Client::REGISTRATION_STATUS_PENDING)->count(),
+            'active_orders' => FuelRequest::where('status', FuelRequest::STATUS_PENDING)->count(),
+            'pending_payments' => Payment::where('status', 'pending')->count(),
+        ];
+
+        return view('dashboard', compact('stats'));
     }
 
     private function adminDashboard()
@@ -41,16 +57,16 @@ class DashboardController extends Controller
         $activeClients = Client::where('status', Client::STATUS_ACTIVE)->count();
         $totalStations = Station::where('status', Station::STATUS_ACTIVE)->count();
         $pendingApprovals = FuelRequest::where('status', FuelRequest::STATUS_PENDING)->count();
-
+        
         $recentRequests = FuelRequest::with(['client', 'vehicle', 'station'])
             ->latest()
             ->take(5)
             ->get();
 
-        return view('dashboards.admin', compact(
+        return view('dashboard', compact(
             'totalRevenue',
             'activeClients',
-            'totalStations',
+            'totalStations', 
             'pendingApprovals',
             'recentRequests'
         ));
@@ -59,7 +75,7 @@ class DashboardController extends Controller
     private function stationManagerDashboard()
     {
         $station = Auth::user()->station;
-
+        
         $todayRequests = FuelRequest::where('station_id', $station->id)
             ->whereDate('request_date', today())
             ->count();
@@ -68,7 +84,7 @@ class DashboardController extends Controller
             ->whereDate('dispensed_at', today())
             ->sum('quantity_dispensed');
         $availableStaff = User::where('station_id', $station->id)
-            ->where('role', User::ROLE_FUEL_PUMPER)
+            ->where('role', User::ROLE_STATION_ATTENDANT)
             ->where('status', User::STATUS_ACTIVE)
             ->count();
         $pendingRequests = FuelRequest::where('station_id', $station->id)
@@ -81,7 +97,7 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        return view('dashboards.station-manager', compact(
+        return view('dashboard', compact(
             'todayRequests',
             'fuelDispensedToday',
             'availableStaff',
@@ -90,10 +106,10 @@ class DashboardController extends Controller
         ));
     }
 
-    private function fuelPumperDashboard()
+    private function stationAttendantDashboard()
     {
         $user = Auth::user();
-
+        
         $assignedRequests = FuelRequest::where('assigned_pumper_id', $user->id)
             ->where('status', FuelRequest::STATUS_APPROVED)
             ->count();
@@ -116,7 +132,7 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        return view('dashboards.fuel-pumper', compact(
+        return view('dashboard', compact(
             'assignedRequests',
             'completedToday',
             'fuelDispensed',
@@ -142,7 +158,7 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        return view('dashboards.treasury', compact(
+        return view('dashboard', compact(
             'outstandingBalances',
             'pendingReceipts',
             'overdueAccounts',
@@ -155,9 +171,9 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         $client = $user->client;
-
+        
         if (!$client) {
-            return view('dashboards.client');
+            return view('dashboard');
         }
 
         $totalRequests = FuelRequest::where('client_id', $client->id)->count();
@@ -168,7 +184,6 @@ class DashboardController extends Controller
             ->where('status', FuelRequest::STATUS_COMPLETED)
             ->count();
         $availableCredit = $client->available_credit;
-        $creditUtilization = $client->credit_limit > 0 ? ($client->current_balance / $client->credit_limit) * 100 : 0;
 
         $recentRequests = FuelRequest::with(['vehicle', 'station'])
             ->where('client_id', $client->id)
@@ -176,12 +191,11 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        return view('dashboards.client', compact(
+        return view('dashboard', compact(
             'totalRequests',
             'pendingRequests',
             'completedRequests',
             'availableCredit',
-            'creditUtilization',
             'recentRequests'
         ));
     }

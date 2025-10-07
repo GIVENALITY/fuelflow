@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\LogsActivity;
 
 class Client extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes, LogsActivity;
 
     protected $fillable = [
         'user_id',
@@ -24,13 +26,25 @@ class Client extends Model
         'current_balance',
         'payment_terms',
         'status',
+        'registration_status',
         'account_manager_id',
         'preferred_stations',
         'special_instructions',
         'tax_id',
         'business_license',
         'contract_start_date',
-        'contract_end_date'
+        'contract_end_date',
+        'tin_document_path',
+        'brela_certificate_path',
+        'business_license_path',
+        'director_id_path',
+        'contract_sent',
+        'contract_sent_at',
+        'signed_contract_path',
+        'contract_signed_at',
+        'approved_by',
+        'approved_at',
+        'approval_notes'
     ];
 
     protected $casts = [
@@ -39,7 +53,11 @@ class Client extends Model
         'payment_terms' => 'integer',
         'preferred_stations' => 'array',
         'contract_start_date' => 'date',
-        'contract_end_date' => 'date'
+        'contract_end_date' => 'date',
+        'contract_sent' => 'boolean',
+        'contract_sent_at' => 'datetime',
+        'contract_signed_at' => 'datetime',
+        'approved_at' => 'datetime'
     ];
 
     // Client Status
@@ -48,6 +66,12 @@ class Client extends Model
     const STATUS_CREDIT_HOLD = 'credit_hold';
     const STATUS_PAYMENT_REVIEW = 'payment_review';
     const STATUS_INACTIVE = 'inactive';
+
+    // Registration Status
+    const REGISTRATION_STATUS_PENDING = 'pending';
+    const REGISTRATION_STATUS_APPROVED = 'approved';
+    const REGISTRATION_STATUS_REJECTED = 'rejected';
+    const REGISTRATION_STATUS_ACTIVE = 'active';
 
     // Relationships
     public function user()
@@ -58,6 +82,11 @@ class Client extends Model
     public function accountManager()
     {
         return $this->belongsTo(User::class, 'account_manager_id');
+    }
+
+    public function approvedBy()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
     }
 
     public function fuelRequests()

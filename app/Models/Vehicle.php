@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vehicle extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'client_id',
@@ -21,6 +22,8 @@ class Vehicle extends Model
         'current_mileage',
         'driver_name',
         'driver_phone',
+        'head_card_path',
+        'trailer_card_path',
         'status',
         'registration_expiry',
         'insurance_expiry',
@@ -50,6 +53,8 @@ class Vehicle extends Model
     const TYPE_CAR = 'car';
     const TYPE_BUS = 'bus';
     const TYPE_MOTORCYCLE = 'motorcycle';
+    const TYPE_TRACTOR = 'tractor';
+    const TYPE_TRAILER = 'trailer';
 
     // Fuel Types
     const FUEL_DIESEL = 'diesel';
@@ -139,7 +144,9 @@ class Vehicle extends Model
             self::TYPE_VAN => 'Van',
             self::TYPE_CAR => 'Car',
             self::TYPE_BUS => 'Bus',
-            self::TYPE_MOTORCYCLE => 'Motorcycle'
+            self::TYPE_MOTORCYCLE => 'Motorcycle',
+            self::TYPE_TRACTOR => 'Tractor',
+            self::TYPE_TRAILER => 'Trailer'
         ];
 
         return $types[$this->vehicle_type] ?? 'Unknown';
