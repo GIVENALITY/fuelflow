@@ -42,11 +42,11 @@ use App\Http\Controllers\NotificationController;
 
 // Product Overview Route
 Route::get('/', function () {
-    return view('product-overview-simple');
+    return view('product-overview-comprehensive');
 })->name('home');
 
 Route::get('/product-overview', function () {
-    return view('product-overview-simple');
+    return view('product-overview-comprehensive');
 })->name('product-overview');
 
 Route::get('/demo-guide', function () {
