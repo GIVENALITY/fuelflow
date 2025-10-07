@@ -13,18 +13,17 @@ class BusinessController extends Controller
 {
     public function __construct()
     {
-        // Temporarily disable middleware for debugging
-        // $this->middleware(function ($request, $next) {
-        //     if (!Auth::check()) {
-        //         return redirect()->route('login');
-        //     }
-        //     
-        //     if (!Auth::user()->isSuperAdmin()) {
-        //         return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
-        //     }
-        //     
-        //     return $next($request);
-        // });
+        $this->middleware(function ($request, $next) {
+            if (!Auth::check()) {
+                return redirect()->route('login');
+            }
+            
+            if (!Auth::user()->isSuperAdmin()) {
+                return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
+            }
+            
+            return $next($request);
+        });
     }
 
     public function index()
@@ -88,30 +87,17 @@ class BusinessController extends Controller
 
     public function show(Business $business)
     {
-        try {
-            \Log::info('BusinessController show() - Loading business: ' . $business->id);
-            
-            // Simple stats without complex relationships
-            $stats = [
-                'total_stations' => 0,
-                'total_clients' => 0,
-                'total_users' => 0,
-                'pending_clients' => 0,
-                'monthly_revenue' => 0,
-                'monthly_sales' => 0,
-            ];
+        // Simple stats without complex relationships for now
+        $stats = [
+            'total_stations' => $business->stations()->count(),
+            'total_clients' => $business->clients()->count(),
+            'total_users' => $business->users()->count(),
+            'pending_clients' => $business->clients()->where('registration_status', \App\Models\Client::REGISTRATION_STATUS_PENDING)->count(),
+            'monthly_revenue' => 0, // Will implement later
+            'monthly_sales' => 0,   // Will implement later
+        ];
 
-            \Log::info('BusinessController show() - Attempting to return view');
-            return response()->json([
-                'message' => 'Business show method working',
-                'business_id' => $business->id,
-                'business_name' => $business->name,
-                'stats' => $stats
-            ]);
-        } catch (\Exception $e) {
-            \Log::error('BusinessController show() - ERROR: ' . $e->getMessage());
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        return view('super-admin.businesses.show', compact('business', 'stats'));
     }
 
     public function edit(Business $business)
