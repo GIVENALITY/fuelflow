@@ -60,14 +60,21 @@ class Business extends Model
         return $this->hasMany(Client::class);
     }
 
+    public function admin()
+    {
+        return $this->hasOne(User::class)->where('role', User::ROLE_ADMIN);
+    }
+
     public function fuelRequests()
     {
-        return $this->hasManyThrough(FuelRequest::class, Client::class);
+        return $this->hasManyThrough(FuelRequest::class, Station::class, 'business_id', 'station_id');
     }
 
     public function payments()
     {
-        return $this->hasManyThrough(Payment::class, Client::class);
+        return $this->hasManyThrough(Payment::class, FuelRequest::class, 'station_id', 'fuel_request_id')
+            ->join('stations', 'fuel_requests.station_id', '=', 'stations.id')
+            ->where('stations.business_id', $this->id);
     }
 
     // Scopes

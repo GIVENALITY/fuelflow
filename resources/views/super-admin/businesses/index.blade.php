@@ -84,16 +84,16 @@
                                             </td>
                                             <td>
                                                 <a href="{{ route('super-admin.businesses.show', $business) }}" class="btn btn-link text-secondary mb-0">
-                                                    <i class="material-symbols-rounded text-sm me-2">visibility</i>View
+                                                    <i class="fas fa-eye text-sm me-2"></i>View
                                                 </a>
                                                 <a href="{{ route('super-admin.businesses.edit', $business) }}" class="btn btn-link text-secondary mb-0">
-                                                    <i class="material-symbols-rounded text-sm me-2">edit</i>Edit
+                                                    <i class="fas fa-edit text-sm me-2"></i>Edit
                                                 </a>
                                                 @if($business->status === 'pending')
                                                     <form action="{{ route('super-admin.businesses.approve', $business) }}" method="POST" class="d-inline">
                                                         @csrf
                                                         <button type="submit" class="btn btn-link text-success mb-0">
-                                                            <i class="material-symbols-rounded text-sm me-2">check</i>Approve
+                                                            <i class="fas fa-check text-sm me-2"></i>Approve
                                                         </button>
                                                     </form>
                                                 @endif
@@ -101,7 +101,7 @@
                                                     <form action="{{ route('super-admin.businesses.suspend', $business) }}" method="POST" class="d-inline">
                                                         @csrf
                                                         <button type="submit" class="btn btn-link text-warning mb-0">
-                                                            <i class="material-symbols-rounded text-sm me-2">pause</i>Suspend
+                                                            <i class="fas fa-pause text-sm me-2"></i>Suspend
                                                         </button>
                                                     </form>
                                                 @endif
@@ -109,7 +109,7 @@
                                                     <form action="{{ route('super-admin.businesses.activate', $business) }}" method="POST" class="d-inline">
                                                         @csrf
                                                         <button type="submit" class="btn btn-link text-success mb-0">
-                                                            <i class="material-symbols-rounded text-sm me-2">play_arrow</i>Activate
+                                                            <i class="fas fa-play text-sm me-2"></i>Activate
                                                         </button>
                                                     </form>
                                                 @endif
