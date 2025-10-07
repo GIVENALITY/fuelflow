@@ -55,15 +55,16 @@
                                                     <span class="text-sm">{{ $payment->payment_date->format('M d, Y') }}</span>
                                                 </td>
                                                 <td>
-                                                    <span
-                                                        class="badge badge-sm {{ $payment->status === 'completed' ? 'bg-success' : 'bg-warning' }}">
-                                                        {{ ucfirst($payment->status) }}
+                                                    <span class="badge badge-sm {{ $payment->status_badge }}">
+                                                        {{ $payment->status_display }}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <a href="{{ route('payments.show', $payment) }}"
-                                                        class="btn btn-outline-primary btn-sm">
+                                                        class="btn btn-outline-primary btn-sm"
+                                                        title="View Payment Details">
                                                         <i class="fas fa-eye"></i>
+                                                        <span class="d-none d-md-inline ms-1">View</span>
                                                     </a>
                                                 </td>
                                             </tr>
