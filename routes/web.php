@@ -92,10 +92,10 @@ Route::resource('vehicles', VehicleController::class);
 Route::get('/vehicles/{vehicle}/requests', [VehicleController::class, 'requests'])->name('vehicles.requests');
 
 // Receipt Management
-Route::resource('receipts', ReceiptController::class);
 Route::get('/receipts/pending', [ReceiptController::class, 'pending'])->name('receipts.pending');
 Route::post('/receipts/{receipt}/verify', [ReceiptController::class, 'verify'])->name('receipts.verify');
 Route::post('/receipts/{receipt}/reject', [ReceiptController::class, 'reject'])->name('receipts.reject');
+Route::resource('receipts', ReceiptController::class);
 
 // Payment Management (using EnhancedPaymentController)
 // Route::resource('payments', PaymentController::class);
@@ -183,6 +183,7 @@ Route::prefix('payments')->name('payments.')->group(function () {
     Route::get('/{payment}/download-proof', [EnhancedPaymentController::class, 'downloadProof'])->name('download-proof');
     Route::get('/pending/list', [EnhancedPaymentController::class, 'pendingPayments'])->name('pending');
 });
+
 
 // SuperAdmin Routes
 Route::prefix('super-admin')->name('super-admin.')->group(function () {

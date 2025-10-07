@@ -24,17 +24,17 @@ class ReceiptController extends Controller
         $user = Auth::user();
 
         if ($user->isAdmin() || $user->isTreasury()) {
-            $receipts = Receipt::with(['client', 'fuelRequest', 'station', 'uploadedBy'])
+            $receipts = Receipt::with(['client', 'fuelRequest.vehicle', 'station', 'uploadedBy'])
                 ->latest()
                 ->paginate(20);
         } elseif ($user->isStationManager()) {
-            $receipts = Receipt::with(['client', 'fuelRequest', 'station', 'uploadedBy'])
+            $receipts = Receipt::with(['client', 'fuelRequest.vehicle', 'station', 'uploadedBy'])
                 ->where('station_id', $user->station_id)
                 ->latest()
                 ->paginate(20);
         } elseif ($user->isFuelPumper()) {
             // Fuel pumpers see receipts for requests they were assigned to
-            $receipts = Receipt::with(['client', 'fuelRequest', 'station', 'uploadedBy'])
+            $receipts = Receipt::with(['client', 'fuelRequest.vehicle', 'station', 'uploadedBy'])
                 ->whereHas('fuelRequest', function ($query) use ($user) {
                     $query->where('assigned_pumper_id', $user->id);
                 })
@@ -43,7 +43,7 @@ class ReceiptController extends Controller
         } else {
             // For other roles (like clients), show their receipts
             if ($user->client) {
-                $receipts = Receipt::with(['fuelRequest', 'station', 'uploadedBy'])
+                $receipts = Receipt::with(['fuelRequest.vehicle', 'station', 'uploadedBy'])
                     ->where('client_id', $user->client->id)
                     ->latest()
                     ->paginate(20);
@@ -65,7 +65,7 @@ class ReceiptController extends Controller
             abort(403, 'Unauthorized access. Only Treasury can verify receipts.');
         }
 
-        $receipts = Receipt::with(['client', 'fuelRequest', 'station', 'uploadedBy'])
+        $receipts = Receipt::with(['client', 'fuelRequest.vehicle', 'station', 'uploadedBy'])
             ->where('status', Receipt::STATUS_PENDING)
             ->latest()
             ->paginate(20);
