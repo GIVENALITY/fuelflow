@@ -193,7 +193,7 @@ Route::post('/bulk-price-updates/apply', [BulkPriceUpdateController::class, 'app
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 
 // Admin Client Management Routes
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/clients/pending-applications', [AdminClientController::class, 'pendingApplications'])->name('clients.pending-applications');
     Route::get('/clients/{client}/application', [AdminClientController::class, 'showApplication'])->name('clients.show-application');
     Route::post('/clients/{client}/approve', [AdminClientController::class, 'approveClient'])->name('clients.approve');
@@ -205,7 +205,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 // Client Order Management Routes
-Route::prefix('client')->name('client.')->group(function () {
+Route::prefix('client')->name('client.')->middleware('auth')->group(function () {
     Route::get('/orders', [ClientOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/create', [ClientOrderController::class, 'create'])->name('orders.create');
     Route::post('/orders', [ClientOrderController::class, 'store'])->name('orders.store');
@@ -259,7 +259,7 @@ Route::prefix('super-admin')->name('super-admin.')->middleware('auth')->group(fu
 });
 
 // Station Manager Routes
-Route::prefix('station-manager')->name('station-manager.')->group(function () {
+Route::prefix('station-manager')->name('station-manager.')->middleware('auth')->group(function () {
     Route::get('/dashboard', [StationManagerController::class, 'dashboard'])->name('dashboard');
     Route::get('/attendants', [StationManagerController::class, 'manageAttendants'])->name('attendants.index');
     Route::get('/attendants/create', [StationManagerController::class, 'addAttendant'])->name('attendants.create');
@@ -275,7 +275,7 @@ Route::prefix('station-manager')->name('station-manager.')->group(function () {
 });
 
 // Station Attendant Routes
-Route::prefix('station-attendant')->name('station-attendant.')->group(function () {
+Route::prefix('station-attendant')->name('station-attendant.')->middleware('auth')->group(function () {
     Route::get('/dashboard', [StationAttendantController::class, 'dashboard'])->name('dashboard');
     Route::get('/orders', [StationAttendantController::class, 'myOrders'])->name('orders.index');
     Route::get('/orders/history', [StationAttendantController::class, 'orderHistory'])->name('orders.history');

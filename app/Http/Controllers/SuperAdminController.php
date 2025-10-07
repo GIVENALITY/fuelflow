@@ -57,13 +57,35 @@ class SuperAdminController extends Controller
 
     public function manageUsers()
     {
-        $user = Auth::user();
-        if (!$user || !$user->isSuperAdmin()) {
-            return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
+        try {
+            \Log::info('SuperAdminController manageUsers() - Method called');
+            
+            $user = Auth::user();
+            \Log::info('SuperAdminController manageUsers() - User: ' . ($user ? $user->email : 'null'));
+            
+            if (!$user || !$user->isSuperAdmin()) {
+                \Log::info('SuperAdminController manageUsers() - User not authorized');
+                return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
+            }
+            
+            \Log::info('SuperAdminController manageUsers() - Loading users');
+            $users = User::with(['station', 'client'])->get();
+            \Log::info('SuperAdminController manageUsers() - Users loaded: ' . $users->count());
+            
+            \Log::info('SuperAdminController manageUsers() - Returning view');
+            return view('super-admin.users', compact('users'));
+        } catch (\Exception $e) {
+            \Log::error('SuperAdminController manageUsers() - ERROR: ' . $e->getMessage());
+            \Log::error('SuperAdminController manageUsers() - ERROR File: ' . $e->getFile());
+            \Log::error('SuperAdminController manageUsers() - ERROR Line: ' . $e->getLine());
+            
+            return response()->json([
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'stack' => $e->getTraceAsString()
+            ], 500);
         }
-        
-        $users = User::with(['station', 'client'])->get();
-        return view('super-admin.users', compact('users'));
     }
 
     public function createUser()
