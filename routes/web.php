@@ -82,6 +82,28 @@ Route::get('/fix-superadmin', function () {
     return response()->json(['error' => 'User not found']);
 });
 
+Route::get('/test-users', function () {
+    try {
+        $users = \App\Models\User::with(['station', 'client'])->get();
+        return response()->json([
+            'success' => true,
+            'count' => $users->count(),
+            'users' => $users->map(function($user) {
+                return [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role' => $user->role,
+                    'station_name' => $user->station ? $user->station->name : null,
+                    'client_company' => $user->client ? $user->client->company_name : null
+                ];
+            })
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+});
+
 // Authentication Routes
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
