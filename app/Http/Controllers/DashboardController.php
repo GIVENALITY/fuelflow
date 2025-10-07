@@ -9,6 +9,7 @@ use App\Models\Client;
 use App\Models\FuelRequest;
 use App\Models\Receipt;
 use App\Models\Payment;
+use App\Models\Business;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
