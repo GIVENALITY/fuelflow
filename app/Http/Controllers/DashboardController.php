@@ -40,21 +40,40 @@ class DashboardController extends Controller
     private function superAdminDashboard()
     {
         try {
+            // Check if Business model exists and has data
+            $businessCount = 0;
+            $pendingBusinesses = 0;
+            $activeBusinesses = 0;
+            $avgStationsPerBusiness = 0;
+            
+            try {
+                $businessCount = \App\Models\Business::count();
+                $pendingBusinesses = \App\Models\Business::where('status', \App\Models\Business::STATUS_PENDING)->count();
+                $activeBusinesses = \App\Models\Business::where('status', \App\Models\Business::STATUS_APPROVED)->count();
+                
+                if ($activeBusinesses > 0) {
+                    $avgStationsPerBusiness = \App\Models\Business::where('status', \App\Models\Business::STATUS_APPROVED)
+                        ->withCount('stations')
+                        ->get()
+                        ->avg('stations_count') ?? 0;
+                }
+            } catch (\Exception $e) {
+                // Business table might not exist yet
+                \Log::info('Business table not ready: ' . $e->getMessage());
+            }
+
             $stats = [
-                'total_businesses' => \App\Models\Business::count(),
-                'pending_businesses' => \App\Models\Business::where('status', \App\Models\Business::STATUS_PENDING)->count(),
-                'active_businesses' => \App\Models\Business::where('status', \App\Models\Business::STATUS_APPROVED)->count(),
+                'total_businesses' => $businessCount,
+                'pending_businesses' => $pendingBusinesses,
+                'active_businesses' => $activeBusinesses,
                 'total_stations' => Station::count(),
                 'total_clients' => Client::count(),
-                'total_revenue' => Payment::where('status', 'completed')->sum('amount'),
+                'total_revenue' => Payment::where('status', 'completed')->sum('amount') ?? 0,
                 'monthly_sales' => FuelRequest::where('status', FuelRequest::STATUS_DISPENSED)
                     ->whereMonth('dispensed_at', now()->month)
                     ->whereYear('dispensed_at', now()->year)
-                    ->sum('quantity_dispensed'),
-                'avg_stations_per_business' => \App\Models\Business::where('status', \App\Models\Business::STATUS_APPROVED)
-                    ->withCount('stations')
-                    ->get()
-                    ->avg('stations_count') ?? 0,
+                    ->sum('quantity_dispensed') ?? 0,
+                'avg_stations_per_business' => $avgStationsPerBusiness,
             ];
 
             return view('dashboard', compact('stats'));
