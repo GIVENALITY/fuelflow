@@ -20,6 +20,8 @@ use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\BulkPriceUpdateController;
 use App\Http\Controllers\StationManagerController;
 use App\Http\Controllers\ClientRegistrationController;
+use App\Http\Controllers\SimplifiedClientRegistrationController;
+use App\Http\Controllers\ClientProfileController;
 use App\Http\Controllers\AdminClientController;
 use App\Http\Controllers\ClientOrderController;
 use App\Http\Controllers\EnhancedPaymentController;
@@ -48,9 +50,9 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Client Registration Routes (Public)
-Route::get('/register', [ClientRegistrationController::class, 'showRegistrationForm'])->name('client-registration.index');
-Route::post('/register', [ClientRegistrationController::class, 'store'])->name('client-registration.store');
-Route::get('/registration-success', [ClientRegistrationController::class, 'success'])->name('client-registration.success');
+Route::get('/register', [SimplifiedClientRegistrationController::class, 'showRegistrationForm'])->name('client-registration.index');
+Route::post('/register', [SimplifiedClientRegistrationController::class, 'store'])->name('client-registration.store');
+Route::get('/registration-success', [SimplifiedClientRegistrationController::class, 'success'])->name('client-registration.success');
 
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
@@ -172,6 +174,14 @@ Route::prefix('client')->name('client.')->group(function () {
     Route::post('/orders/bulk-upload', [ClientOrderController::class, 'processBulkUpload'])->name('orders.process-bulk-upload');
     Route::get('/orders/download-template', [ClientOrderController::class, 'downloadTemplate'])->name('orders.download-template');
     Route::get('/vehicles/search', [ClientOrderController::class, 'searchVehicles'])->name('vehicles.search');
+});
+
+// Client Profile Management Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/client/profile', [ClientProfileController::class, 'profile'])->name('client.profile');
+    Route::put('/client/profile', [ClientProfileController::class, 'updateProfile'])->name('client.profile.update');
+    Route::get('/client/vehicles', [ClientProfileController::class, 'vehicles'])->name('client.vehicles');
+    Route::post('/client/vehicles', [ClientProfileController::class, 'storeVehicle'])->name('client.vehicles.store');
 });
 
 // Enhanced Payment Routes

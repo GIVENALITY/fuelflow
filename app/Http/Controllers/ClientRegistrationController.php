@@ -15,53 +15,25 @@ class ClientRegistrationController extends Controller
 {
     public function showRegistrationForm()
     {
-        return view('client-registration.index');
+        return view('client-registration.simple');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            // Company details
             'company_name' => 'required|string|max:255',
-            'contact_person' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email|unique:clients,email',
-            'phone' => 'required|string|max:20',
-            'address' => 'required|string|max:500',
-            'city' => 'required|string|max:255',
-            'state' => 'required|string|max:255',
-            'zip_code' => 'required|string|max:20',
-            'country' => 'required|string|max:255',
-            'tax_id' => 'required|string|max:255',
-            
-            // Document uploads
-            'tin_document' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'brela_certificate' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'business_license' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'director_id' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            
-            // Vehicle details
-            'vehicle_plate_number' => 'required|string|max:20',
-            'vehicle_type' => 'required|in:truck,van,car,bus,motorcycle,tractor,trailer',
-            'vehicle_make' => 'required|string|max:255',
-            'vehicle_model' => 'required|string|max:255',
-            'vehicle_year' => 'required|integer|min:1900|max:' . date('Y'),
-            'vehicle_fuel_type' => 'required|in:diesel,petrol',
-            'head_card' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'trailer_card' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            
-            // User account
             'password' => 'required|string|min:8|confirmed',
         ]);
 
         try {
             // Create user account
             $user = User::create([
-                'name' => $request->contact_person,
+                'name' => $request->company_name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'role' => User::ROLE_CLIENT,
-                'phone' => $request->phone,
-                'status' => User::STATUS_ACTIVE,
+                'status' => 'active',
             ]);
 
             // Upload documents
