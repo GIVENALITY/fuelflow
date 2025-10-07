@@ -13,7 +13,7 @@
                         <p class="text-sm text-secondary mb-0">Financial overview and payment processing</p>
                     </div>
                     <div>
-                        <a href="{{ route('payments.pending.list') }}" class="btn btn-primary btn-sm">
+                        <a href="{{ route('payments.pending') }}" class="btn btn-primary btn-sm">
                             <i class="material-symbols-rounded me-2">pending_actions</i>Review Payments
                         </a>
                     </div>
@@ -170,10 +170,10 @@
                     </div>
                     <div class="card-body p-3">
                         <div class="d-grid gap-2">
-                            <a href="{{ route('payments.pending.list') }}" class="btn btn-outline-warning btn-sm">
+                            <a href="{{ route('payments.pending') }}" class="btn btn-outline-warning btn-sm">
                                 <i class="material-symbols-rounded me-2">pending_actions</i>Review Pending Payments
                             </a>
-                            <a href="{{ route('clients.index') }}" class="btn btn-outline-danger btn-sm">
+                            <a href="{{ route('clients.overdue') }}" class="btn btn-outline-danger btn-sm">
                                 <i class="material-symbols-rounded me-2">warning</i>View Overdue Accounts
                             </a>
                             <a href="{{ route('payments.index') }}" class="btn btn-outline-success btn-sm">
