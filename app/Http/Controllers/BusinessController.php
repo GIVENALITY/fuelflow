@@ -33,51 +33,63 @@ class BusinessController extends Controller
 
     public function create()
     {
-        return view('super-admin.businesses.create');
+        try {
+            return view('super-admin.businesses.create');
+        } catch (\Exception $e) {
+            \Log::error('BusinessController create error: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'registration_number' => 'nullable|string|max:255',
-            'email' => 'required|email|unique:businesses,email',
-            'phone' => 'required|string|max:20',
-            'address' => 'required|string',
-            'contact_person' => 'required|string|max:255',
-            'admin_name' => 'required|string|max:255',
-            'admin_email' => 'required|email|unique:users,email',
-            'admin_password' => 'required|string|min:8|confirmed',
-            'notes' => 'nullable|string'
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'registration_number' => 'nullable|string|max:255',
+                'email' => 'required|email|unique:businesses,email',
+                'phone' => 'required|string|max:20',
+                'address' => 'required|string',
+                'contact_person' => 'required|string|max:255',
+                'admin_name' => 'required|string|max:255',
+                'admin_email' => 'required|email|unique:users,email',
+                'admin_password' => 'required|string|min:8|confirmed',
+                'notes' => 'nullable|string'
+            ]);
 
-        // Create business
-        $business = Business::create([
-            'name' => $request->name,
-            'business_code' => strtoupper(Str::random(6)),
-            'registration_number' => $request->registration_number,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'contact_person' => $request->contact_person,
-            'status' => Business::STATUS_APPROVED, // Auto-approve if created by super admin
-            'approved_at' => now(),
-            'approved_by' => Auth::id(),
-            'notes' => $request->notes,
-        ]);
+            // Create business
+            $business = Business::create([
+                'name' => $request->name,
+                'business_code' => strtoupper(Str::random(6)),
+                'registration_number' => $request->registration_number,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'contact_person' => $request->contact_person,
+                'status' => Business::STATUS_APPROVED, // Auto-approve if created by super admin
+                'approved_at' => now(),
+                'approved_by' => Auth::id(),
+                'notes' => $request->notes,
+            ]);
 
-        // Create business admin user
-        $admin = User::create([
-            'name' => $request->admin_name,
-            'email' => $request->admin_email,
-            'password' => Hash::make($request->admin_password),
-            'role' => User::ROLE_ADMIN,
-            'business_id' => $business->id,
-            'status' => User::STATUS_ACTIVE,
-        ]);
+            // Create business admin user
+            $admin = User::create([
+                'name' => $request->admin_name,
+                'email' => $request->admin_email,
+                'password' => Hash::make($request->admin_password),
+                'role' => User::ROLE_ADMIN,
+                'business_id' => $business->id,
+                'status' => User::STATUS_ACTIVE,
+            ]);
 
-        return redirect()->route('super-admin.businesses.index')
-            ->with('success', 'Business created successfully. Admin account: ' . $admin->email);
+            return redirect()->route('super-admin.businesses.index')
+                ->with('success', 'Business created successfully. Admin account: ' . $admin->email);
+        } catch (\Exception $e) {
+            \Log::error('BusinessController store error: ' . $e->getMessage());
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Error creating business: ' . $e->getMessage());
+        }
     }
 
     public function show(Business $business)
