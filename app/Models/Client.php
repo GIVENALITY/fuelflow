@@ -13,6 +13,7 @@ class Client extends Model
 
     protected $fillable = [
         'user_id',
+        'business_id',
         'company_name',
         'contact_person',
         'email',
@@ -74,6 +75,11 @@ class Client extends Model
     const REGISTRATION_STATUS_ACTIVE = 'active';
 
     // Relationships
+    public function business()
+    {
+        return $this->belongsTo(Business::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

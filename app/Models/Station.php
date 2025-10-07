@@ -12,6 +12,7 @@ class Station extends Model
     protected $fillable = [
         'name',
         'code',
+        'business_id',
         'location_id',
         'phone',
         'email',
@@ -40,6 +41,11 @@ class Station extends Model
     const STATUS_CLOSED = 'closed';
 
     // Relationships
+    public function business()
+    {
+        return $this->belongsTo(Business::class);
+    }
+
     public function manager()
     {
         return $this->belongsTo(User::class, 'manager_id');

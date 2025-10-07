@@ -16,6 +16,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'business_id',
         'station_id',
         'phone',
         'status',
@@ -57,6 +58,11 @@ class User extends Authenticatable
     const STATUS_SUSPENDED = 'suspended';
 
     // Relationships
+    public function business()
+    {
+        return $this->belongsTo(Business::class);
+    }
+
     public function station()
     {
         return $this->belongsTo(Station::class);
@@ -123,40 +129,97 @@ class User extends Authenticatable
         return $this->status === self::STATUS_ACTIVE;
     }
 
-    // Permission methods
+    // Permission methods with business isolation
     public function canManageUsers()
     {
-        return $this->isSuperAdmin() || $this->isAdmin();
+        if ($this->isSuperAdmin()) {
+            return true; // Super admin can manage all users
+        }
+        
+        if ($this->isAdmin() && $this->business_id) {
+            return true; // Business admin can manage users in their business
+        }
+        
+        if ($this->isStationManager() && $this->station_id) {
+            return true; // Station manager can manage attendants at their station
+        }
+        
+        return false;
     }
 
     public function canManageStations()
     {
-        return $this->isSuperAdmin() || $this->isAdmin();
+        return $this->isSuperAdmin() || ($this->isAdmin() && $this->business_id);
     }
 
     public function canManagePricing()
     {
-        return $this->isSuperAdmin() || $this->isAdmin();
+        return $this->isSuperAdmin() || ($this->isAdmin() && $this->business_id);
     }
 
     public function canApproveRequests()
     {
-        return $this->isSuperAdmin() || $this->isAdmin() || $this->isStationManager();
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+        
+        if ($this->isAdmin() && $this->business_id) {
+            return true; // Business admin can approve requests for their business
+        }
+        
+        if ($this->isStationManager() && $this->station_id) {
+            return true; // Station manager can approve requests for their station
+        }
+        
+        return false;
     }
 
     public function canDispenseFuel()
     {
-        return $this->isSuperAdmin() || $this->isAdmin() || $this->isStationManager() || $this->isStationAttendant();
+        return $this->isSuperAdmin() || 
+               ($this->isAdmin() && $this->business_id) || 
+               $this->isStationManager() || 
+               $this->isStationAttendant();
     }
 
     public function canVerifyReceipts()
     {
-        return $this->isSuperAdmin() || $this->isAdmin() || $this->isTreasury();
+        return $this->isSuperAdmin() || 
+               ($this->isAdmin() && $this->business_id) || 
+               $this->isTreasury();
     }
 
     public function canViewFinancialReports()
     {
-        return $this->isSuperAdmin() || $this->isAdmin() || $this->isTreasury();
+        return $this->isSuperAdmin() || 
+               ($this->isAdmin() && $this->business_id) || 
+               $this->isTreasury();
+    }
+
+    // Business-specific methods
+    public function canManageBusiness($businessId)
+    {
+        return $this->isSuperAdmin() || 
+               ($this->isAdmin() && $this->business_id === $businessId);
+    }
+
+    public function canManageStation($stationId)
+    {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+        
+        if ($this->isAdmin() && $this->business_id) {
+            // Business admin can manage stations in their business
+            $station = Station::find($stationId);
+            return $station && $station->business_id === $this->business_id;
+        }
+        
+        if ($this->isStationManager()) {
+            return $this->station_id === $stationId;
+        }
+        
+        return false;
     }
 
     // Station-specific methods
