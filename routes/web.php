@@ -239,14 +239,21 @@ Route::prefix('payments')->name('payments.')->group(function () {
 // SuperAdmin Routes
 Route::prefix('super-admin')->name('super-admin.')->group(function () {
     Route::get('/dashboard', [SuperAdminController::class, 'dashboard'])->name('dashboard');
-    Route::get('/stations', [SuperAdminController::class, 'manageStations'])->name('stations.index');
-    Route::get('/stations/create', [SuperAdminController::class, 'createStation'])->name('stations.create');
-    Route::post('/stations', [SuperAdminController::class, 'storeStation'])->name('stations.store');
-    Route::post('/stations/{station}/toggle-status', [SuperAdminController::class, 'toggleStationStatus'])->name('stations.toggle-status');
+    
+    // Business Management Routes
+    Route::get('/businesses', [\App\Http\Controllers\BusinessController::class, 'index'])->name('businesses.index');
+    Route::get('/businesses/create', [\App\Http\Controllers\BusinessController::class, 'create'])->name('businesses.create');
+    Route::post('/businesses', [\App\Http\Controllers\BusinessController::class, 'store'])->name('businesses.store');
+    Route::get('/businesses/{business}', [\App\Http\Controllers\BusinessController::class, 'show'])->name('businesses.show');
+    Route::get('/businesses/{business}/edit', [\App\Http\Controllers\BusinessController::class, 'edit'])->name('businesses.edit');
+    Route::put('/businesses/{business}', [\App\Http\Controllers\BusinessController::class, 'update'])->name('businesses.update');
+    Route::post('/businesses/{business}/approve', [\App\Http\Controllers\BusinessController::class, 'approve'])->name('businesses.approve');
+    Route::post('/businesses/{business}/suspend', [\App\Http\Controllers\BusinessController::class, 'suspend'])->name('businesses.suspend');
+    Route::post('/businesses/{business}/activate', [\App\Http\Controllers\BusinessController::class, 'activate'])->name('businesses.activate');
+    Route::delete('/businesses/{business}', [\App\Http\Controllers\BusinessController::class, 'destroy'])->name('businesses.destroy');
+    
+    // Legacy routes (keeping for backward compatibility)
     Route::get('/users', [SuperAdminController::class, 'manageUsers'])->name('users.index');
-    Route::get('/users/create', [SuperAdminController::class, 'createUser'])->name('users.create');
-    Route::post('/users', [SuperAdminController::class, 'storeUser'])->name('users.store');
-    Route::post('/users/{user}/toggle-status', [SuperAdminController::class, 'toggleUserStatus'])->name('users.toggle-status');
     Route::get('/reports', [SuperAdminController::class, 'reports'])->name('reports.index');
 });
 
