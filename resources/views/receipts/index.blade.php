@@ -16,7 +16,7 @@
                                     My Receipts
                                 @elseif(auth()->user()->isStationManager())
                                     Station Receipts
-                                @elseif(auth()->user()->isFuelPumper())
+                                @elseif(auth()->user()->isStationAttendant())
                                     My Assigned Receipts
                                 @elseif(auth()->user()->isTreasury())
                                     All Receipts for Verification
@@ -31,7 +31,7 @@
                                     View and track your fuel receipts
                                 @elseif(auth()->user()->isStationManager())
                                     Manage receipts for your station
-                                @elseif(auth()->user()->isFuelPumper())
+                                @elseif(auth()->user()->isStationAttendant())
                                     View receipts for your assigned requests
                                 @elseif(auth()->user()->isTreasury())
                                     Verify and manage all system receipts
@@ -42,7 +42,7 @@
                                 @endif
                             </p>
                         </div>
-                        @if(auth()->user()->isStationManager() || auth()->user()->isFuelPumper())
+                        @if(auth()->user()->isStationManager() || auth()->user()->isStationAttendant())
                             <a href="{{ route('receipts.create') }}" class="btn btn-primary btn-sm">
                                 <i class="material-symbols-rounded me-1">add</i>
                                 Upload Receipt

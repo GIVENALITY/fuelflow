@@ -32,7 +32,7 @@ class ReceiptController extends Controller
                 ->where('station_id', $user->station_id)
                 ->latest()
                 ->paginate(20);
-        } elseif ($user->isFuelPumper()) {
+        } elseif ($user->isStationAttendant()) {
             // Fuel pumpers see receipts for requests they were assigned to
             $receipts = Receipt::with(['client', 'fuelRequest.vehicle', 'station', 'uploadedBy'])
                 ->whereHas('fuelRequest', function ($query) use ($user) {
@@ -84,7 +84,7 @@ class ReceiptController extends Controller
                 ->whereNull('receipt_id')
                 ->with(['vehicle', 'station', 'client'])
                 ->get();
-        } elseif ($user->isFuelPumper()) {
+        } elseif ($user->isStationAttendant()) {
             $fuelRequests = FuelRequest::where('assigned_pumper_id', $user->id)
                 ->where('status', FuelRequest::STATUS_DISPENSED)
                 ->whereNull('receipt_id')
@@ -102,7 +102,7 @@ class ReceiptController extends Controller
         $user = Auth::user();
 
         // Only Station Managers and Fuel Pumpers can upload receipts (per TOR)
-        if (!$user->isStationManager() && !$user->isFuelPumper()) {
+        if (!$user->isStationManager() && !$user->isStationAttendant()) {
             abort(403, 'Unauthorized action. Only Station Managers and Fuel Pumpers can upload receipts.');
         }
 
@@ -122,7 +122,7 @@ class ReceiptController extends Controller
             $fuelRequest = FuelRequest::where('id', $validated['fuel_request_id'])
                 ->where('station_id', $user->station_id)
                 ->firstOrFail();
-        } elseif ($user->isFuelPumper()) {
+        } elseif ($user->isStationAttendant()) {
             $fuelRequest = FuelRequest::where('id', $validated['fuel_request_id'])
                 ->where('assigned_pumper_id', $user->id)
                 ->firstOrFail();
