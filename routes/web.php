@@ -82,6 +82,23 @@ Route::get('/fix-superadmin', function () {
     return response()->json(['error' => 'User not found']);
 });
 
+Route::get('/debug-dashboard', function () {
+    try {
+        $user = \Illuminate\Support\Facades\Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Not authenticated']);
+        }
+        
+        $dashboardController = new \App\Http\Controllers\DashboardController();
+        return $dashboardController->index();
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ]);
+    }
+});
+
 
 // Authentication Routes
 
