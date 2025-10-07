@@ -266,6 +266,19 @@ Route::prefix('super-admin')->name('super-admin.')->group(function () {
             'is_super_admin' => Auth::user() ? Auth::user()->isSuperAdmin() : false
         ]);
     })->name('debug.business');
+    
+    // Simple test route for business create
+    Route::get('/test-business-create', function() {
+        \Log::info('Test business create route accessed');
+        try {
+            $viewPath = 'super-admin.businesses.create';
+            \Log::info('Attempting to load view: ' . $viewPath);
+            return view($viewPath);
+        } catch (\Exception $e) {
+            \Log::error('Test route error: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    })->name('test.business.create');
 });
 
 // Station Manager Routes
