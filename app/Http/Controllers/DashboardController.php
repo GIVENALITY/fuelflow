@@ -94,22 +94,42 @@ class DashboardController extends Controller
 
     private function adminDashboard()
     {
-        $totalRevenue = Payment::where('status', 'completed')->sum('amount');
-        $activeClients = Client::where('status', Client::STATUS_ACTIVE)->count();
-        $totalStations = Station::where('status', Station::STATUS_ACTIVE)->count();
-        $pendingApprovals = FuelRequest::where('status', FuelRequest::STATUS_PENDING)->count();
+        $user = Auth::user();
+        $businessId = $user->business_id;
+        
+        // Business-specific data
+        $totalRevenue = Payment::whereHas('fuelRequest.station', function($query) use ($businessId) {
+            $query->where('business_id', $businessId);
+        })->where('status', 'completed')->sum('amount');
+        
+        $activeClients = Client::where('business_id', $businessId)
+            ->where('status', Client::STATUS_ACTIVE)->count();
+        
+        $totalStations = Station::where('business_id', $businessId)
+            ->where('status', Station::STATUS_ACTIVE)->count();
+        
+        $pendingApprovals = FuelRequest::whereHas('station', function($query) use ($businessId) {
+            $query->where('business_id', $businessId);
+        })->where('status', FuelRequest::STATUS_PENDING)->count();
         
         $recentRequests = FuelRequest::with(['client', 'vehicle', 'station'])
+            ->whereHas('station', function($query) use ($businessId) {
+                $query->where('business_id', $businessId);
+            })
             ->latest()
             ->take(5)
             ->get();
 
-        return view('dashboard', compact(
+        // Business info
+        $business = $user->business ?? null;
+
+        return view('dashboard.admin', compact(
             'totalRevenue',
             'activeClients',
             'totalStations', 
             'pendingApprovals',
-            'recentRequests'
+            'recentRequests',
+            'business'
         ));
     }
 

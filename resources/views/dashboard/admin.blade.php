@@ -9,12 +9,12 @@
             <div class="col-12">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h4 class="mb-1">Admin Dashboard</h4>
-                        <p class="text-sm text-secondary mb-0">System administration and oversight</p>
+                        <h4 class="mb-1">{{ $business->name ?? 'Business' }} Dashboard</h4>
+                        <p class="text-sm text-secondary mb-0">Business management and oversight</p>
                     </div>
                     <div>
-                        <a href="{{ route('admin.clients.pending') }}" class="btn btn-primary btn-sm">
-                            <i class="material-symbols-rounded me-2">pending_actions</i>Review Applications
+                        <a href="{{ route('clients.index') }}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-users me-2"></i>Manage Clients
                         </a>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                 <div class="card">
                     <div class="card-header p-3 pt-2">
                         <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                            <i class="material-symbols-rounded opacity-10">account_balance</i>
+                            <i class="fas fa-dollar-sign opacity-10"></i>
                         </div>
                         <div class="text-end pt-1">
                             <p class="text-sm mb-0 text-capitalize">Total Revenue</p>
@@ -44,7 +44,7 @@
                 <div class="card">
                     <div class="card-header p-3 pt-2">
                         <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                            <i class="material-symbols-rounded opacity-10">people</i>
+                            <i class="fas fa-users opacity-10"></i>
                         </div>
                         <div class="text-end pt-1">
                             <p class="text-sm mb-0 text-capitalize">Active Clients</p>
@@ -61,7 +61,7 @@
                 <div class="card">
                     <div class="card-header p-3 pt-2">
                         <div class="icon icon-lg icon-shape bg-gradient-warning shadow-warning text-center border-radius-xl mt-n4 position-absolute">
-                            <i class="material-symbols-rounded opacity-10">local_gas_station</i>
+                            <i class="fas fa-gas-pump opacity-10"></i>
                         </div>
                         <div class="text-end pt-1">
                             <p class="text-sm mb-0 text-capitalize">Active Stations</p>
@@ -78,7 +78,7 @@
                 <div class="card">
                     <div class="card-header p-3 pt-2">
                         <div class="icon icon-lg icon-shape bg-gradient-danger shadow-danger text-center border-radius-xl mt-n4 position-absolute">
-                            <i class="material-symbols-rounded opacity-10">pending_actions</i>
+                            <i class="fas fa-clock opacity-10"></i>
                         </div>
                         <div class="text-end pt-1">
                             <p class="text-sm mb-0 text-capitalize">Pending Approvals</p>
@@ -170,20 +170,20 @@
                     </div>
                     <div class="card-body p-3">
                         <div class="d-grid gap-2">
-                            <a href="{{ route('admin.clients.pending') }}" class="btn btn-outline-warning btn-sm">
-                                <i class="material-symbols-rounded me-2">pending_actions</i>Review Applications
+                            <a href="{{ route('clients.index') }}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-users me-2"></i>Manage Clients
                             </a>
-                            <a href="{{ route('clients.index') }}" class="btn btn-outline-info btn-sm">
-                                <i class="material-symbols-rounded me-2">people</i>Manage Clients
+                            <a href="{{ route('stations.index') }}" class="btn btn-outline-info btn-sm">
+                                <i class="fas fa-gas-pump me-2"></i>Manage Stations
                             </a>
-                            <a href="{{ route('stations.index') }}" class="btn btn-outline-primary btn-sm">
-                                <i class="material-symbols-rounded me-2">local_gas_station</i>Manage Stations
+                            <a href="{{ route('users.index') }}" class="btn btn-outline-success btn-sm">
+                                <i class="fas fa-user-plus me-2"></i>Add Users
                             </a>
-                            <a href="{{ route('fuel-requests.index') }}" class="btn btn-outline-success btn-sm">
-                                <i class="material-symbols-rounded me-2">assignment</i>View Requests
+                            <a href="{{ route('fuel-requests.index') }}" class="btn btn-outline-warning btn-sm">
+                                <i class="fas fa-list me-2"></i>View Requests
                             </a>
                             <a href="{{ route('reports.index') }}" class="btn btn-outline-secondary btn-sm">
-                                <i class="material-symbols-rounded me-2">analytics</i>Reports
+                                <i class="fas fa-chart-bar me-2"></i>Reports
                             </a>
                         </div>
                     </div>
