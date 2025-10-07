@@ -120,16 +120,16 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="me-3">
                                                         @if($receipt->file_path)
-                                                            <img src="{{ asset('storage/' . $receipt->file_path) }}" 
+                                                            <img src="{{ $receipt->file_url }}" 
                                                                  alt="Receipt" 
                                                                  class="img-thumbnail" 
-                                                                 style="width: 50px; height: 50px; object-fit: cover;">
-                                                        @else
-                                                            <div class="bg-light rounded d-flex align-items-center justify-content-center" 
-                                                                 style="width: 50px; height: 50px;">
-                                                                <i class="fas fa-receipt text-muted"></i>
-                                                            </div>
+                                                                 style="width: 50px; height: 50px; object-fit: cover;"
+                                                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                                         @endif
+                                                        <div class="bg-light rounded d-flex align-items-center justify-content-center" 
+                                                             style="width: 50px; height: 50px; {{ $receipt->file_path ? 'display: none;' : '' }}">
+                                                            <i class="fas fa-receipt text-muted"></i>
+                                                        </div>
                                                     </div>
                                                     <div>
                                                         <h6 class="mb-0 text-sm">{{ $receipt->receipt_number }}</h6>
@@ -175,35 +175,41 @@
                                             <td>
                                                 <div class="btn-group" role="group">
                                                     <a href="{{ route('receipts.show', $receipt) }}" 
-                                                       class="btn btn-outline-primary btn-sm">
+                                                       class="btn btn-outline-primary btn-sm"
+                                                       title="View Details">
                                                         <i class="fas fa-eye"></i>
+                                                        <span class="d-none d-md-inline ms-1">View</span>
                                                     </a>
                                                     @if($receipt->file_path)
                                                         <a href="{{ route('receipts.download', $receipt) }}" 
-                                                           class="btn btn-outline-secondary btn-sm">
+                                                           class="btn btn-outline-secondary btn-sm"
+                                                           title="Download Receipt">
                                                             <i class="fas fa-download"></i>
+                                                            <span class="d-none d-md-inline ms-1">Download</span>
                                                         </a>
                                                     @endif
                                                     @if(auth()->user()->canVerifyReceipts() && $receipt->status === 'pending')
                                                         <div class="btn-group" role="group">
                                                             <button type="button" 
                                                                     class="btn btn-outline-success btn-sm dropdown-toggle" 
-                                                                    data-bs-toggle="dropdown">
+                                                                    data-bs-toggle="dropdown"
+                                                                    title="Verify/Reject Receipt">
                                                                 <i class="fas fa-check"></i>
+                                                                <span class="d-none d-md-inline ms-1">Verify</span>
                                                             </button>
                                                             <ul class="dropdown-menu">
                                                                 <li>
                                                                     <button class="dropdown-item" 
                                                                             onclick="verifyReceipt({{ $receipt->id }}, 'verify')">
                                                                         <i class="fas fa-check me-2"></i>
-                                                                        Verify
+                                                                        Verify Receipt
                                                                     </button>
                                                                 </li>
                                                                 <li>
                                                                     <button class="dropdown-item text-danger" 
                                                                             onclick="verifyReceipt({{ $receipt->id }}, 'reject')">
                                                                         <i class="fas fa-times me-2"></i>
-                                                                        Reject
+                                                                        Reject Receipt
                                                                     </button>
                                                                 </li>
                                                             </ul>
