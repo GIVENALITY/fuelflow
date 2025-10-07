@@ -25,6 +25,7 @@ use App\Http\Controllers\ClientOrderController;
 use App\Http\Controllers\EnhancedPaymentController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\StationAttendantController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,11 +97,11 @@ Route::get('/receipts/pending', [ReceiptController::class, 'pending'])->name('re
 Route::post('/receipts/{receipt}/verify', [ReceiptController::class, 'verify'])->name('receipts.verify');
 Route::post('/receipts/{receipt}/reject', [ReceiptController::class, 'reject'])->name('receipts.reject');
 
-// Payment Management
-Route::resource('payments', PaymentController::class);
-Route::post('/payments/{payment}/process', [PaymentController::class, 'process'])->name('payments.process');
-Route::patch('/payments/{payment}/approve', [PaymentController::class, 'approve'])->name('payments.approve');
-Route::patch('/payments/{payment}/reject', [PaymentController::class, 'reject'])->name('payments.reject');
+// Payment Management (using EnhancedPaymentController)
+// Route::resource('payments', PaymentController::class);
+// Route::post('/payments/{payment}/process', [PaymentController::class, 'process'])->name('payments.process');
+// Route::patch('/payments/{payment}/approve', [PaymentController::class, 'approve'])->name('payments.approve');
+// Route::patch('/payments/{payment}/reject', [PaymentController::class, 'reject'])->name('payments.reject');
 
 // Fuel Price Management
 Route::resource('fuel-prices', FuelPriceController::class);
@@ -146,9 +147,7 @@ Route::post('/bulk-price-updates/upload', [BulkPriceUpdateController::class, 'up
 Route::post('/bulk-price-updates/apply', [BulkPriceUpdateController::class, 'apply'])->name('bulk-price-updates.apply');
 
 // Notifications
-Route::get('/notifications', function () {
-    return view('notifications.index');
-})->name('notifications.index');
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 
 // Admin Client Management Routes
 Route::prefix('admin')->name('admin.')->group(function () {
