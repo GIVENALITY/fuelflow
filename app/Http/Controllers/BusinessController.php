@@ -14,9 +14,14 @@ class BusinessController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            if (!Auth::user() || !Auth::user()->isSuperAdmin()) {
+            if (!Auth::check()) {
+                return redirect()->route('login');
+            }
+            
+            if (!Auth::user()->isSuperAdmin()) {
                 return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
             }
+            
             return $next($request);
         });
     }
