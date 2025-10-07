@@ -14,14 +14,32 @@ class BusinessController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
+            \Log::info('BusinessController Middleware - Step 1: Starting middleware check');
+            \Log::info('BusinessController Middleware - Step 2: Auth::check() = ' . (Auth::check() ? 'true' : 'false'));
+            
             if (!Auth::check()) {
+                \Log::info('BusinessController Middleware - Step 3: User not authenticated, redirecting to login');
                 return redirect()->route('login');
             }
             
-            if (!Auth::user()->isSuperAdmin()) {
+            $user = Auth::user();
+            \Log::info('BusinessController Middleware - Step 4: User found: ' . $user->email);
+            \Log::info('BusinessController Middleware - Step 5: User role: ' . $user->role);
+            
+            try {
+                $isSuperAdmin = $user->isSuperAdmin();
+                \Log::info('BusinessController Middleware - Step 6: isSuperAdmin() = ' . ($isSuperAdmin ? 'true' : 'false'));
+            } catch (\Exception $e) {
+                \Log::error('BusinessController Middleware - Step 6 ERROR: ' . $e->getMessage());
+                return response()->json(['error' => 'isSuperAdmin method error: ' . $e->getMessage()], 500);
+            }
+            
+            if (!$isSuperAdmin) {
+                \Log::info('BusinessController Middleware - Step 7: User is not super admin, redirecting to dashboard');
                 return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
             }
             
+            \Log::info('BusinessController Middleware - Step 8: All checks passed, proceeding');
             return $next($request);
         });
     }
@@ -38,11 +56,27 @@ class BusinessController extends Controller
 
     public function create()
     {
+        \Log::info('BusinessController create() - Step 1: Method called');
+        
         try {
-            return view('super-admin.businesses.create');
+            \Log::info('BusinessController create() - Step 2: Checking if view exists');
+            $viewPath = 'super-admin.businesses.create';
+            \Log::info('BusinessController create() - Step 3: View path: ' . $viewPath);
+            
+            \Log::info('BusinessController create() - Step 4: Attempting to return view');
+            return view($viewPath);
         } catch (\Exception $e) {
-            \Log::error('BusinessController create error: ' . $e->getMessage());
-            return response()->json(['error' => $e->getMessage()], 500);
+            \Log::error('BusinessController create() - ERROR: ' . $e->getMessage());
+            \Log::error('BusinessController create() - ERROR File: ' . $e->getFile());
+            \Log::error('BusinessController create() - ERROR Line: ' . $e->getLine());
+            \Log::error('BusinessController create() - ERROR Stack: ' . $e->getTraceAsString());
+            
+            return response()->json([
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'stack' => $e->getTraceAsString()
+            ], 500);
         }
     }
 

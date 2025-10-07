@@ -255,6 +255,17 @@ Route::prefix('super-admin')->name('super-admin.')->group(function () {
     // Legacy routes (keeping for backward compatibility)
     Route::get('/users', [SuperAdminController::class, 'manageUsers'])->name('users.index');
     Route::get('/reports', [SuperAdminController::class, 'reports'])->name('reports.index');
+    
+    // Debug route
+    Route::get('/debug-business', function() {
+        \Log::info('Debug route accessed');
+        return response()->json([
+            'message' => 'Debug route working',
+            'auth_check' => Auth::check(),
+            'user' => Auth::user() ? Auth::user()->email : 'Not logged in',
+            'is_super_admin' => Auth::user() ? Auth::user()->isSuperAdmin() : false
+        ]);
+    })->name('debug.business');
 });
 
 // Station Manager Routes
