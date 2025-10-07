@@ -136,16 +136,61 @@ class SuperAdminController extends Controller
         $redirect = $this->checkSuperAdminAccess();
         if ($redirect) return $redirect;
 
-        // Generate various reports
-        $fuelSalesReport = $this->generateFuelSalesReport();
-        $clientActivityReport = $this->generateClientActivityReport();
-        $stationPerformanceReport = $this->generateStationPerformanceReport();
+        // Generate comprehensive reports data
+        $reports = $this->generateComprehensiveReports();
+        $dateFrom = request('date_from', now()->subDays(30)->format('Y-m-d'));
+        $dateTo = request('date_to', now()->format('Y-m-d'));
 
-        return view('reports.index', compact(
-            'fuelSalesReport',
-            'clientActivityReport', 
-            'stationPerformanceReport'
-        ));
+        return view('reports.index', compact('reports', 'dateFrom', 'dateTo'));
+    }
+
+    private function generateComprehensiveReports()
+    {
+        $dateFrom = request('date_from', now()->subDays(30)->format('Y-m-d'));
+        $dateTo = request('date_to', now()->format('Y-m-d'));
+
+        // Get total requests
+        $totalRequests = FuelRequest::whereBetween('created_at', [$dateFrom, $dateTo])->count();
+        
+        // Get credit sales (total amount requested)
+        $totalCreditSales = FuelRequest::whereBetween('created_at', [$dateFrom, $dateTo])
+            ->sum('amount');
+        
+        // Get actual revenue (completed payments)
+        $totalActualRevenue = Payment::whereBetween('created_at', [$dateFrom, $dateTo])
+            ->where('status', 'completed')
+            ->sum('amount');
+
+        // Status breakdown
+        $statusBreakdown = FuelRequest::whereBetween('created_at', [$dateFrom, $dateTo])
+            ->selectRaw('status, COUNT(*) as count')
+            ->groupBy('status')
+            ->pluck('count', 'status')
+            ->toArray();
+
+        // Daily trends (last 7 days)
+        $dailyTrends = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $date = now()->subDays($i)->format('Y-m-d');
+            $requests = FuelRequest::whereDate('created_at', $date)->count();
+            $revenue = Payment::whereDate('created_at', $date)
+                ->where('status', 'completed')
+                ->sum('amount');
+            
+            $dailyTrends[] = [
+                'date' => $date,
+                'requests' => $requests,
+                'revenue' => $revenue
+            ];
+        }
+
+        return [
+            'total_requests' => $totalRequests,
+            'total_credit_sales' => $totalCreditSales,
+            'total_actual_revenue' => $totalActualRevenue,
+            'status_breakdown' => $statusBreakdown,
+            'daily_trends' => $dailyTrends
+        ];
     }
 
     private function generateFuelSalesReport()
