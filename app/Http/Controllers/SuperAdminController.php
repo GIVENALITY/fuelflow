@@ -17,10 +17,21 @@ class SuperAdminController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            if (!Auth::user()->isSuperAdmin()) {
-                return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
+            try {
+                $user = Auth::user();
+                if (!$user || !$user->isSuperAdmin()) {
+                    return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
+                }
+                return $next($request);
+            } catch (\Exception $e) {
+                \Log::error('SuperAdmin middleware error: ' . $e->getMessage());
+                return response()->json([
+                    'error_type' => 'middleware_error',
+                    'error_message' => $e->getMessage(),
+                    'error_file' => $e->getFile(),
+                    'error_line' => $e->getLine()
+                ], 500);
             }
-            return $next($request);
         });
     }
 
