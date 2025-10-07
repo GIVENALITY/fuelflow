@@ -63,7 +63,7 @@ class SuperAdminController extends Controller
         }
         
         $users = User::with(['station', 'client'])->get();
-        return view('users.index', compact('users'));
+        return view('super-admin.users', compact('users'));
     }
 
     public function createUser()
