@@ -44,8 +44,8 @@ class DashboardController extends Controller
                 'total_users' => User::count(),
                 'total_stations' => Station::count(),
                 'total_clients' => Client::count(),
-                'pending_applications' => Client::where('registration_status', 'pending')->count(),
-                'active_orders' => FuelRequest::where('status', 'pending')->count(),
+                'pending_applications' => Client::where('registration_status', Client::REGISTRATION_STATUS_PENDING)->count(),
+                'active_orders' => FuelRequest::where('status', FuelRequest::STATUS_PENDING)->count(),
                 'pending_payments' => Payment::where('status', 'pending')->count(),
             ];
 
