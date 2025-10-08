@@ -178,7 +178,7 @@ class DemoAccountsSeeder extends Seeder
             ],
             [
                 'plate_number' => 'T789 GHI',
-                'vehicle_type' => 'tractor_trailer',
+                'vehicle_type' => 'truck',
                 'fuel_type' => 'diesel',
                 'make' => 'Volvo',
                 'model' => 'FH16',
