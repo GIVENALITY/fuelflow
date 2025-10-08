@@ -37,6 +37,7 @@ class SimplifiedClientRegistrationController extends Controller
             $client = Client::create([
                 'user_id' => $user->id,
                 'company_name' => $request->company_name,
+                'contact_person' => $request->company_name, // Use company name as contact person initially
                 'email' => $request->email,
                 'registration_status' => Client::REGISTRATION_STATUS_PENDING,
                 'status' => Client::STATUS_INACTIVE,
