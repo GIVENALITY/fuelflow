@@ -66,12 +66,12 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <a class="nav-link text-danger" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form-superadmin').submit();">
                         <i class="material-symbols-rounded opacity-5">logout</i>
-                        <span class="nav-link-text ms-1">Logout</span>
+                        <span class="nav-link-text ms-1 fw-bold">Logout</span>
                     </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    <form id="logout-form-superadmin" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
                 </li>
@@ -367,12 +367,12 @@
                 @endif
 
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <a class="nav-link text-danger" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form-user').submit();">
                         <i class="material-symbols-rounded opacity-5">logout</i>
-                        <span class="nav-link-text ms-1">Logout</span>
+                        <span class="nav-link-text ms-1 fw-bold">Logout</span>
                     </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    <form id="logout-form-user" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
                 </li>
