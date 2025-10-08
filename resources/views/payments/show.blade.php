@@ -120,14 +120,43 @@
                             <h6 class="mb-3"><i class="fas fa-paperclip me-2"></i>Proof of Payment</h6>
                             @if($payment->proof_of_payment)
                                 <div class="border p-3 border-radius-md">
-                                    <a href="{{ asset('storage/' . $payment->proof_of_payment) }}" target="_blank" class="btn btn-outline-primary">
-                                        <i class="fas fa-download me-2"></i>View/Download Proof of Payment
-                                    </a>
-                                    @if(str_ends_with($payment->proof_of_payment, '.pdf'))
-                                        <p class="text-sm text-muted mt-2"><i class="fas fa-file-pdf me-1"></i>PDF Document</p>
-                                    @else
+                                    <div class="mb-3">
+                                        <a href="{{ asset('storage/' . $payment->proof_of_payment) }}" target="_blank" class="btn btn-primary">
+                                            <i class="fas fa-eye me-2"></i>View Proof of Payment
+                                        </a>
+                                        <a href="{{ asset('storage/' . $payment->proof_of_payment) }}" download class="btn btn-outline-primary ms-2">
+                                            <i class="fas fa-download me-2"></i>Download
+                                        </a>
+                                    </div>
+                                    
+                                    @php
+                                        $fileExtension = pathinfo($payment->proof_of_payment, PATHINFO_EXTENSION);
+                                    @endphp
+                                    
+                                    @if(strtolower($fileExtension) === 'pdf')
+                                        <div class="alert alert-info">
+                                            <i class="fas fa-file-pdf me-2"></i>
+                                            <strong>PDF Document</strong> - Click "View" to open in a new tab
+                                        </div>
+                                        <!-- Embedded PDF Preview (optional) -->
+                                        <div class="mt-3" style="height: 600px;">
+                                            <iframe src="{{ asset('storage/' . $payment->proof_of_payment) }}" 
+                                                    width="100%" 
+                                                    height="100%" 
+                                                    style="border: 1px solid #ddd; border-radius: 8px;">
+                                            </iframe>
+                                        </div>
+                                    @elseif(in_array(strtolower($fileExtension), ['jpg', 'jpeg', 'png', 'gif']))
                                         <div class="mt-3">
-                                            <img src="{{ asset('storage/' . $payment->proof_of_payment) }}" alt="Proof of Payment" class="img-fluid border-radius-md" style="max-height: 400px;">
+                                            <img src="{{ asset('storage/' . $payment->proof_of_payment) }}" 
+                                                 alt="Proof of Payment" 
+                                                 class="img-fluid border-radius-md" 
+                                                 style="max-height: 500px; border: 1px solid #ddd;">
+                                        </div>
+                                    @else
+                                        <div class="alert alert-secondary">
+                                            <i class="fas fa-file me-2"></i>
+                                            <strong>{{ strtoupper($fileExtension) }} File</strong> - Click "Download" to view
                                         </div>
                                     @endif
                                 </div>
