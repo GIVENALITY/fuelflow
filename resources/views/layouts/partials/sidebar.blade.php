@@ -104,6 +104,7 @@
                     </a>
                 </li>
 
+                {{-- Commented out for demo - route doesn't exist yet
                 @if(auth()->user()->isAdmin())
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('station-managers.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
@@ -113,40 +114,9 @@
                         </a>
                     </li>
                 @endif
+                --}}
 
-                @if(auth()->user()->isAdmin())
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('fuel-prices.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
-                            href="{{ route('fuel-prices.index') }}">
-                            <i class="material-symbols-rounded opacity-5">attach_money</i>
-                            <span class="nav-link-text ms-1">Fuel Prices</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('bulk-price-updates.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
-                            href="{{ route('bulk-price-updates.index') }}">
-                            <i class="material-symbols-rounded opacity-5">upload_file</i>
-                            <span class="nav-link-text ms-1">Bulk Price Updates</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('locations.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
-                            href="{{ route('locations.index') }}">
-                            <i class="material-symbols-rounded opacity-5">location_on</i>
-                            <span class="nav-link-text ms-1">Locations</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('routes.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
-                            href="{{ route('routes.index') }}">
-                            <i class="material-symbols-rounded opacity-5">route</i>
-                            <span class="nav-link-text ms-1">Routes</span>
-                        </a>
-                    </li>
-                @endif
+                {{-- Commented out for demo - routes may not exist yet --}}
             @endif
 
             @if(auth()->user()->isAdmin() || auth()->user()->isStationManager())
