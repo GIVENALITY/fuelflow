@@ -185,11 +185,25 @@ Route::prefix('client')->name('client.')->middleware('auth')->group(function () 
     Route::get('/orders', [ClientOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/create', [ClientOrderController::class, 'create'])->name('orders.create');
     Route::post('/orders', [ClientOrderController::class, 'store'])->name('orders.store');
-    Route::post('/orders/special-approval', [ClientOrderController::class, 'requestSpecialApproval'])->name('orders.special-approval');
     Route::get('/orders/bulk-upload', [ClientOrderController::class, 'bulkUpload'])->name('orders.bulk-upload');
-    Route::post('/orders/bulk-upload', [ClientOrderController::class, 'processBulkUpload'])->name('orders.process-bulk-upload');
-    Route::get('/orders/download-template', [ClientOrderController::class, 'downloadTemplate'])->name('orders.download-template');
-    Route::get('/vehicles/search', [ClientOrderController::class, 'searchVehicles'])->name('vehicles.search');
+    Route::post('/orders/bulk', [ClientOrderController::class, 'storeBulk'])->name('orders.store-bulk');
+});
+
+// Client Payment Routes
+Route::prefix('payments')->name('payments.')->middleware('auth')->group(function () {
+    Route::get('/', [ClientPaymentController::class, 'index'])->name('index');
+    Route::get('/create', [ClientPaymentController::class, 'create'])->name('create');
+    Route::post('/', [ClientPaymentController::class, 'store'])->name('store');
+});
+
+// Treasury Routes
+Route::prefix('treasury')->name('treasury.')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [TreasuryController::class, 'dashboard'])->name('dashboard');
+    Route::get('/payments/pending', [TreasuryController::class, 'pendingPayments'])->name('payments.pending');
+    Route::get('/payments/all', [TreasuryController::class, 'allPayments'])->name('payments.all');
+    Route::get('/payments/{payment}', [TreasuryController::class, 'showPayment'])->name('payments.show');
+    Route::patch('/payments/{payment}/approve', [TreasuryController::class, 'approvePayment'])->name('payments.approve');
+    Route::patch('/payments/{payment}/reject', [TreasuryController::class, 'rejectPayment'])->name('payments.reject');
 });
 
 // Client Profile Management Routes

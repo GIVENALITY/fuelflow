@@ -2,228 +2,159 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
-use App\Models\Vehicle;
 use App\Models\FuelRequest;
+use App\Models\Vehicle;
 use App\Models\Station;
+use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class ClientOrderController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            if (!Auth::user()->isClient()) {
-                return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
-            }
-            return $next($request);
-        });
-    }
-
-    public function index()
-    {
-        $client = Auth::user()->client;
-        $vehicles = $client->vehicles()->where('status', Vehicle::STATUS_ACTIVE)->get();
-        $stations = Station::where('status', Station::STATUS_ACTIVE)->get();
-        
-        $recentOrders = $client->fuelRequests()
-            ->with(['vehicle', 'station'])
-            ->orderBy('created_at', 'desc')
-            ->take(10)
-            ->get();
-
-        return view('client.orders.index', compact('vehicles', 'stations', 'recentOrders'));
-    }
-
     public function create()
     {
         $client = Auth::user()->client;
-        $vehicles = $client->vehicles()->where('status', Vehicle::STATUS_ACTIVE)->get();
-        $stations = Station::where('status', Station::STATUS_ACTIVE)->get();
         
-        return view('client.orders.create', compact('vehicles', 'stations'));
+        if (!$client) {
+            return redirect()->route('dashboard')->with('error', 'Client profile not found.');
+        }
+
+        // Get client's vehicles
+        $vehicles = $client->vehicles;
+        
+        // Get available stations
+        $stations = Station::where('status', 'active')->get();
+        
+        // Get client's credit info
+        $creditLimit = $client->credit_limit ?? 0;
+        $currentBalance = $client->current_balance ?? 0;
+        $availableCredit = $creditLimit - $currentBalance;
+
+        return view('client.orders.create', compact('vehicles', 'stations', 'creditLimit', 'currentBalance', 'availableCredit'));
     }
 
     public function store(Request $request)
     {
         $client = Auth::user()->client;
         
-        $request->validate([
+        if (!$client) {
+            return redirect()->route('dashboard')->with('error', 'Client profile not found.');
+        }
+
+        $validated = $request->validate([
+            'driver_name' => 'required|string|max:255',
             'vehicle_id' => 'required|exists:vehicles,id',
             'station_id' => 'required|exists:stations,id',
-            'driver_name' => 'required|string|max:255',
-            'quantity_requested' => 'required|numeric|min:1|max:1000',
-            'special_instructions' => 'nullable|string|max:1000',
+            'fuel_type' => 'required|string',
+            'quantity_requested' => 'required|numeric|min:1',
+            'notes' => 'nullable|string',
         ]);
 
-        // Verify vehicle belongs to client
-        $vehicle = $client->vehicles()->findOrFail($request->vehicle_id);
+        // Get fuel price (simplified for demo)
+        $pricePerLiter = 3000; // Default price - should come from fuel_prices table
+        $totalAmount = $validated['quantity_requested'] * $pricePerLiter;
         
-        // Get current fuel price
-        $fuelPrice = $this->getCurrentFuelPrice($request->station_id, $vehicle->fuel_type);
-        $totalAmount = $request->quantity_requested * $fuelPrice;
-
-        // Check credit limit
-        $availableCredit = $client->credit_limit - $client->current_balance;
+        // Check if within credit limit
+        $availableCredit = ($client->credit_limit ?? 0) - ($client->current_balance ?? 0);
         
+        $needsApproval = false;
         if ($totalAmount > $availableCredit) {
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'Order amount exceeds available credit limit. Available credit: TZS ' . number_format($availableCredit, 2));
+            $needsApproval = true;
         }
 
-        try {
-            DB::beginTransaction();
+        // Create fuel request
+        $fuelRequest = FuelRequest::create([
+            'client_id' => $client->id,
+            'vehicle_id' => $validated['vehicle_id'],
+            'station_id' => $validated['station_id'],
+            'fuel_type' => $validated['fuel_type'],
+            'quantity_requested' => $validated['quantity_requested'],
+            'amount' => $totalAmount,
+            'driver_name' => $validated['driver_name'],
+            'status' => $needsApproval ? 'pending_approval' : 'pending',
+            'request_date' => now(),
+            'notes' => $validated['notes'],
+        ]);
 
-            // Create fuel request
-            $fuelRequest = FuelRequest::create([
-                'client_id' => $client->id,
-                'vehicle_id' => $request->vehicle_id,
-                'station_id' => $request->station_id,
-                'fuel_type' => $vehicle->fuel_type,
-                'quantity_requested' => $request->quantity_requested,
-                'unit_price' => $fuelPrice,
-                'total_amount' => $totalAmount,
-                'request_date' => now(),
-                'preferred_date' => now()->addDay(),
-                'due_date' => now()->addDays(7),
-                'status' => FuelRequest::STATUS_PENDING,
-                'urgency_level' => FuelRequest::URGENCY_STANDARD,
-                'special_instructions' => $request->special_instructions,
-            ]);
-
-            // Update client balance
-            $client->increment('current_balance', $totalAmount);
-
-            DB::commit();
-
+        if ($needsApproval) {
             return redirect()->route('client.orders.index')
-                ->with('success', 'Order submitted successfully! Order ID: ' . $fuelRequest->id);
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'Failed to submit order. Please try again.');
+                ->with('warning', 'Order created but requires approval as it exceeds your available credit limit.');
         }
+
+        return redirect()->route('client.orders.index')
+            ->with('success', 'Fuel order created successfully!');
     }
 
-    public function requestSpecialApproval(Request $request)
+    public function index()
     {
         $client = Auth::user()->client;
         
-        $request->validate([
-            'vehicle_id' => 'required|exists:vehicles,id',
-            'station_id' => 'required|exists:stations,id',
-            'driver_name' => 'required|string|max:255',
-            'quantity_requested' => 'required|numeric|min:1|max:1000',
-            'special_instructions' => 'required|string|max:1000',
-            'approval_reason' => 'required|string|max:1000',
-        ]);
-
-        // Verify vehicle belongs to client
-        $vehicle = $client->vehicles()->findOrFail($request->vehicle_id);
-        
-        // Get current fuel price
-        $fuelPrice = $this->getCurrentFuelPrice($request->station_id, $vehicle->fuel_type);
-        $totalAmount = $request->quantity_requested * $fuelPrice;
-
-        try {
-            DB::beginTransaction();
-
-            // Create fuel request with special approval flag
-            $fuelRequest = FuelRequest::create([
-                'client_id' => $client->id,
-                'vehicle_id' => $request->vehicle_id,
-                'station_id' => $request->station_id,
-                'fuel_type' => $vehicle->fuel_type,
-                'quantity_requested' => $request->quantity_requested,
-                'unit_price' => $fuelPrice,
-                'total_amount' => $totalAmount,
-                'request_date' => now(),
-                'preferred_date' => now()->addDay(),
-                'due_date' => now()->addDays(7),
-                'status' => FuelRequest::STATUS_PENDING,
-                'urgency_level' => FuelRequest::URGENCY_PRIORITY,
-                'special_instructions' => $request->special_instructions . "\n\nSpecial Approval Request: " . $request->approval_reason,
-            ]);
-
-            DB::commit();
-
-            return redirect()->route('client.orders.index')
-                ->with('success', 'Special approval request submitted successfully! Order ID: ' . $fuelRequest->id);
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'Failed to submit special approval request. Please try again.');
+        if (!$client) {
+            return redirect()->route('dashboard')->with('error', 'Client profile not found.');
         }
+
+        $orders = FuelRequest::where('client_id', $client->id)
+            ->with(['vehicle', 'station'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        return view('client.orders.index', compact('orders'));
     }
 
     public function bulkUpload()
     {
         $client = Auth::user()->client;
-        $vehicles = $client->vehicles()->where('status', Vehicle::STATUS_ACTIVE)->get();
-        $stations = Station::where('status', Station::STATUS_ACTIVE)->get();
         
+        if (!$client) {
+            return redirect()->route('dashboard')->with('error', 'Client profile not found.');
+        }
+
+        // Get client's vehicles for the template
+        $vehicles = $client->vehicles;
+        $stations = Station::where('status', 'active')->get();
+
         return view('client.orders.bulk-upload', compact('vehicles', 'stations'));
     }
 
-    public function processBulkUpload(Request $request)
-    {
-        $request->validate([
-            'bulk_file' => 'required|file|mimes:csv,xlsx,xls|max:2048',
-        ]);
-
-        // Process bulk upload logic here
-        // This would parse the CSV/Excel file and create multiple orders
-        
-        return redirect()->route('client.orders.index')
-            ->with('success', 'Bulk orders processed successfully!');
-    }
-
-    public function downloadTemplate()
-    {
-        // Generate and download bulk order template
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="bulk_order_template.csv"',
-        ];
-
-        $callback = function() {
-            $file = fopen('php://output', 'w');
-            fputcsv($file, ['Vehicle Plate Number', 'Station ID', 'Driver Name', 'Quantity (Liters)', 'Special Instructions']);
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
-    }
-
-    private function getCurrentFuelPrice($stationId, $fuelType)
-    {
-        // Get current fuel price for the station and fuel type
-        // This would typically come from a fuel prices table
-        return 2500; // Default price in TZS per liter
-    }
-
-    public function searchVehicles(Request $request)
+    public function storeBulk(Request $request)
     {
         $client = Auth::user()->client;
-        $query = $request->get('q');
         
-        $vehicles = $client->vehicles()
-            ->where('status', Vehicle::STATUS_ACTIVE)
-            ->where(function($q) use ($query) {
-                $q->where('plate_number', 'like', "%{$query}%")
-                  ->orWhere('make', 'like', "%{$query}%")
-                  ->orWhere('model', 'like', "%{$query}%");
-            })
-            ->limit(10)
-            ->get();
+        if (!$client) {
+            return redirect()->route('dashboard')->with('error', 'Client profile not found.');
+        }
 
-        return response()->json($vehicles);
+        $validated = $request->validate([
+            'orders' => 'required|array|min:1',
+            'orders.*.driver_name' => 'required|string',
+            'orders.*.vehicle_id' => 'required|exists:vehicles,id',
+            'orders.*.station_id' => 'required|exists:stations,id',
+            'orders.*.fuel_type' => 'required|string',
+            'orders.*.quantity_requested' => 'required|numeric|min:1',
+        ]);
+
+        $created = 0;
+        $pricePerLiter = 3000; // Default price
+
+        foreach ($validated['orders'] as $orderData) {
+            $totalAmount = $orderData['quantity_requested'] * $pricePerLiter;
+            
+            FuelRequest::create([
+                'client_id' => $client->id,
+                'vehicle_id' => $orderData['vehicle_id'],
+                'station_id' => $orderData['station_id'],
+                'fuel_type' => $orderData['fuel_type'],
+                'quantity_requested' => $orderData['quantity_requested'],
+                'amount' => $totalAmount,
+                'driver_name' => $orderData['driver_name'],
+                'status' => 'pending',
+                'request_date' => now(),
+            ]);
+            
+            $created++;
+        }
+
+        return redirect()->route('client.orders.index')
+            ->with('success', "{$created} fuel orders created successfully!");
     }
 }
