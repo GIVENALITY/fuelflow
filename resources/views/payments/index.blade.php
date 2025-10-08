@@ -11,7 +11,18 @@
                 <!-- Payments Table -->
                 <div class="card">
                     <div class="card-header pb-0">
-                        <h6>Payment History</h6>
+                        <div class="row">
+                            <div class="col-lg-6 col-7">
+                                <h6>Payment History</h6>
+                            </div>
+                            <div class="col-lg-6 col-5 my-auto text-end">
+                                @if(auth()->user()->isClient())
+                                <a href="{{ route('payments.create') }}" class="btn btn-primary btn-sm">
+                                    <i class="material-symbols-rounded">add</i> New Payment
+                                </a>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body p-0">
                         @if($payments->count() > 0)
@@ -85,6 +96,11 @@
                                 </div>
                                 <h5 class="text-muted">No payments found</h5>
                                 <p class="text-muted">Your payment history will appear here.</p>
+                                @if(auth()->user()->isClient())
+                                <a href="{{ route('payments.create') }}" class="btn btn-primary mt-3">
+                                    <i class="fas fa-plus me-2"></i>Submit Your First Payment
+                                </a>
+                                @endif
                             </div>
                         @endif
                     </div>
