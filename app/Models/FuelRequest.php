@@ -255,7 +255,7 @@ class FuelRequest extends Model
 
     public function canBeDispensed()
     {
-        return $this->status === self::STATUS_APPROVED;
+        return in_array($this->status, [self::STATUS_PENDING, self::STATUS_APPROVED]);
     }
 
     public function canBeCompleted()
