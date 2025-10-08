@@ -206,11 +206,12 @@ class FleetFuelSeeder extends Seeder
             ]
         );
 
-        // Create fuel prices
+        // Create fuel prices (Current Tanzania prices as of October 2025)
+        // Petrol: ~2,752 TZS/L | Diesel: ~2,704 TZS/L
         FuelPrice::updateOrCreate(
             ['station_id' => $station1->id, 'fuel_type' => 'petrol', 'effective_date' => now()->toDateString()],
             [
-                'price' => 3850.00,
+                'price' => 2752.00,
                 'is_active' => true,
                 'created_by' => $admin->id,
             ]
@@ -219,7 +220,7 @@ class FleetFuelSeeder extends Seeder
         FuelPrice::updateOrCreate(
             ['station_id' => $station1->id, 'fuel_type' => 'diesel', 'effective_date' => now()->toDateString()],
             [
-                'price' => 4250.00,
+                'price' => 2704.00,
                 'is_active' => true,
                 'created_by' => $admin->id,
             ]
@@ -228,7 +229,7 @@ class FleetFuelSeeder extends Seeder
         FuelPrice::updateOrCreate(
             ['station_id' => $station2->id, 'fuel_type' => 'petrol', 'effective_date' => now()->toDateString()],
             [
-                'price' => 3750.00,
+                'price' => 2765.00,
                 'is_active' => true,
                 'created_by' => $admin->id,
             ]
@@ -237,7 +238,7 @@ class FleetFuelSeeder extends Seeder
         FuelPrice::updateOrCreate(
             ['station_id' => $station2->id, 'fuel_type' => 'diesel', 'effective_date' => now()->toDateString()],
             [
-                'price' => 4150.00,
+                'price' => 2715.00,
                 'is_active' => true,
                 'created_by' => $admin->id,
             ]
