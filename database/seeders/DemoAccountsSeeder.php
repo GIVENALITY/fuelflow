@@ -77,10 +77,7 @@ class DemoAccountsSeeder extends Seeder
             ['code' => 'PA-KVK'],
             [
                 'name' => 'Petro Africa - Kivukoni',
-                'address' => 'Kivukoni Front, Plot 123',
-                'city' => 'Dar es Salaam',
-                'state' => 'Dar es Salaam',
-                'zip_code' => '11000',
+                'business_id' => $business->id,
                 'phone' => '+255 22 211 1111',
                 'email' => 'kivukoni@petroafrica.co.tz',
                 'status' => 'active',
@@ -95,10 +92,7 @@ class DemoAccountsSeeder extends Seeder
             ['code' => 'PA-UBG'],
             [
                 'name' => 'Petro Africa - Ubungo',
-                'address' => 'Morogoro Road, Ubungo',
-                'city' => 'Dar es Salaam',
-                'state' => 'Dar es Salaam',
-                'zip_code' => '12000',
+                'business_id' => $business->id,
                 'phone' => '+255 22 211 2222',
                 'email' => 'ubungo@petroafrica.co.tz',
                 'status' => 'active',
