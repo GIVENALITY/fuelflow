@@ -76,8 +76,8 @@
                                                     @endif
                                                 </td>
                                                 <td class="align-middle text-center">
-                                                    @if($payment->proof_of_payment)
-                                                    <a href="{{ asset('storage/' . $payment->proof_of_payment) }}" 
+                                                    @if($payment->proof_of_payment_path)
+                                                    <a href="{{ asset('storage/' . $payment->proof_of_payment_path) }}" 
                                                        target="_blank"
                                                        class="btn btn-link text-secondary mb-0"
                                                        title="View Proof of Payment">

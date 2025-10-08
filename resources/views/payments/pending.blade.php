@@ -79,8 +79,8 @@
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <div class="btn-group" role="group">
-                                                        @if($payment->proof_of_payment)
-                                                        <a href="{{ asset('storage/' . $payment->proof_of_payment) }}" 
+                                                        @if($payment->proof_of_payment_path)
+                                                        <a href="{{ asset('storage/' . $payment->proof_of_payment_path) }}" 
                                                            target="_blank"
                                                            class="btn btn-link text-info mb-0 px-2"
                                                            title="View Proof of Payment">

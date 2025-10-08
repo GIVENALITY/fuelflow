@@ -118,19 +118,20 @@
                     <div class="row mb-4">
                         <div class="col-12">
                             <h6 class="mb-3"><i class="fas fa-paperclip me-2"></i>Proof of Payment</h6>
-                            @if($payment->proof_of_payment)
+                            
+                            @if($payment->proof_of_payment_path)
                                 <div class="border p-3 border-radius-md">
                                     <div class="mb-3">
-                                        <a href="{{ asset('storage/' . $payment->proof_of_payment) }}" target="_blank" class="btn btn-primary">
+                                        <a href="{{ asset('storage/' . $payment->proof_of_payment_path) }}" target="_blank" class="btn btn-primary">
                                             <i class="fas fa-eye me-2"></i>View Proof of Payment
                                         </a>
-                                        <a href="{{ asset('storage/' . $payment->proof_of_payment) }}" download class="btn btn-outline-primary ms-2">
+                                        <a href="{{ asset('storage/' . $payment->proof_of_payment_path) }}" download class="btn btn-outline-primary ms-2">
                                             <i class="fas fa-download me-2"></i>Download
                                         </a>
                                     </div>
                                     
                                     @php
-                                        $fileExtension = pathinfo($payment->proof_of_payment, PATHINFO_EXTENSION);
+                                        $fileExtension = pathinfo($payment->proof_of_payment_path, PATHINFO_EXTENSION);
                                     @endphp
                                     
                                     @if(strtolower($fileExtension) === 'pdf')
@@ -140,7 +141,7 @@
                                         </div>
                                         <!-- Embedded PDF Preview (optional) -->
                                         <div class="mt-3" style="height: 600px;">
-                                            <iframe src="{{ asset('storage/' . $payment->proof_of_payment) }}" 
+                                            <iframe src="{{ asset('storage/' . $payment->proof_of_payment_path) }}" 
                                                     width="100%" 
                                                     height="100%" 
                                                     style="border: 1px solid #ddd; border-radius: 8px;">
@@ -148,7 +149,7 @@
                                         </div>
                                     @elseif(in_array(strtolower($fileExtension), ['jpg', 'jpeg', 'png', 'gif']))
                                         <div class="mt-3">
-                                            <img src="{{ asset('storage/' . $payment->proof_of_payment) }}" 
+                                            <img src="{{ asset('storage/' . $payment->proof_of_payment_path) }}" 
                                                  alt="Proof of Payment" 
                                                  class="img-fluid border-radius-md" 
                                                  style="max-height: 500px; border: 1px solid #ddd;">
