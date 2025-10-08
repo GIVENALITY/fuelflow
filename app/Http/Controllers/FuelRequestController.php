@@ -358,7 +358,7 @@ class FuelRequestController extends Controller
             'notes' => 'nullable|string'
         ]);
 
-        $fuelRequest->dispense($user, $validated['quantity_dispensed'], $validated['notes']);
+        $fuelRequest->dispense($user, $validated['quantity_dispensed'], $validated['notes'] ?? null);
 
         // Send notification
         $this->notificationService->sendFuelDispensed($fuelRequest);
