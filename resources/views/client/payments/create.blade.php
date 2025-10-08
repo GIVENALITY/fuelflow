@@ -23,6 +23,32 @@
                 </div>
 
                 <div class="card-body">
+                    <!-- Display Validation Errors -->
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <h6 class="text-white"><i class="fas fa-exclamation-triangle me-2"></i>Please fix the following errors:</h6>
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <!-- Display Success Message -->
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+                        </div>
+                    @endif
+
+                    <!-- Display Error Message -->
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
+                        </div>
+                    @endif
+
                     <!-- Current Balance Info -->
                     <div class="alert alert-warning mb-4">
                         <div class="row">
@@ -37,7 +63,7 @@
                         </div>
                     </div>
 
-                    <form action="{{ route('payments.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('client-portal.payments.store') }}" method="POST" enctype="multipart/form-data" onsubmit="console.log('Payment form submitting...'); return true;">
                         @csrf
 
                         <div class="row">
