@@ -24,7 +24,7 @@
 
                 <div class="card-body">
                     <!-- Payment Status Banner -->
-                    @if($payment->status === 'pending_verification')
+                    @if($payment->status === 'pending')
                         <div class="alert alert-warning">
                             <i class="fas fa-hourglass-half me-2"></i>
                             <strong>Status:</strong> Awaiting Verification
@@ -121,7 +121,7 @@
                     </div>
 
                     <!-- Actions -->
-                    @if($payment->status === 'pending_verification')
+                    @if($payment->status === 'pending')
                         <div class="row">
                             <div class="col-12">
                                 <h6 class="mb-3"><i class="fas fa-tasks me-2"></i>Actions</h6>

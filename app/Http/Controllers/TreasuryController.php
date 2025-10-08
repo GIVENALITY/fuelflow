@@ -14,18 +14,18 @@ class TreasuryController extends Controller
     public function dashboard()
     {
         // Get pending payments
-        $pendingPayments = Payment::where('status', 'pending_verification')
+        $pendingPayments = Payment::where('status', 'pending')
             ->with('client')
             ->orderBy('created_at', 'desc')
             ->take(10)
             ->get();
 
         // Get statistics
-        $totalPendingAmount = Payment::where('status', 'pending_verification')->sum('amount');
+        $totalPendingAmount = Payment::where('status', 'pending')->sum('amount');
         $verifiedToday = Payment::where('status', 'completed')
             ->whereDate('verified_at', today())
             ->count();
-        $pendingCount = Payment::where('status', 'pending_verification')->count();
+        $pendingCount = Payment::where('status', 'pending')->count();
 
         return view('treasury.dashboard', compact(
             'pendingPayments',
@@ -37,7 +37,7 @@ class TreasuryController extends Controller
 
     public function pendingPayments()
     {
-        $payments = Payment::where('status', 'pending_verification')
+        $payments = Payment::where('status', 'pending')
             ->with(['client', 'submittedBy'])
             ->orderBy('created_at', 'desc')
             ->paginate(20);

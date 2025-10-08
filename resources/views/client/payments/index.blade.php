@@ -63,7 +63,7 @@
                                                     <span class="text-sm">{{ $payment->payment_date ? $payment->payment_date->format('M d, Y') : 'N/A' }}</span>
                                                 </td>
                                                 <td class="align-middle text-center">
-                                                    @if($payment->status === 'pending_verification')
+                                                    @if($payment->status === 'pending')
                                                         <span class="badge badge-sm bg-gradient-warning">Pending Verification</span>
                                                     @elseif($payment->status === 'verified')
                                                         <span class="badge badge-sm bg-gradient-success">Verified</span>
