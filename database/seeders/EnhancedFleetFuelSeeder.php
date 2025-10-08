@@ -383,14 +383,15 @@ class EnhancedFleetFuelSeeder extends Seeder
             );
         }
 
-        // Create fuel prices
+        // Create fuel prices (Current Tanzania prices as of October 2025)
+        // Petrol: ~2,752 TZS/L | Diesel: ~2,704 TZS/L
         $fuelPrices = [
-            ['station_id' => 1, 'fuel_type' => 'diesel', 'price' => 2500, 'effective_date' => now(), 'created_by' => $admin->id],
-            ['station_id' => 1, 'fuel_type' => 'petrol', 'price' => 2800, 'effective_date' => now(), 'created_by' => $admin->id],
-            ['station_id' => 2, 'fuel_type' => 'diesel', 'price' => 2550, 'effective_date' => now(), 'created_by' => $admin->id],
-            ['station_id' => 2, 'fuel_type' => 'petrol', 'price' => 2850, 'effective_date' => now(), 'created_by' => $admin->id],
-            ['station_id' => 3, 'fuel_type' => 'diesel', 'price' => 2480, 'effective_date' => now(), 'created_by' => $admin->id],
-            ['station_id' => 3, 'fuel_type' => 'petrol', 'price' => 2780, 'effective_date' => now(), 'created_by' => $admin->id],
+            ['station_id' => 1, 'fuel_type' => 'diesel', 'price' => 2704, 'effective_date' => now(), 'created_by' => $admin->id],
+            ['station_id' => 1, 'fuel_type' => 'petrol', 'price' => 2752, 'effective_date' => now(), 'created_by' => $admin->id],
+            ['station_id' => 2, 'fuel_type' => 'diesel', 'price' => 2715, 'effective_date' => now(), 'created_by' => $admin->id],
+            ['station_id' => 2, 'fuel_type' => 'petrol', 'price' => 2765, 'effective_date' => now(), 'created_by' => $admin->id],
+            ['station_id' => 3, 'fuel_type' => 'diesel', 'price' => 2695, 'effective_date' => now(), 'created_by' => $admin->id],
+            ['station_id' => 3, 'fuel_type' => 'petrol', 'price' => 2740, 'effective_date' => now(), 'created_by' => $admin->id],
         ];
 
         foreach ($fuelPrices as $priceData) {
