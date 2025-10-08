@@ -77,7 +77,7 @@
                         </p>
                     </div>
                     <div class="col-lg-6 col-5 my-auto text-end">
-                        <a href="{{ route('client-portal.requests.create') }}" class="btn btn-primary btn-sm">
+                        <a href="{{ route('client.orders.create') }}" class="btn btn-primary btn-sm">
                             <i class="material-symbols-rounded">add</i> New Order
                         </a>
                     </div>
@@ -143,7 +143,7 @@
                                     <span class="text-secondary text-xs font-weight-bold">{{ $order->created_at->format('M d, Y') }}</span>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <a href="{{ route('client-portal.requests.show', $order->id) }}" class="btn btn-link text-secondary mb-0">
+                                    <a href="{{ route('fuel-requests.show', $order->id) }}" class="btn btn-link text-secondary mb-0">
                                         <i class="fa fa-eye text-xs me-2"></i>View
                                     </a>
                                 </td>

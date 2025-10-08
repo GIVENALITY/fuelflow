@@ -41,7 +41,7 @@
                         </div>
                     </div>
 
-                    <form action="{{ route('client-portal.orders.store') }}" method="POST" id="orderForm">
+                    <form action="{{ route('client.orders.store') }}" method="POST" id="orderForm">
                         @csrf
 
                         <div class="row">

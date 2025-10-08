@@ -77,11 +77,11 @@ class ClientOrderController extends Controller
         ]);
 
         if ($needsApproval) {
-            return redirect()->route('client-portal.orders.index')
+            return redirect()->route('client.orders.index')
                 ->with('warning', 'Order created but requires approval as it exceeds your available credit limit.');
         }
 
-        return redirect()->route('client-portal.orders.index')
+        return redirect()->route('client.orders.index')
             ->with('success', 'Fuel order created successfully!');
     }
 
@@ -154,7 +154,7 @@ class ClientOrderController extends Controller
             $created++;
         }
 
-        return redirect()->route('client-portal.orders.index')
+        return redirect()->route('client.orders.index')
             ->with('success', "{$created} fuel orders created successfully!");
     }
 }
