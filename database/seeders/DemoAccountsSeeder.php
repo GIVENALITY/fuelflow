@@ -158,24 +158,32 @@ class DemoAccountsSeeder extends Seeder
         $vehicles = [
             [
                 'plate_number' => 'T123 ABC',
-                'truck_type' => 'tractor',
+                'vehicle_type' => 'tractor',
                 'fuel_type' => 'diesel',
-                'kadi_kichwa' => 'HEAD-001',
+                'make' => 'Scania',
+                'model' => 'R-Series',
+                'year' => 2020,
+                'tank_capacity' => 500,
                 'status' => 'active',
             ],
             [
                 'plate_number' => 'T456 DEF',
-                'truck_type' => 'trailer',
+                'vehicle_type' => 'trailer',
                 'fuel_type' => 'diesel',
-                'kadi_trailer' => 'TRAILER-002',
+                'make' => 'Scania',
+                'model' => 'Trailer',
+                'year' => 2019,
+                'tank_capacity' => 400,
                 'status' => 'active',
             ],
             [
                 'plate_number' => 'T789 GHI',
-                'truck_type' => 'tractor_trailer',
+                'vehicle_type' => 'tractor_trailer',
                 'fuel_type' => 'diesel',
-                'kadi_kichwa' => 'HEAD-003',
-                'kadi_trailer' => 'TRAILER-003',
+                'make' => 'Volvo',
+                'model' => 'FH16',
+                'year' => 2021,
+                'tank_capacity' => 600,
                 'status' => 'active',
             ],
         ];
@@ -185,10 +193,6 @@ class DemoAccountsSeeder extends Seeder
                 ['plate_number' => $vehicleData['plate_number']],
                 array_merge($vehicleData, [
                     'client_id' => $client->id,
-                    'make' => 'Scania',
-                    'model' => 'R-Series',
-                    'year' => 2020,
-                    'tank_capacity' => 500,
                 ])
             );
         }
