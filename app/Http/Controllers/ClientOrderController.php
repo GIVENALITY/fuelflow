@@ -76,26 +76,13 @@ class ClientOrderController extends Controller
             'notes' => $validated['notes'],
         ]);
 
-        // Auto-assign to pumper@fuelflow.co.tz if order is approved
-        if (!$needsApproval) {
-            $pumper = \App\Models\User::where('email', 'pumper@fuelflow.co.tz')->first();
-            
-            if ($pumper) {
-                $fuelRequest->update([
-                    'assigned_to' => $pumper->id,
-                    'assigned_at' => now(),
-                    'status' => 'in_progress'
-                ]);
-            }
-        }
-
         if ($needsApproval) {
             return redirect()->route('client.orders.index')
                 ->with('warning', 'Order created but requires approval as it exceeds your available credit limit.');
         }
 
         return redirect()->route('client.orders.index')
-            ->with('success', 'Fuel order created, approved, and assigned successfully!');
+            ->with('success', 'Fuel order created and approved successfully!');
     }
 
     public function index()
