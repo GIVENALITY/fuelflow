@@ -76,13 +76,9 @@ class ClientOrderController extends Controller
             'notes' => $validated['notes'],
         ]);
 
-        // Auto-assign pumper if order is approved
+        // Auto-assign to pumper@fuelflow.co.tz if order is approved
         if (!$needsApproval) {
-            // Get available pumper from the selected station
-            $pumper = \App\Models\User::where('station_id', $validated['station_id'])
-                ->where('role', 'station_attendant')
-                ->where('status', 'active')
-                ->first();
+            $pumper = \App\Models\User::where('email', 'pumper@fuelflow.co.tz')->first();
             
             if ($pumper) {
                 $fuelRequest->update([
