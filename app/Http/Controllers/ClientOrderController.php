@@ -50,8 +50,15 @@ class ClientOrderController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        // Get fuel price (simplified for demo)
-        $pricePerLiter = 3000; // Default price - should come from fuel_prices table
+        // Get actual fuel price from fuel_prices table
+        $fuelPrice = \App\Models\FuelPrice::where('station_id', $validated['station_id'])
+            ->where('fuel_type', $validated['fuel_type'])
+            ->where('effective_date', '<=', now())
+            ->where('status', 'active')
+            ->orderBy('effective_date', 'desc')
+            ->first();
+        
+        $pricePerLiter = $fuelPrice ? $fuelPrice->price : 3000; // Fallback to 3000 if no price found
         $totalAmount = $validated['quantity_requested'] * $pricePerLiter;
         
         // Check if within credit limit
@@ -69,6 +76,7 @@ class ClientOrderController extends Controller
             'station_id' => $validated['station_id'],
             'fuel_type' => $validated['fuel_type'],
             'quantity_requested' => $validated['quantity_requested'],
+            'unit_price' => $pricePerLiter,
             'total_amount' => $totalAmount,
             'driver_name' => $validated['driver_name'],
             'status' => $needsApproval ? 'pending_approval' : 'approved', // Auto-approve if within credit limit
