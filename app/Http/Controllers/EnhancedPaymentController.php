@@ -128,28 +128,20 @@ class EnhancedPaymentController extends Controller
             return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
         }
 
-        $request->validate([
-            'status' => 'required|in:verified,rejected',
-            'verification_notes' => 'required|string|max:1000',
-        ]);
-
+        // Update payment status to verified
         $payment->update([
-            'status' => $request->status,
+            'status' => 'verified',
             'verified_by' => Auth::id(),
             'verified_at' => now(),
-            'verification_notes' => $request->verification_notes,
         ]);
 
-        if ($request->status === 'verified') {
-            // Update client balance
+        // Update client balance - deduct the payment amount
+        if ($payment->client) {
             $payment->client->decrement('current_balance', $payment->amount);
-            
-            // Mark payment as completed
-            $payment->update(['status' => 'completed']);
         }
 
         return redirect()->route('payments.index')
-            ->with('success', 'Payment ' . $request->status . ' successfully.');
+            ->with('success', 'Payment verified and approved successfully! Client balance has been updated.');
     }
 
     public function downloadProof(Payment $payment)
