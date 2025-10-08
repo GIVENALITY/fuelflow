@@ -13,7 +13,7 @@
                         <p class="text-sm text-secondary mb-0">Fuel dispensing and order fulfillment</p>
                     </div>
                     <div>
-                        <a href="{{ route('station-attendant.orders') }}" class="btn btn-primary btn-sm">
+                        <a href="{{ route('station-attendant.orders.index') }}" class="btn btn-primary btn-sm">
                             <i class="material-symbols-rounded me-2">assignment</i>View Orders
                         </a>
                     </div>
@@ -170,7 +170,7 @@
                     </div>
                     <div class="card-body p-3">
                         <div class="d-grid gap-2">
-                            <a href="{{ route('station-attendant.orders') }}" class="btn btn-outline-info btn-sm">
+                            <a href="{{ route('station-attendant.orders.index') }}" class="btn btn-outline-info btn-sm">
                                 <i class="material-symbols-rounded me-2">assignment</i>View Orders
                             </a>
                             <a href="{{ route('station-attendant.vehicles.search') }}" class="btn btn-outline-primary btn-sm">
