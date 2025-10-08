@@ -69,7 +69,7 @@ class ClientOrderController extends Controller
             'station_id' => $validated['station_id'],
             'fuel_type' => $validated['fuel_type'],
             'quantity_requested' => $validated['quantity_requested'],
-            'amount' => $totalAmount,
+            'total_amount' => $totalAmount,
             'driver_name' => $validated['driver_name'],
             'status' => $needsApproval ? 'pending_approval' : 'approved', // Auto-approve if within credit limit
             'request_date' => now(),

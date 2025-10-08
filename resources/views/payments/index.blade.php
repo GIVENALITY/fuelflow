@@ -56,7 +56,7 @@
                                                 </td>
                                                 <td>
                                                     <span
-                                                        class="text-sm font-weight-bold">${{ number_format($payment->amount, 2) }}</span>
+                                                        class="text-sm font-weight-bold">TZS {{ number_format($payment->amount, 0) }}</span>
                                                 </td>
                                                 <td>
                                                     <span

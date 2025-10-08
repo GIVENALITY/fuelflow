@@ -85,7 +85,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Amount</label>
-                                            <p class="form-control-plaintext">${{ number_format($receipt->amount, 2) }}</p>
+                                            <p class="form-control-plaintext">TZS {{ number_format($receipt->amount, 0) }}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-6">

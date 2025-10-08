@@ -169,7 +169,7 @@
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <span
-                                                        class="text-secondary text-xs font-weight-bold">${{ number_format($request->total_amount, 2) }}</span>
+                                                        class="text-secondary text-xs font-weight-bold">TZS {{ number_format($request->total_amount, 0) }}</span>
                                                 </td>
                                                 <td class="align-middle">
                                                     <a href="{{ route('client-portal.requests.show', $request) }}"

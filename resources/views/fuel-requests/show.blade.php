@@ -43,7 +43,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label class="text-secondary text-xs">Total Amount</label>
-                                <div class="text-sm">${{ number_format($fuelRequest->total_amount ?? 0, 2) }}</div>
+                                <div class="text-sm">TZS {{ number_format($fuelRequest->total_amount ?? 0, 0) }}</div>
                             </div>
                         </div>
                         <div class="row mb-3">

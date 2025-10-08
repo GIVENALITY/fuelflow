@@ -150,7 +150,7 @@
                                                 <span class="text-sm">{{ $receipt->station->name }}</span>
                                             </td>
                                             <td>
-                                                <span class="text-sm font-weight-bold">${{ number_format($receipt->amount, 2) }}</span>
+                                                <span class="text-sm font-weight-bold">TZS {{ number_format($receipt->amount, 0) }}</span>
                                                 <br>
                                                 <small class="text-secondary">{{ number_format($receipt->quantity, 2) }}L</small>
                                             </td>
