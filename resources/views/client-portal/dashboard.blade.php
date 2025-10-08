@@ -117,7 +117,7 @@
                     <div class="card-header pb-0 p-3">
                         <div class="d-flex justify-content-between">
                             <h6 class="mb-2">Recent Fuel Requests</h6>
-                            <a href="{{ route('client-portal.requests') }}" class="btn btn-outline-primary btn-sm">
+                            <a href="{{ route('client-portal.requests.index') }}" class="btn btn-outline-primary btn-sm">
                                 View All
                             </a>
                         </div>
@@ -210,11 +210,11 @@
                                 <i class="fas fa-plus me-2"></i>
                                 New Fuel Request
                             </a>
-                            <a href="{{ route('client-portal.vehicles') }}" class="btn btn-outline-primary">
+                            <a href="{{ route('client-portal.vehicles.index') }}" class="btn btn-outline-primary">
                                 <i class="fas fa-car me-2"></i>
                                 Manage Vehicles
                             </a>
-                            <a href="{{ route('client-portal.reports') }}" class="btn btn-outline-primary">
+                            <a href="{{ route('client-portal.reports.index') }}" class="btn btn-outline-primary">
                                 <i class="fas fa-chart-bar me-2"></i>
                                 View Reports
                             </a>

@@ -204,7 +204,6 @@ Route::prefix('client-portal')->name('client-portal.')->middleware('auth')->grou
     
     // Client Vehicles
     Route::get('/vehicles', [ClientProfileController::class, 'vehicles'])->name('vehicles.index');
-    Route::get('/vehicles', [ClientProfileController::class, 'vehicles'])->name('vehicles');
     Route::post('/vehicles', [ClientProfileController::class, 'storeVehicle'])->name('vehicles.store');
     
     // Client Payments
@@ -214,7 +213,6 @@ Route::prefix('client-portal')->name('client-portal.')->middleware('auth')->grou
     
     // Client Reports
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
-    Route::get('/reports', [ReportController::class, 'index'])->name('reports');
     
     // Client Notifications
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
