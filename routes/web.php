@@ -57,56 +57,6 @@ Route::get('/test-page', function () {
     return view('test-page');
 })->name('test-page');
 
-Route::get('/test-superadmin', function () {
-    $user = \App\Models\User::where('email', 'superadmin@fuelflow.com')->first();
-    if ($user) {
-        return response()->json([
-            'user' => $user->toArray(),
-            'isSuperAdmin' => $user->isSuperAdmin(),
-            'role' => $user->role
-        ]);
-    }
-    return response()->json(['error' => 'User not found']);
-});
-
-Route::get('/fix-superadmin', function () {
-    $user = \App\Models\User::where('email', 'superadmin@fuelflow.com')->first();
-    if ($user) {
-        $user->update(['role' => 'super_admin']);
-        return response()->json([
-            'message' => 'SuperAdmin role updated successfully',
-            'user' => $user->fresh()->toArray(),
-            'isSuperAdmin' => $user->fresh()->isSuperAdmin()
-        ]);
-    }
-    return response()->json(['error' => 'User not found']);
-});
-
-Route::get('/debug-dashboard', function () {
-    try {
-        $user = \Illuminate\Support\Facades\Auth::user();
-        if (!$user) {
-            return response()->json(['error' => 'Not authenticated']);
-        }
-        
-        return response()->json([
-            'user_email' => $user->email,
-            'user_role' => $user->role,
-            'business_id' => $user->business_id,
-            'is_admin' => $user->isAdmin(),
-            'is_super_admin' => $user->isSuperAdmin(),
-            'business_relationship_exists' => method_exists($user, 'business'),
-            'business_loaded' => $user->business ? $user->business->name : 'null'
-        ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'error' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-            'trace' => $e->getTraceAsString()
-        ]);
-    }
-});
 
 
 // Authentication Routes

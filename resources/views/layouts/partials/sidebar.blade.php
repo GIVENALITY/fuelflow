@@ -304,10 +304,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('reports.all-stations') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
-                        href="{{ route('reports.all-stations') }}">
-                        <i class="material-symbols-rounded opacity-5">assessment</i>
-                        <span class="nav-link-text ms-1">All Stations Report</span>
+                    <a class="nav-link {{ request()->routeIs('reports.index') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+                        href="{{ route('reports.index') }}">
+                        <i class="fas fa-chart-bar opacity-5"></i>
+                        <span class="nav-link-text ms-1">All Reports</span>
                     </a>
                 </li>
             @endif

@@ -98,19 +98,33 @@ class DashboardController extends Controller
         $user = Auth::user();
         $businessId = $user->business_id;
         
-        // Simple static data for testing
-        $totalRevenue = 0;
-        $activeClients = 0;
-        $totalStations = 0;
-        $pendingApprovals = 0;
-        $recentRequests = collect([]);
+        // Business-specific data (with safe defaults for demo)
+        $totalRevenue = Payment::whereHas('fuelRequest', function($query) use ($businessId) {
+            $query->whereHas('station', function($q) use ($businessId) {
+                $q->where('business_id', $businessId);
+            });
+        })->where('status', 'completed')->sum('amount') ?? 0;
         
-        // Try to get business info safely
-        try {
-            $business = $user->business;
-        } catch (\Exception $e) {
-            $business = null;
-        }
+        $activeClients = Client::where('business_id', $businessId)
+            ->where('status', Client::STATUS_ACTIVE)->count() ?? 0;
+        
+        $totalStations = Station::where('business_id', $businessId)
+            ->where('status', Station::STATUS_ACTIVE)->count() ?? 0;
+        
+        $pendingApprovals = FuelRequest::whereHas('station', function($query) use ($businessId) {
+            $query->where('business_id', $businessId);
+        })->where('status', FuelRequest::STATUS_PENDING)->count() ?? 0;
+        
+        $recentRequests = FuelRequest::with(['client', 'vehicle', 'station'])
+            ->whereHas('station', function($query) use ($businessId) {
+                $query->where('business_id', $businessId);
+            })
+            ->latest()
+            ->take(5)
+            ->get();
+
+        // Business info
+        $business = $user->business;
 
         return view('dashboard.admin', compact(
             'totalRevenue',
