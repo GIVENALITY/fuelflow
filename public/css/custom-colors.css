@@ -1,131 +1,281 @@
-/* Custom FuelFlow Color Scheme */
-/* Primary Color: #2596be (Green) */
+/* FuelFlow Custom Design System */
+/* Primary Color: #2596be (Teal) - No Gradients, Clean & Bold */
 
 :root {
     --bs-primary: #2596be !important;
     --bs-primary-rgb: 37, 150, 190 !important;
 }
 
-/* Primary Buttons */
+/* ========================================
+   SOLID COLORS - NO GRADIENTS
+======================================== */
+
+/* Primary Buttons - Solid, Bold */
 .btn-primary,
 .btn.btn-primary,
 button.btn-primary {
     background-color: #2596be !important;
-    background-image: linear-gradient(195deg, #2596be 0%, #1e7a9a 100%) !important;
+    background-image: none !important; /* Remove gradient */
     border-color: #2596be !important;
     color: #fff !important;
+    font-weight: 600 !important;
+    box-shadow: 0 3px 8px rgba(37, 150, 190, 0.3) !important;
 }
 
 .btn-primary:hover,
 .btn-primary:focus,
-.btn-primary:active,
-.btn.btn-primary:hover,
-.btn.btn-primary:focus,
-.btn.btn-primary:active {
+.btn-primary:active {
     background-color: #1e7a9a !important;
-    background-image: linear-gradient(195deg, #1e7a9a 0%, #156278 100%) !important;
+    background-image: none !important;
     border-color: #1e7a9a !important;
+    box-shadow: 0 5px 12px rgba(37, 150, 190, 0.4) !important;
 }
 
-/* Primary Gradient Backgrounds */
+/* Success Buttons - Solid Green */
+.btn-success,
+.btn.btn-success {
+    background-color: #4CAF50 !important;
+    background-image: none !important;
+    font-weight: 600 !important;
+}
+
+/* Danger Buttons - Solid Red */
+.btn-danger,
+.btn.btn-danger {
+    background-color: #F44335 !important;
+    background-image: none !important;
+    font-weight: 600 !important;
+}
+
+/* Warning Buttons - Solid Orange */
+.btn-warning,
+.btn.btn-warning {
+    background-color: #fb8c00 !important;
+    background-image: none !important;
+    font-weight: 600 !important;
+}
+
+/* ========================================
+   CARDS & HEADERS - Solid Colors
+======================================== */
+
 .bg-gradient-primary,
-.bg-primary {
+.bg-primary,
+.card-header.bg-gradient-primary,
+.card-header.bg-primary {
     background-color: #2596be !important;
-    background-image: linear-gradient(195deg, #2596be 0%, #1e7a9a 100%) !important;
+    background-image: none !important; /* No gradient */
 }
 
-/* Primary Text */
-.text-primary {
-    color: #2596be !important;
+.bg-gradient-success {
+    background-color: #4CAF50 !important;
+    background-image: none !important;
 }
 
-/* Primary Links */
-a.text-primary:hover,
-a.text-primary:focus {
-    color: #1e7a9a !important;
+.bg-gradient-warning {
+    background-color: #fb8c00 !important;
+    background-image: none !important;
 }
 
-/* Primary Badges */
+.bg-gradient-danger {
+    background-color: #F44335 !important;
+    background-image: none !important;
+}
+
+.bg-gradient-info {
+    background-color: #1A73E8 !important;
+    background-image: none !important;
+}
+
+.bg-gradient-dark {
+    background-color: #344767 !important;
+    background-image: none !important;
+}
+
+/* ========================================
+   NUMBERS & FIGURES - Make them POP!
+======================================== */
+
+/* Large Numbers in Cards */
+h1, h2, h3, h4, .text-lg, .text-xl {
+    font-weight: 700 !important;
+    color: #1a1a1a !important;
+}
+
+/* Statistics Numbers */
+.card h4, 
+.card h3,
+.card .h3,
+.card .h4 {
+    font-size: 2rem !important;
+    font-weight: 800 !important;
+    color: #1a1a1a !important;
+    margin-bottom: 0.25rem !important;
+}
+
+/* Money Amounts - Make them BOLD */
+.text-success,
+.text-danger,
+h4.text-success,
+h4.text-danger,
+h5.text-success,
+h5.text-danger {
+    font-weight: 800 !important;
+    font-size: 1.5rem !important;
+}
+
+/* Table Amounts */
+.table td.text-center strong,
+.table td strong,
+.font-weight-bold {
+    font-weight: 800 !important;
+    color: #1a1a1a !important;
+}
+
+/* ========================================
+   ICONS - Solid Backgrounds
+======================================== */
+
+.icon-shape.bg-gradient-primary,
+.icon.icon-shape.bg-gradient-primary {
+    background-color: #2596be !important;
+    background-image: none !important;
+}
+
+.icon-shape.bg-gradient-success {
+    background-color: #4CAF50 !important;
+    background-image: none !important;
+}
+
+.icon-shape.bg-gradient-warning {
+    background-color: #fb8c00 !important;
+    background-image: none !important;
+}
+
+.icon-shape.bg-gradient-danger {
+    background-color: #F44335 !important;
+    background-image: none !important;
+}
+
+/* ========================================
+   SIDEBAR - Solid Active State
+======================================== */
+
+.sidenav .nav-link.active,
+.navbar-vertical .nav-link.active {
+    background-color: #2596be !important;
+    background-image: none !important;
+    font-weight: 600 !important;
+}
+
+/* ========================================
+   BADGES - Solid & Bold
+======================================== */
+
 .badge.bg-primary,
 .badge.bg-gradient-primary {
-    background-image: linear-gradient(195deg, #2596be 0%, #1e7a9a 100%) !important;
+    background-color: #2596be !important;
+    background-image: none !important;
+    font-weight: 600 !important;
 }
 
-/* Primary Borders */
-.border-primary {
-    border-color: #2596be !important;
+.badge.bg-success,
+.badge.bg-gradient-success {
+    background-color: #4CAF50 !important;
+    background-image: none !important;
+    font-weight: 600 !important;
 }
 
-/* Primary Alerts */
-.alert-primary {
-    background-color: rgba(37, 150, 190, 0.12) !important;
-    color: #2596be !important;
+.badge.bg-warning,
+.badge.bg-gradient-warning {
+    background-color: #fb8c00 !important;
+    background-image: none !important;
+    font-weight: 600 !important;
+    color: #fff !important;
 }
 
-/* Active Navigation Items */
-.nav-link.active,
-.sidenav .nav-link.active {
-    background-image: linear-gradient(195deg, #2596be 0%, #1e7a9a 100%) !important;
+.badge.bg-danger,
+.badge.bg-gradient-danger {
+    background-color: #F44335 !important;
+    background-image: none !important;
+    font-weight: 600 !important;
 }
 
-/* Form Focus States */
+.badge.bg-info,
+.badge.bg-gradient-info {
+    background-color: #1A73E8 !important;
+    background-image: none !important;
+    font-weight: 600 !important;
+}
+
+/* ========================================
+   ACTION BUTTONS - Make them Stand Out!
+======================================== */
+
+/* View, Edit, Delete buttons */
+.btn-sm,
+button.btn-sm,
+a.btn-sm {
+    font-weight: 600 !important;
+    padding: 0.5rem 1rem !important;
+}
+
+.btn-link {
+    font-weight: 600 !important;
+}
+
+/* ========================================
+   FORMS - Clear Focus States
+======================================== */
+
 .form-control:focus,
 .form-select:focus {
     border-color: #2596be !important;
     box-shadow: 0 0 0 0.2rem rgba(37, 150, 190, 0.25) !important;
 }
 
-/* Checkbox and Radio */
 .form-check-input:checked {
     background-color: #2596be !important;
     border-color: #2596be !important;
 }
 
-/* Progress Bars */
+/* ========================================
+   PROGRESS BARS - Solid
+======================================== */
+
 .progress-bar.bg-primary {
     background-color: #2596be !important;
+    background-image: none !important;
 }
 
-/* Card Headers with Primary */
-.card-header.bg-primary,
-.card-header.bg-gradient-primary {
-    background-image: linear-gradient(195deg, #2596be 0%, #1e7a9a 100%) !important;
-}
+/* ========================================
+   TEXT - Primary Color
+======================================== */
 
-/* Material Icons with Primary Color */
-.icon-shape.bg-gradient-primary,
-.icon.icon-shape.bg-gradient-primary {
-    background-color: #2596be !important;
-    background-image: linear-gradient(195deg, #2596be 0%, #1e7a9a 100%) !important;
-}
-
-/* Sidebar Active Items */
-.sidenav .nav-link.active,
-.navbar-vertical .nav-link.active,
-.bg-gradient-dark.text-white {
-    background-image: linear-gradient(195deg, #2596be 0%, #1e7a9a 100%) !important;
-}
-
-/* Outline Primary Buttons */
-.btn-outline-primary {
+.text-primary {
     color: #2596be !important;
-    border-color: #2596be !important;
 }
 
-.btn-outline-primary:hover {
-    background-color: #2596be !important;
-    border-color: #2596be !important;
-    color: #fff !important;
+a.text-primary:hover {
+    color: #1e7a9a !important;
 }
 
-/* Table Primary */
-.table-primary {
-    background-color: rgba(37, 150, 190, 0.1) !important;
+/* ========================================
+   STAT CARDS - Enhanced Visibility
+======================================== */
+
+.card-header p.text-sm {
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    color: #525252 !important;
 }
 
-/* Dropdown Active */
-.dropdown-item.active,
-.dropdown-item:active {
-    background-color: #2596be !important;
+/* Make count numbers huge and bold */
+.card-header h4 {
+    font-size: 2.5rem !important;
+    font-weight: 900 !important;
+    line-height: 1.2 !important;
+    margin: 0.5rem 0 !important;
 }
-

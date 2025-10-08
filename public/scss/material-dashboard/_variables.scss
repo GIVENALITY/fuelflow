@@ -58,7 +58,7 @@ $colors: (
 ) !default;
 // scss-docs-end colors-map
 
-$primary:       #e91e63 !default;
+$primary:       #2596be !default;
 $secondary:     $gray-500 !default;
 $info:          #1A73E8 !default;
 $success:       #4CAF50 !default;
@@ -85,9 +85,9 @@ $theme-colors: (
 // scss-docs-end theme-colors-map
 
 
-// Gradient colors
-$primary-gradient:            #EC407A !default;
-$primary-gradient-state:      #D81B60 !default;
+// Gradient colors - Changed to solid colors (no gradients)
+$primary-gradient:            #2596be !default;
+$primary-gradient-state:      #1e7a9a !default;
 
 $secondary-gradient:          #747b8a !default;
 $secondary-gradient-state:    #495361 !default;
