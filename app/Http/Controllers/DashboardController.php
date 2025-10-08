@@ -149,7 +149,20 @@ class DashboardController extends Controller
 
     private function stationManagerDashboard()
     {
-        $station = Auth::user()->station;
+        $user = Auth::user();
+        $station = $user->station;
+        
+        // Check if station exists and is assigned
+        if (!$station) {
+            return view('dashboard', [
+                'error' => 'No station assigned to you. Please contact an administrator.',
+                'todayRequests' => 0,
+                'fuelDispensedToday' => 0,
+                'availableStaff' => 0,
+                'pendingRequests' => 0,
+                'recentRequests' => collect()
+            ]);
+        }
         
         $todayRequests = FuelRequest::where('station_id', $station->id)
             ->whereDate('request_date', today())
