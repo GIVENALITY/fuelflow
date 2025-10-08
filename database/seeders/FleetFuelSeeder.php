@@ -28,17 +28,17 @@ class FleetFuelSeeder extends Seeder
             ]
         );
 
-        // Create stations
+        // Create stations (Tanzania locations)
         $station1 = Station::updateOrCreate(
-            ['code' => 'DT001'],
+            ['code' => 'DSM001'],
             [
-                'name' => 'Downtown Fuel Station',
-                'address' => '123 Main Street',
-                'city' => 'Downtown',
-                'state' => 'CA',
-                'zip_code' => '90210',
-                'phone' => '(555) 123-4567',
-                'email' => 'downtown@fuelflow.co.tz',
+                'name' => 'Kariakoo Fuel Station',
+                'address' => 'Msimbazi Street, Kariakoo',
+                'city' => 'Dar es Salaam',
+                'state' => 'Dar es Salaam',
+                'zip_code' => '11101',
+                'phone' => '+255 22 218 6000',
+                'email' => 'kariakoo@fuelflow.co.tz',
                 'status' => Station::STATUS_ACTIVE,
                 'capacity_diesel' => 50000,
                 'capacity_petrol' => 75000,
@@ -50,23 +50,23 @@ class FleetFuelSeeder extends Seeder
                     'wednesday' => ['open' => '06:00', 'close' => '22:00'],
                     'thursday' => ['open' => '06:00', 'close' => '22:00'],
                     'friday' => ['open' => '06:00', 'close' => '22:00'],
-                    'saturday' => ['open' => '07:00', 'close' => '20:00'],
-                    'sunday' => ['open' => '08:00', 'close' => '18:00'],
+                    'saturday' => ['open' => '06:00', 'close' => '22:00'],
+                    'sunday' => ['open' => '07:00', 'close' => '21:00'],
                 ],
-                'timezone' => 'America/Los_Angeles',
+                'timezone' => 'Africa/Dar_es_Salaam',
             ]
         );
 
         $station2 = Station::updateOrCreate(
-            ['code' => 'HW001'],
+            ['code' => 'DSM002'],
             [
-                'name' => 'Highway Fuel Station',
-                'address' => '456 Highway Road',
-                'city' => 'Highway City',
-                'state' => 'CA',
-                'zip_code' => '90211',
-                'phone' => '(555) 987-6543',
-                'email' => 'highway@fuelflow.co.tz',
+                'name' => 'Morogoro Road Fuel Station',
+                'address' => 'Morogoro Road, Ubungo',
+                'city' => 'Dar es Salaam',
+                'state' => 'Dar es Salaam',
+                'zip_code' => '11103',
+                'phone' => '+255 22 286 0000',
+                'email' => 'morogoro@fuelflow.co.tz',
                 'status' => Station::STATUS_ACTIVE,
                 'capacity_diesel' => 75000,
                 'capacity_petrol' => 100000,
@@ -81,7 +81,7 @@ class FleetFuelSeeder extends Seeder
                     'saturday' => ['open' => '00:00', 'close' => '23:59'],
                     'sunday' => ['open' => '00:00', 'close' => '23:59'],
                 ],
-                'timezone' => 'America/Los_Angeles',
+                'timezone' => 'Africa/Dar_es_Salaam',
             ]
         );
 
@@ -89,11 +89,11 @@ class FleetFuelSeeder extends Seeder
         $stationManager = User::updateOrCreate(
             ['email' => 'manager@fuelflow.co.tz'],
             [
-                'name' => 'John Station Manager',
+                'name' => 'Juma Mwangi',
                 'password' => Hash::make('password'),
                 'role' => User::ROLE_STATION_MANAGER,
                 'station_id' => $station1->id,
-                'phone' => '(555) 111-2222',
+                'phone' => '+255 754 123 456',
                 'status' => User::STATUS_ACTIVE,
             ]
         );
@@ -105,11 +105,11 @@ class FleetFuelSeeder extends Seeder
         $fuelPumper = User::updateOrCreate(
             ['email' => 'pumper@fuelflow.co.tz'],
             [
-                'name' => 'Mike Fuel Pumper',
+                'name' => 'Hassan Bakari',
                 'password' => Hash::make('password'),
                 'role' => User::ROLE_STATION_ATTENDANT,
                 'station_id' => $station1->id,
-                'phone' => '(555) 333-4444',
+                'phone' => '+255 765 234 567',
                 'status' => User::STATUS_ACTIVE,
             ]
         );
@@ -118,10 +118,10 @@ class FleetFuelSeeder extends Seeder
         $treasury = User::updateOrCreate(
             ['email' => 'treasury@fuelflow.co.tz'],
             [
-                'name' => 'Sarah Treasury',
+                'name' => 'Amina Mohamed',
                 'password' => Hash::make('password'),
                 'role' => User::ROLE_TREASURY,
-                'phone' => '(555) 555-6666',
+                'phone' => '+255 713 345 678',
                 'status' => User::STATUS_ACTIVE,
             ]
         );
@@ -130,54 +130,54 @@ class FleetFuelSeeder extends Seeder
         $clientUser = User::updateOrCreate(
             ['email' => 'client@fuelflow.co.tz'],
             [
-                'name' => 'Bob Client',
+                'name' => 'Mohamed Rashid',
                 'password' => Hash::make('password'),
                 'role' => User::ROLE_CLIENT,
-                'phone' => '(555) 777-8888',
+                'phone' => '+255 784 567 890',
                 'status' => User::STATUS_ACTIVE,
             ]
         );
 
         // Create client
         $client = Client::updateOrCreate(
-            ['email' => 'bob@abctransport.co.tz'],
+            ['email' => 'info@kilinjtransport.co.tz'],
             [
                 'user_id' => $clientUser->id,
-                'company_name' => 'ABC Transport Company',
-                'contact_person' => 'Bob Client',
-                'phone' => '(555) 777-8888',
-                'address' => '789 Business Avenue',
-                'city' => 'Business City',
-                'state' => 'CA',
-                'zip_code' => '90212',
-                'country' => 'US',
+                'company_name' => 'Kilimanjaro Transport Ltd',
+                'contact_person' => 'Mohamed Rashid',
+                'phone' => '+255 784 567 890',
+                'address' => 'Plot 45, Nyerere Road, Kinondoni',
+                'city' => 'Dar es Salaam',
+                'state' => 'Dar es Salaam',
+                'zip_code' => '14112',
+                'country' => 'Tanzania',
                 'credit_limit' => 50000000.00,
                 'current_balance' => 0.00,
                 'payment_terms' => 30,
                 'status' => Client::STATUS_ACTIVE,
                 'account_manager_id' => $admin->id,
                 'preferred_stations' => [$station1->id, $station2->id],
-                'special_instructions' => 'Please call 30 minutes before delivery',
-                'tax_id' => '12-3456789',
-                'business_license' => 'BL123456',
+                'special_instructions' => 'Tafadhali piga simu dakika 30 kabla ya utoaji',
+                'tax_id' => 'TIN-123-456-789',
+                'business_license' => 'BL-DSM-2024-12345',
                 'contract_start_date' => now(),
                 'contract_end_date' => now()->addYear(),
             ]
         );
 
-        // Create vehicles for the client
+        // Create vehicles for the client (Tanzania plate numbers format: T XXX ABC)
         $vehicle1 = Vehicle::updateOrCreate(
-            ['plate_number' => 'ABC123', 'client_id' => $client->id],
+            ['plate_number' => 'T 123 ABC', 'client_id' => $client->id],
             [
                 'vehicle_type' => Vehicle::TYPE_TRUCK,
-                'make' => 'Ford',
-                'model' => 'F-150',
-                'year' => 2022,
-                'fuel_type' => Vehicle::FUEL_PETROL,
-                'tank_capacity' => 80.0,
-                'current_mileage' => 15000,
-                'driver_name' => 'John Driver',
-                'driver_phone' => '(555) 999-0000',
+                'make' => 'Isuzu',
+                'model' => 'FRR',
+                'year' => 2020,
+                'fuel_type' => Vehicle::FUEL_DIESEL,
+                'tank_capacity' => 100.0,
+                'current_mileage' => 45000,
+                'driver_name' => 'Hamisi Juma',
+                'driver_phone' => '+255 762 111 222',
                 'status' => Vehicle::STATUS_ACTIVE,
                 'registration_expiry' => now()->addMonths(6),
                 'insurance_expiry' => now()->addMonths(3),
@@ -187,17 +187,17 @@ class FleetFuelSeeder extends Seeder
         );
 
         $vehicle2 = Vehicle::updateOrCreate(
-            ['plate_number' => 'XYZ789', 'client_id' => $client->id],
+            ['plate_number' => 'T 456 DEF', 'client_id' => $client->id],
             [
                 'vehicle_type' => Vehicle::TYPE_VAN,
-                'make' => 'Chevrolet',
-                'model' => 'Express',
-                'year' => 2021,
+                'make' => 'Toyota',
+                'model' => 'Hiace',
+                'year' => 2019,
                 'fuel_type' => Vehicle::FUEL_DIESEL,
-                'tank_capacity' => 120.0,
-                'current_mileage' => 25000,
-                'driver_name' => 'Jane Driver',
-                'driver_phone' => '(555) 111-2222',
+                'tank_capacity' => 70.0,
+                'current_mileage' => 65000,
+                'driver_name' => 'Grace Mwakasege',
+                'driver_phone' => '+255 773 333 444',
                 'status' => Vehicle::STATUS_ACTIVE,
                 'registration_expiry' => now()->addMonths(8),
                 'insurance_expiry' => now()->addMonths(4),
