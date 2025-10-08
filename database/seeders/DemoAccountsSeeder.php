@@ -74,28 +74,38 @@ class DemoAccountsSeeder extends Seeder
 
         // 5. CREATE STATIONS
         $station1 = Station::firstOrCreate(
-            ['name' => 'Petro Africa - Kivukoni'],
+            ['code' => 'PA-KVK'],
             [
-                'business_id' => $business->id,
-                'code' => 'PA-KVK',
-                'location' => 'Kivukoni, Dar es Salaam',
+                'name' => 'Petro Africa - Kivukoni',
                 'address' => 'Kivukoni Front, Plot 123',
+                'city' => 'Dar es Salaam',
+                'state' => 'Dar es Salaam',
+                'zip_code' => '11000',
                 'phone' => '+255 22 211 1111',
-                'manager_name' => 'Hassan Juma',
+                'email' => 'kivukoni@petroafrica.co.tz',
                 'status' => 'active',
+                'capacity_diesel' => 50000,
+                'capacity_petrol' => 30000,
+                'current_diesel_level' => 35000,
+                'current_petrol_level' => 20000,
             ]
         );
 
         $station2 = Station::firstOrCreate(
-            ['name' => 'Petro Africa - Ubungo'],
+            ['code' => 'PA-UBG'],
             [
-                'business_id' => $business->id,
-                'code' => 'PA-UBG',
-                'location' => 'Ubungo, Dar es Salaam',
+                'name' => 'Petro Africa - Ubungo',
                 'address' => 'Morogoro Road, Ubungo',
+                'city' => 'Dar es Salaam',
+                'state' => 'Dar es Salaam',
+                'zip_code' => '12000',
                 'phone' => '+255 22 211 2222',
-                'manager_name' => 'Amina Said',
+                'email' => 'ubungo@petroafrica.co.tz',
                 'status' => 'active',
+                'capacity_diesel' => 40000,
+                'capacity_petrol' => 25000,
+                'current_diesel_level' => 28000,
+                'current_petrol_level' => 18000,
             ]
         );
         echo "✓ Stations created: Kivukoni, Ubungo\n";
