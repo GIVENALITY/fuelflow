@@ -28,6 +28,8 @@ use App\Http\Controllers\EnhancedPaymentController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\StationAttendantController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ClientPaymentController;
+use App\Http\Controllers\TreasuryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -189,7 +191,40 @@ Route::prefix('client')->name('client.')->middleware('auth')->group(function () 
     Route::post('/orders/bulk', [ClientOrderController::class, 'storeBulk'])->name('orders.store-bulk');
 });
 
-// Client Payment Routes
+// Client Portal Routes
+Route::prefix('client-portal')->name('client-portal.')->middleware('auth')->group(function () {
+    // Client Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // Client Fuel Requests
+    Route::get('/requests', [FuelRequestController::class, 'index'])->name('requests.index');
+    Route::get('/requests/create', [FuelRequestController::class, 'create'])->name('requests.create');
+    Route::post('/requests', [FuelRequestController::class, 'store'])->name('requests.store');
+    Route::get('/requests/{fuelRequest}', [FuelRequestController::class, 'show'])->name('requests.show');
+    
+    // Client Vehicles
+    Route::get('/vehicles', [ClientProfileController::class, 'vehicles'])->name('vehicles.index');
+    Route::get('/vehicles', [ClientProfileController::class, 'vehicles'])->name('vehicles');
+    Route::post('/vehicles', [ClientProfileController::class, 'storeVehicle'])->name('vehicles.store');
+    
+    // Client Payments
+    Route::get('/payments', [ClientPaymentController::class, 'index'])->name('payments.index');
+    Route::get('/payments/create', [ClientPaymentController::class, 'create'])->name('payments.create');
+    Route::post('/payments', [ClientPaymentController::class, 'store'])->name('payments.store');
+    
+    // Client Reports
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports');
+    
+    // Client Notifications
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    
+    // Client Profile
+    Route::get('/profile', [ClientProfileController::class, 'profile'])->name('profile');
+    Route::put('/profile', [ClientProfileController::class, 'updateProfile'])->name('profile.update');
+});
+
+// Client Payment Routes (keeping for backward compatibility)
 Route::prefix('payments')->name('payments.')->middleware('auth')->group(function () {
     Route::get('/', [ClientPaymentController::class, 'index'])->name('index');
     Route::get('/create', [ClientPaymentController::class, 'create'])->name('create');
