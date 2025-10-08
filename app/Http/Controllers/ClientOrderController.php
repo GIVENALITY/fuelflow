@@ -45,7 +45,7 @@ class ClientOrderController extends Controller
             'driver_name' => 'required|string|max:255',
             'vehicle_id' => 'required|exists:vehicles,id',
             'station_id' => 'required|exists:stations,id',
-            'fuel_type' => 'required|string',
+            'fuel_type' => 'required|in:diesel,petrol',
             'quantity_requested' => 'required|numeric|min:1',
             'notes' => 'nullable|string',
         ]);

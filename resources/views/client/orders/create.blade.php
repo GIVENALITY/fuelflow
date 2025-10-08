@@ -41,7 +41,7 @@
                         </div>
                     </div>
 
-                    <form action="{{ route('client.orders.store') }}" method="POST" id="orderForm">
+                    <form action="{{ route('client-portal.orders.store') }}" method="POST" id="orderForm">
                         @csrf
 
                         <div class="row">
@@ -115,7 +115,7 @@
                                             required>
                                         <option value="">-- Select Fuel Type --</option>
                                         <option value="diesel" {{ old('fuel_type') == 'diesel' ? 'selected' : '' }}>Diesel</option>
-                                        <option value="gasoline" {{ old('fuel_type') == 'gasoline' ? 'selected' : '' }}>Gasoline (Petrol)</option>
+                                        <option value="petrol" {{ old('fuel_type') == 'petrol' ? 'selected' : '' }}>Petrol (Gasoline)</option>
                                     </select>
                                     @error('fuel_type')
                                         <div class="invalid-feedback">{{ $message }}</div>
