@@ -39,6 +39,12 @@ class SimplifiedClientRegistrationController extends Controller
                 'company_name' => $request->company_name,
                 'contact_person' => $request->company_name, // Use company name as contact person initially
                 'email' => $request->email,
+                'phone' => null, // Will be filled in profile completion
+                'address' => null, // Will be filled in profile completion
+                'city' => null, // Will be filled in profile completion
+                'state' => null, // Will be filled in profile completion
+                'zip_code' => null, // Will be filled in profile completion
+                'country' => 'Tanzania', // Default to Tanzania
                 'registration_status' => Client::REGISTRATION_STATUS_PENDING,
                 'status' => Client::STATUS_INACTIVE,
                 'credit_limit' => 0,
