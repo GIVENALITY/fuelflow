@@ -47,7 +47,7 @@
             </tr>
             <tr>
                 <th>Preferred Date</th>
-                <td>{{ $fuelRequest->preferred_date->format('M d, Y') }}</td>
+                <td>{{ $fuelRequest->preferred_date ? $fuelRequest->preferred_date->format('M d, Y') : 'Not specified' }}</td>
             </tr>
             <tr>
                 <th>Total Amount</th>

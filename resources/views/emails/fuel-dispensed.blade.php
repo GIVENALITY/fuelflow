@@ -51,7 +51,7 @@
             </tr>
             <tr>
                 <th>Dispensed At</th>
-                <td>{{ $fuelRequest->dispensed_at->format('M d, Y \a\t g:i A') }}</td>
+                <td>{{ $fuelRequest->dispensed_at ? $fuelRequest->dispensed_at->format('M d, Y \a\t g:i A') : 'Not specified' }}</td>
             </tr>
             <tr>
                 <th>Total Amount</th>

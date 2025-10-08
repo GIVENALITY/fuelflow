@@ -39,7 +39,7 @@
             </tr>
             <tr>
                 <th>Payment Date</th>
-                <td>{{ $payment->payment_date->format('M d, Y') }}</td>
+                <td>{{ $payment->payment_date ? $payment->payment_date->format('M d, Y') : 'Not specified' }}</td>
             </tr>
             <tr>
                 <th>Processed At</th>

@@ -71,7 +71,7 @@ class ClientOrderController extends Controller
             'quantity_requested' => $validated['quantity_requested'],
             'amount' => $totalAmount,
             'driver_name' => $validated['driver_name'],
-            'status' => $needsApproval ? 'pending_approval' : 'pending',
+            'status' => $needsApproval ? 'pending_approval' : 'approved', // Auto-approve if within credit limit
             'request_date' => now(),
             'notes' => $validated['notes'],
         ]);
@@ -82,7 +82,7 @@ class ClientOrderController extends Controller
         }
 
         return redirect()->route('client.orders.index')
-            ->with('success', 'Fuel order created successfully!');
+            ->with('success', 'Fuel order created and approved successfully!');
     }
 
     public function index()
