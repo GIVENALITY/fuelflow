@@ -279,3 +279,125 @@ a.text-primary:hover {
     line-height: 1.2 !important;
     margin: 0.5rem 0 !important;
 }
+
+/* ========================================
+   CLEAN DASHBOARD STYLE - Like Reference
+======================================== */
+
+/* Icon Shapes - Clean Circles */
+.icon-shape {
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Dashboard Cards - Clean & Spacious */
+.card {
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+    border-radius: 12px !important;
+}
+
+.card-header {
+    background: white !important;
+    border-bottom: 1px solid #e9ecef !important;
+    padding: 1.5rem !important;
+}
+
+.card-body {
+    padding: 1.5rem !important;
+}
+
+/* Stats Numbers - Big & Bold */
+h3.font-weight-bold,
+h3.fw-bold {
+    font-size: 2.2rem !important;
+    font-weight: 800 !important;
+    color: #1a1a1a !important;
+    margin-bottom: 0.5rem !important;
+    line-height: 1.2 !important;
+}
+
+/* Small Labels */
+p.text-muted.small {
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    color: #6c757d !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 0 !important;
+}
+
+/* Clean Tables */
+.table {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+}
+
+.table th {
+    font-weight: 600 !important;
+    color: #495057 !important;
+    border-bottom: 2px solid #e9ecef !important;
+    padding: 1rem !important;
+}
+
+.table td {
+    padding: 1rem !important;
+    border-bottom: 1px solid #f8f9fa !important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa !important;
+}
+
+/* Progress Bars - Clean */
+.progress {
+    border-radius: 10px !important;
+    background-color: #e9ecef !important;
+}
+
+.progress-bar {
+    border-radius: 10px !important;
+}
+
+/* Buttons - Clean & Bold */
+.btn {
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    padding: 0.75rem 1.5rem !important;
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+}
+
+/* Badges - Clean */
+.badge {
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    padding: 0.5rem 0.75rem !important;
+}
+
+/* Clean Headers */
+h2, h3, h4, h5, h6 {
+    color: #1a1a1a !important;
+    font-weight: 700 !important;
+}
+
+/* Text Hierarchy */
+.font-weight-bold,
+.fw-bold {
+    font-weight: 700 !important;
+}
+
+/* Clean Spacing */
+.mb-1 { margin-bottom: 0.25rem !important; }
+.mb-3 { margin-bottom: 1rem !important; }
+.mb-4 { margin-bottom: 1.5rem !important; }
+.mb-5 { margin-bottom: 3rem !important; }
+.py-3 { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+.py-4 { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
+.py-5 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+.p-4 { padding: 1.5rem !important; }
