@@ -257,34 +257,7 @@ class DashboardController extends Controller
 
     private function clientDashboard()
     {
-        $user = Auth::user();
-        $client = $user->client;
-        
-        if (!$client) {
-            return view('dashboard');
-        }
-
-        $totalRequests = FuelRequest::where('client_id', $client->id)->count();
-        $pendingRequests = FuelRequest::where('client_id', $client->id)
-            ->where('status', FuelRequest::STATUS_PENDING)
-            ->count();
-        $completedRequests = FuelRequest::where('client_id', $client->id)
-            ->where('status', FuelRequest::STATUS_COMPLETED)
-            ->count();
-        $availableCredit = $client->available_credit;
-
-        $recentRequests = FuelRequest::with(['vehicle', 'station'])
-            ->where('client_id', $client->id)
-            ->latest()
-            ->take(5)
-            ->get();
-
-        return view('dashboard', compact(
-            'totalRequests',
-            'pendingRequests',
-            'completedRequests',
-            'availableCredit',
-            'recentRequests'
-        ));
+        // Redirect clients to the dedicated client portal dashboard
+        return redirect()->route('client-portal.dashboard');
     }
 }

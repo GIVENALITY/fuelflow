@@ -54,7 +54,7 @@ class ClientOrderController extends Controller
         $fuelPrice = \App\Models\FuelPrice::where('station_id', $validated['station_id'])
             ->where('fuel_type', $validated['fuel_type'])
             ->where('effective_date', '<=', now())
-            ->where('status', 'active')
+            ->where('is_active', true)
             ->orderBy('effective_date', 'desc')
             ->first();
         

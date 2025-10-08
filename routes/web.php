@@ -30,6 +30,7 @@ use App\Http\Controllers\StationAttendantController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ClientPaymentController;
 use App\Http\Controllers\TreasuryController;
+use App\Http\Controllers\ClientPortalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -194,7 +195,7 @@ Route::prefix('client')->name('client.')->middleware('auth')->group(function () 
 // Client Portal Routes
 Route::prefix('client-portal')->name('client-portal.')->middleware('auth')->group(function () {
     // Client Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [ClientPortalController::class, 'dashboard'])->name('dashboard');
     
     // Client Fuel Requests
     Route::get('/requests', [FuelRequestController::class, 'index'])->name('requests.index');
