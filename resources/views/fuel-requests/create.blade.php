@@ -14,7 +14,8 @@
                     </div>
                     <div class="card-body">
                         <form method="POST"
-                            action="{{ auth()->user()->isClient() ? route('client-portal.requests.store') : route('fuel-requests.store') }}">
+                            action="{{ auth()->user()->isClient() ? route('client-portal.requests.store') : route('fuel-requests.store') }}"
+                            onsubmit="console.log('Form submitting...'); return true;">
                             @csrf
 
                             <div class="row">
@@ -106,7 +107,7 @@
                             </div>
 
                             <div class="text-end">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary" onclick="console.log('Submit button clicked');">
                                     <i class="fas fa-paper-plane me-1"></i> Submit Request
                                 </button>
                             </div>
