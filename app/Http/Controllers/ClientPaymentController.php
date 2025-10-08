@@ -56,7 +56,7 @@ class ClientPaymentController extends Controller
             'bank_name' => $validated['bank_name'],
             'reference_number' => $validated['reference_number'],
             'proof_of_payment' => $popPath,
-            'status' => 'pending_verification',
+            'status' => 'pending',
             'notes' => $validated['notes'],
             'submitted_by' => Auth::id(),
         ]);
