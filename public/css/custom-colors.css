@@ -1,0 +1,112 @@
+/* Custom FuelFlow Color Scheme */
+/* Primary Color: #2596be (Green) */
+
+:root {
+    --bs-primary: #2596be;
+    --bs-primary-rgb: 37, 150, 190;
+}
+
+/* Primary Buttons */
+.btn-primary {
+    background-color: #2596be !important;
+    border-color: #2596be !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #1e7a9a !important;
+    border-color: #1e7a9a !important;
+}
+
+/* Primary Gradient Backgrounds */
+.bg-gradient-primary {
+    background-image: linear-gradient(195deg, #2596be 0%, #1e7a9a 100%) !important;
+}
+
+/* Primary Text */
+.text-primary {
+    color: #2596be !important;
+}
+
+/* Primary Links */
+a.text-primary:hover,
+a.text-primary:focus {
+    color: #1e7a9a !important;
+}
+
+/* Primary Badges */
+.badge.bg-primary,
+.badge.bg-gradient-primary {
+    background-image: linear-gradient(195deg, #2596be 0%, #1e7a9a 100%) !important;
+}
+
+/* Primary Borders */
+.border-primary {
+    border-color: #2596be !important;
+}
+
+/* Primary Alerts */
+.alert-primary {
+    background-color: rgba(37, 150, 190, 0.12) !important;
+    color: #2596be !important;
+}
+
+/* Active Navigation Items */
+.nav-link.active,
+.sidenav .nav-link.active {
+    background-image: linear-gradient(195deg, #2596be 0%, #1e7a9a 100%) !important;
+}
+
+/* Form Focus States */
+.form-control:focus,
+.form-select:focus {
+    border-color: #2596be !important;
+    box-shadow: 0 0 0 0.2rem rgba(37, 150, 190, 0.25) !important;
+}
+
+/* Checkbox and Radio */
+.form-check-input:checked {
+    background-color: #2596be !important;
+    border-color: #2596be !important;
+}
+
+/* Progress Bars */
+.progress-bar.bg-primary {
+    background-color: #2596be !important;
+}
+
+/* Card Headers with Primary */
+.card-header.bg-primary,
+.card-header.bg-gradient-primary {
+    background-image: linear-gradient(195deg, #2596be 0%, #1e7a9a 100%) !important;
+}
+
+/* Material Icons with Primary Color */
+.icon-shape.bg-gradient-primary {
+    background-image: linear-gradient(195deg, #2596be 0%, #1e7a9a 100%) !important;
+}
+
+/* Outline Primary Buttons */
+.btn-outline-primary {
+    color: #2596be !important;
+    border-color: #2596be !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: #2596be !important;
+    border-color: #2596be !important;
+    color: #fff !important;
+}
+
+/* Table Primary */
+.table-primary {
+    background-color: rgba(37, 150, 190, 0.1) !important;
+}
+
+/* Dropdown Active */
+.dropdown-item.active,
+.dropdown-item:active {
+    background-color: #2596be !important;
+}
+

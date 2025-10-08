@@ -23,6 +23,7 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('css/material-dashboard.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/mobile.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/custom-colors.css') }}" rel="stylesheet" />
 
     @stack('styles')
 </head>
