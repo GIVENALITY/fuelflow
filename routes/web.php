@@ -55,7 +55,7 @@ Route::get('/demo-guide', function () {
 
 Route::get('/test-page', function () {
     return view('test-page');
-})->name('test-page');
+})->name('test-page');  
 
 
 
